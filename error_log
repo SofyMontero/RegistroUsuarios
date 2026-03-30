@@ -1,0 +1,1090 @@
+[29-Jan-2022 16:29:17 UTC] PHP Notice:  Undefined index: token in /home/u148816134/domains/bermudas.site/public_html/DemoFingerPrint/verificar.php on line 32
+[29-Jan-2022 16:29:17 UTC] PHP Notice:  Undefined index: token in /home/u148816134/domains/bermudas.site/public_html/DemoFingerPrint/verificar.php on line 41
+[29-Jan-2022 16:29:17 UTC] PHP Notice:  Undefined index: token in /home/u148816134/domains/bermudas.site/public_html/DemoFingerPrint/verificar.php on line 44
+[29-Jan-2022 16:29:17 UTC] PHP Notice:  Undefined index: token in /home/u148816134/domains/bermudas.site/public_html/DemoFingerPrint/verificar.php on line 47
+[17-Feb-2022 15:45:17 America/Bogota] PHP Warning:  require_once(./bd.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 3
+[17-Feb-2022 15:45:17 America/Bogota] PHP Fatal error:  require_once(): Failed opening required './bd.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 3
+[17-Feb-2022 15:45:23 America/Bogota] PHP Warning:  require_once(./bd.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 3
+[17-Feb-2022 15:45:23 America/Bogota] PHP Fatal error:  require_once(): Failed opening required './bd.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 3
+[17-Feb-2022 15:46:05 America/Bogota] PHP Warning:  require_once(bd.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 3
+[17-Feb-2022 15:46:05 America/Bogota] PHP Fatal error:  require_once(): Failed opening required 'bd.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 3
+[17-Feb-2022 15:47:32 America/Bogota] PHP Notice:  Undefined variable: _get in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 7
+[17-Feb-2022 15:47:32 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 7
+[17-Feb-2022 15:47:32 America/Bogota] PHP Notice:  Undefined variable: con in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 19
+[17-Feb-2022 15:47:32 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function exec() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 19
+[17-Feb-2022 15:48:12 America/Bogota] PHP Notice:  Undefined variable: con in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 19
+[17-Feb-2022 15:48:12 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function exec() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php on line 19
+[17-Feb-2022 15:49:02 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'offOnn' in 'field list' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php(21): bd->exec('UPDATE estados ...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[17-Feb-2022 15:49:45 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'estado_offOnn' in 'field list' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php(21): bd->exec('UPDATE estados ...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[25-Feb-2022 16:20:02 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 437
+[25-Feb-2022 16:20:02 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[25-Feb-2022 16:20:45 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 437
+[25-Feb-2022 16:20:45 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[25-Feb-2022 16:30:45 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 437
+[25-Feb-2022 16:30:45 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[25-Feb-2022 16:40:46 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 437
+[25-Feb-2022 16:40:46 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[25-Feb-2022 16:50:47 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 437
+[25-Feb-2022 16:50:47 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[25-Feb-2022 17:00:49 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 437
+[25-Feb-2022 17:00:49 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[25-Feb-2022 17:10:50 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 437
+[25-Feb-2022 17:10:50 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[26-Feb-2022 10:55:48 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 437
+[26-Feb-2022 10:55:48 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[26-Feb-2022 11:11:40 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[26-Feb-2022 11:21:41 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[26-Feb-2022 11:31:41 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[26-Feb-2022 12:04:20 America/Bogota] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 442
+[26-Feb-2022 12:11:51 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:52 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:53 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:54 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:54 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:55 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:55 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:55 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:56 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:11:56 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:21:56 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:32:12 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:42:14 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:52:14 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, int given in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:57:17 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:57:20 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 12:57:21 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 19:10:44 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 19:10:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 19:20:57 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 19:30:58 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 19:40:59 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 19:50:59 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 20:00:59 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 20:11:00 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 20:21:01 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 20:31:01 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 20:41:02 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 20:51:02 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 21:01:03 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 21:11:03 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 21:21:04 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[26-Feb-2022 21:31:04 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 10:45:43 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 10:58:44 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:02:24 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:08:45 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:12:25 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:18:45 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:22:25 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:28:46 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:32:26 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:38:46 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:42:27 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:48:46 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:52:27 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 11:58:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:02:27 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:08:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:12:28 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:18:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:22:28 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:28:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:32:28 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:38:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:42:29 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:48:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:52:30 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 12:58:49 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 13:02:30 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 13:08:49 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 13:12:30 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 13:18:19 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 13:20:03 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:20:03 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:22:30 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:22:30 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:27:34 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:27:34 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:30:03 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:30:03 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:37:34 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:37:34 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:40:04 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:40:04 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:47:34 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:47:34 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:50:04 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:50:04 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:57:35 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 13:57:35 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:00:04 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:00:04 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:07:35 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:07:35 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:10:05 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:10:05 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:17:35 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:17:35 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:20:05 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:20:05 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:27:36 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:27:36 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:30:05 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:30:05 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:37:36 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:37:36 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:47:36 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:47:36 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:57:37 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 14:57:37 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:01:47 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:01:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:07:37 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:07:37 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:47 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:48 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:48 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:49 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:49 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:50 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:50 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:51 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:51 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:51 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:51 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:52 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:52 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:52 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:52 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:53 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:53 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:53 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:53 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:53 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:53 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:56 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:11:56 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:31 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:31 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:32 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:32 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:45 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:45 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:45 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:45 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:46 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:46 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:46 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:46 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:47 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:47 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:47 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:47 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:49 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:49 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:49 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:12:49 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:23 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:23 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:24 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:24 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:25 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:25 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:25 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:25 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:25 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:25 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:26 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:26 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:26 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:26 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:27 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:27 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:27 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:27 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:27 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:27 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:27 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:27 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:28 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:28 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:28 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:28 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:28 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:28 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:29 America/Bogota] PHP Notice:  Undefined variable: stmt in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:13:29 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function execute() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:439
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 439
+[28-Feb-2022 15:14:33 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 15:14:34 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:441
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 441
+[28-Feb-2022 15:19:46 America/Bogota] PHP Parse error:  syntax error, unexpected '=' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:20:10 America/Bogota] PHP Notice:  Trying to access array offset on value of type int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:20:10 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:24:09 America/Bogota] PHP Notice:  Trying to access array offset on value of type int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:24:09 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:30:10 America/Bogota] PHP Notice:  Trying to access array offset on value of type int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:30:10 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:34:09 America/Bogota] PHP Notice:  Trying to access array offset on value of type int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:34:09 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:40:11 America/Bogota] PHP Notice:  Trying to access array offset on value of type int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:40:11 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:50:11 America/Bogota] PHP Notice:  Trying to access array offset on value of type int in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:50:11 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 440
+[28-Feb-2022 15:59:15 America/Bogota] PHP Notice:  Undefined variable: conn in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 443
+[28-Feb-2022 15:59:15 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function findAll() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:443
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 443
+[28-Feb-2022 15:59:16 America/Bogota] PHP Notice:  Undefined variable: conn in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 443
+[28-Feb-2022 15:59:16 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function findAll() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:443
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 443
+[28-Feb-2022 15:59:17 America/Bogota] PHP Notice:  Undefined variable: conn in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 443
+[28-Feb-2022 15:59:17 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function findAll() on null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:443
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 443
+[28-Feb-2022 16:08:17 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch() on array in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php:447
+Stack trace:
+#0 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 447
+[28-Feb-2022 16:14:31 America/Bogota] PHP Notice:  Undefined offset: 4 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 446
+[28-Feb-2022 16:14:31 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 446
+[28-Feb-2022 17:02:05 America/Bogota] PHP Parse error:  syntax error, unexpected ')' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 444
+[14-Mar-2022 14:51:31 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php on line 504
+[29-Mar-2022 13:08:49 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1142 SELECT command denied to user 'u148816134_bermudas2'@'localhost' for table 'user' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php(497): bd->exec(' SELECT max_use...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[29-Mar-2022 13:18:50 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1142 SELECT command denied to user 'u148816134_bermudas2'@'localhost' for table 'user' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php(497): bd->exec(' SELECT max_use...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[29-Mar-2022 13:28:50 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1142 SELECT command denied to user 'u148816134_bermudas2'@'localhost' for table 'user' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php(497): bd->exec(' SELECT max_use...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[29-Mar-2022 13:38:50 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1142 SELECT command denied to user 'u148816134_bermudas2'@'localhost' for table 'user' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php(497): bd->exec(' SELECT max_use...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[29-Mar-2022 13:48:51 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1142 SELECT command denied to user 'u148816134_bermudas2'@'localhost' for table 'user' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php(497): bd->exec(' SELECT max_use...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[29-Mar-2022 13:58:51 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1142 SELECT command denied to user 'u148816134_bermudas2'@'localhost' for table 'user' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php(497): bd->exec(' SELECT max_use...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[29-Mar-2022 14:06:08 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1142 SELECT command denied to user 'u148816134_bermudas2'@'localhost' for table 'user' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/verificar.php(497): bd->exec(' SELECT max_use...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[30-Mar-2022 16:48:19 America/Bogota] PHP Notice:  Undefined index: token in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/borrartemp.php on line 31
+[30-Mar-2022 16:49:17 America/Bogota] PHP Notice:  Undefined index: token in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/borrartemp.php on line 31
+[31-Mar-2022 12:31:48 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 12:34:00 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:13:32 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:23:04 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'estado_id' in 'where clause' in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php:44
+Stack trace:
+#0 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php(44): PDOStatement->execute()
+#1 /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/cambioEstado.php(24): bd->exec('UPDATE sedes SE...')
+#2 {main}
+  thrown in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Model/bd.php on line 44
+[31-Mar-2022 15:28:25 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:36:44 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:37:10 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:37:19 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:39:05 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:42:01 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:42:19 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 15:56:48 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[31-Mar-2022 15:57:11 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[31-Mar-2022 15:57:12 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[31-Mar-2022 15:57:35 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:02:01 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:40:48 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:41:27 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:45:00 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:45:12 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:45:21 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:45:42 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:50:20 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:50:31 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[31-Mar-2022 16:52:12 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 298
+[04-Apr-2022 15:57:46 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/preuba.php on line 3
+[07-Apr-2022 10:45:13 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[07-Apr-2022 11:23:13 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[07-Apr-2022 15:08:55 America/Bogota] PHP Warning:  require(/../varglob.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 3
+[07-Apr-2022 15:08:55 America/Bogota] PHP Fatal error:  require(): Failed opening required '/../varglob.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 3
+[07-Apr-2022 15:08:56 America/Bogota] PHP Warning:  require(/../varglob.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 3
+[07-Apr-2022 15:08:56 America/Bogota] PHP Fatal error:  require(): Failed opening required '/../varglob.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 3
+[07-Apr-2022 15:08:57 America/Bogota] PHP Warning:  require(/../varglob.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 3
+[07-Apr-2022 15:08:57 America/Bogota] PHP Fatal error:  require(): Failed opening required '/../varglob.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 3
+[07-Apr-2022 15:28:15 America/Bogota] PHP Notice:  Undefined variable: sedesesion in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/Home.php on line 296
+[17-May-2022 13:56:10 America/Bogota] PHP Warning:  require_once(./bd.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 5
+[17-May-2022 13:56:10 America/Bogota] PHP Fatal error:  require_once(): Failed opening required './bd.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 5
+[17-May-2022 13:57:54 America/Bogota] PHP Warning:  require_once(bd.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 5
+[17-May-2022 13:57:54 America/Bogota] PHP Fatal error:  require_once(): Failed opening required 'bd.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 5
+[17-May-2022 13:58:11 America/Bogota] PHP Warning:  require_once(bd.php): failed to open stream: No such file or directory in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 5
+[17-May-2022 13:58:11 America/Bogota] PHP Fatal error:  require_once(): Failed opening required 'bd.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 5
+[17-May-2022 13:59:37 America/Bogota] PHP Notice:  Undefined variable: sedeaux in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 13
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 90
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 90
+[17-May-2022 14:00:59 America/Bogota] PHP Notice:  Undefined index: tipo in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 133
+[17-May-2022 15:52:18 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 101
+[17-May-2022 15:52:18 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 111
+[17-May-2022 15:52:18 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 118
+[17-May-2022 15:55:38 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 101
+[17-May-2022 15:55:38 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 111
+[17-May-2022 15:55:38 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 118
+[17-May-2022 15:56:00 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 101
+[17-May-2022 15:56:00 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 111
+[17-May-2022 15:56:00 America/Bogota] PHP Notice:  Undefined variable: horacero in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 118
+[17-May-2022 16:00:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[17-May-2022 16:00:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[17-May-2022 16:00:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[17-May-2022 16:00:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[17-May-2022 16:00:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[17-May-2022 16:00:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[17-May-2022 16:00:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 90
+[17-May-2022 16:00:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 90
+[17-May-2022 16:35:32 America/Bogota] PHP Notice:  Undefined index: nombre in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[17-May-2022 16:35:32 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 200
+[17-May-2022 16:36:16 America/Bogota] PHP Notice:  Undefined index: nombre in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[17-May-2022 16:36:16 America/Bogota] PHP Notice:  Undefined index: documento in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 200
+[17-May-2022 16:40:26 America/Bogota] PHP Notice:  Undefined index: nombre in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[18-May-2022 07:52:59 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[18-May-2022 07:52:59 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[18-May-2022 07:52:59 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[18-May-2022 07:52:59 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[18-May-2022 07:52:59 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[18-May-2022 07:52:59 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[18-May-2022 07:52:59 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[18-May-2022 07:52:59 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[18-May-2022 07:57:47 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[18-May-2022 07:57:47 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[18-May-2022 07:57:47 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[18-May-2022 07:57:47 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[18-May-2022 07:57:47 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[18-May-2022 07:57:47 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[18-May-2022 07:57:47 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[18-May-2022 07:57:47 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[19-May-2022 07:43:40 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[19-May-2022 07:43:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[19-May-2022 07:43:40 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[19-May-2022 07:43:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[19-May-2022 07:43:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[19-May-2022 07:43:40 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[19-May-2022 07:43:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[19-May-2022 07:43:46 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[19-May-2022 07:43:46 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[19-May-2022 07:43:46 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[19-May-2022 07:43:46 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[19-May-2022 07:43:46 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[19-May-2022 07:43:46 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[19-May-2022 07:43:46 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[19-May-2022 08:07:22 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[19-May-2022 08:07:22 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[19-May-2022 08:07:22 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[19-May-2022 08:07:22 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[19-May-2022 08:07:22 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[19-May-2022 08:07:22 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[19-May-2022 08:07:22 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[19-May-2022 08:07:22 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[19-May-2022 08:15:25 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[19-May-2022 08:15:25 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[19-May-2022 08:15:25 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[19-May-2022 08:15:25 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[19-May-2022 08:15:25 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[19-May-2022 08:15:25 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[19-May-2022 08:15:25 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[19-May-2022 08:15:25 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[19-May-2022 12:03:30 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[19-May-2022 12:03:41 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[20-May-2022 07:55:10 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[20-May-2022 07:55:10 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[20-May-2022 07:55:10 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[20-May-2022 07:55:10 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[20-May-2022 07:55:10 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[20-May-2022 07:55:10 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[20-May-2022 07:55:10 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[20-May-2022 07:55:10 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[20-May-2022 08:00:47 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[20-May-2022 08:00:47 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[20-May-2022 08:00:47 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[20-May-2022 08:00:47 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[20-May-2022 08:00:47 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[20-May-2022 08:00:47 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[20-May-2022 08:00:47 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[20-May-2022 08:00:47 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[20-May-2022 13:40:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[20-May-2022 13:40:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[20-May-2022 13:40:19 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[20-May-2022 13:40:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[20-May-2022 13:40:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[20-May-2022 13:40:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[20-May-2022 13:40:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[21-May-2022 08:00:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[21-May-2022 08:00:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[21-May-2022 08:00:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[21-May-2022 08:00:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[21-May-2022 08:00:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[21-May-2022 08:00:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[21-May-2022 08:00:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[21-May-2022 08:00:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[21-May-2022 08:05:04 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[21-May-2022 08:05:04 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[21-May-2022 08:05:04 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[21-May-2022 08:05:04 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[21-May-2022 08:05:04 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[21-May-2022 08:05:04 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[21-May-2022 08:05:04 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[21-May-2022 08:05:04 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[21-May-2022 13:02:36 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[21-May-2022 13:02:36 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[21-May-2022 13:02:36 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[21-May-2022 13:02:36 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[21-May-2022 13:02:36 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[21-May-2022 13:02:36 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[21-May-2022 13:02:36 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[22-May-2022 09:05:01 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[22-May-2022 09:05:01 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[22-May-2022 09:05:01 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[22-May-2022 09:05:01 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[22-May-2022 09:05:01 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[22-May-2022 09:05:01 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[22-May-2022 09:05:01 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[22-May-2022 09:05:01 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[23-May-2022 08:07:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[23-May-2022 08:07:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[23-May-2022 08:07:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[23-May-2022 08:07:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[23-May-2022 08:07:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[23-May-2022 08:07:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[23-May-2022 08:07:19 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[23-May-2022 08:07:19 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[23-May-2022 12:09:31 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 12:11:00 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 12:11:02 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 12:11:04 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 12:11:04 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 12:11:04 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 12:11:38 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 12:11:39 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 12:21:27 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 13:11:36 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[23-May-2022 13:11:36 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[23-May-2022 13:11:36 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[23-May-2022 13:11:36 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[23-May-2022 13:11:36 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[23-May-2022 13:11:36 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[23-May-2022 13:11:36 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[23-May-2022 13:11:36 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[23-May-2022 16:54:10 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[23-May-2022 16:56:23 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[24-May-2022 07:20:03 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[24-May-2022 07:20:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[24-May-2022 07:20:03 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[24-May-2022 07:20:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[24-May-2022 07:20:03 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[24-May-2022 07:20:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[24-May-2022 07:20:03 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[24-May-2022 07:20:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[24-May-2022 08:04:37 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[24-May-2022 08:04:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[24-May-2022 08:04:37 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[24-May-2022 08:04:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[24-May-2022 08:04:37 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[24-May-2022 08:04:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[24-May-2022 08:04:37 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[24-May-2022 08:04:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[24-May-2022 10:48:16 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[24-May-2022 10:48:16 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[24-May-2022 10:48:16 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[24-May-2022 10:48:16 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[24-May-2022 10:48:16 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[24-May-2022 10:48:16 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[24-May-2022 10:48:16 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[24-May-2022 13:48:37 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[24-May-2022 13:57:07 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[24-May-2022 13:57:11 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[24-May-2022 14:49:48 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[24-May-2022 14:49:48 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[24-May-2022 14:49:48 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[24-May-2022 14:49:48 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[24-May-2022 14:49:48 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[24-May-2022 14:49:48 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[24-May-2022 14:49:48 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[24-May-2022 14:49:48 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[25-May-2022 07:56:13 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[25-May-2022 07:56:13 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[25-May-2022 07:56:13 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[25-May-2022 07:56:13 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[25-May-2022 07:56:13 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[25-May-2022 07:56:13 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[25-May-2022 07:56:13 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[25-May-2022 07:56:13 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[25-May-2022 08:01:17 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:01:17 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:01:17 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:17 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:17 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:17 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:01:17 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:01:31 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:01:31 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:01:31 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:31 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:31 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:31 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:01:31 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:01:57 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:01:57 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:01:57 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:57 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:57 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:01:57 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:01:57 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:06:32 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:06:32 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:06:32 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:06:32 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:06:32 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:06:32 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:06:32 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:06:40 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:06:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:06:40 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:06:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:06:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:06:40 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:06:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:06:43 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[25-May-2022 08:06:43 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[25-May-2022 08:06:43 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[25-May-2022 08:06:43 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[25-May-2022 08:06:43 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[25-May-2022 08:06:43 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[25-May-2022 08:06:43 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[25-May-2022 08:06:43 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[25-May-2022 08:07:43 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:07:43 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:07:43 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:07:43 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:07:43 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:07:43 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:07:43 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:11:01 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:11:01 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 08:11:01 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:11:01 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:11:01 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 08:11:01 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 08:11:01 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:21:57 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:21:57 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:21:57 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:21:57 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:21:57 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:21:57 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:21:57 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:37:45 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:37:45 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:37:45 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:37:45 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:37:45 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:37:45 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:37:45 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:41:03 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:41:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:41:03 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:41:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:41:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:41:03 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:41:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:43:37 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:43:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:43:37 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:43:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:43:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:43:37 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:43:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:43:40 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:43:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 10:43:40 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:43:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:43:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 10:43:40 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 10:43:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 11:55:45 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 11:55:45 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 11:55:45 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 11:55:45 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 11:55:45 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 11:55:45 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 11:55:45 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 11:58:24 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 11:58:24 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 11:58:24 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 11:58:24 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 11:58:24 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 11:58:24 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 11:58:24 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:01:37 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 12:01:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 12:01:37 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:01:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:01:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:01:37 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:01:37 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:01:40 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 12:01:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 12:01:40 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:01:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:01:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:01:40 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:01:40 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:04:13 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[25-May-2022 12:04:22 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[25-May-2022 12:06:08 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 12:06:08 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 12:06:08 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:06:08 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:06:08 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:06:08 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:06:08 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:49:25 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 12:49:25 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 12:49:25 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:49:25 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:49:25 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 12:49:25 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:49:25 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 12:51:04 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[25-May-2022 12:51:04 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 86
+[25-May-2022 12:51:04 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[25-May-2022 12:51:04 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 87
+[25-May-2022 12:51:04 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[25-May-2022 12:51:04 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 88
+[25-May-2022 12:51:04 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[25-May-2022 12:51:04 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 89
+[25-May-2022 13:35:03 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 13:35:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 13:35:03 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 13:35:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 13:35:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 13:35:03 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 13:35:03 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 15:49:43 America/Bogota] PHP Notice:  Undefined index: sede in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/index.php on line 48
+[25-May-2022 18:08:55 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 18:08:55 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 192
+[25-May-2022 18:08:55 America/Bogota] PHP Notice:  Undefined variable: rows2 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 18:08:55 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 18:08:55 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 198
+[25-May-2022 18:08:55 America/Bogota] PHP Notice:  Undefined offset: 0 in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
+[25-May-2022 18:08:55 America/Bogota] PHP Notice:  Trying to access array offset on value of type null in /home/u148816134/domains/bermudas.site/public_html/Bermudas/huella/ingresoconcedula.php on line 199
