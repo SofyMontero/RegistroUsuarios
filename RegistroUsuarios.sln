@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginBiometricoV4", "PluginBiometricoV4\PluginBiometricoV4.csproj", "{5F8E56BD-6467-B84C-5705-9C5AC8F360AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F8E56BD-6467-B84C-5705-9C5AC8F360AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F8E56BD-6467-B84C-5705-9C5AC8F360AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F8E56BD-6467-B84C-5705-9C5AC8F360AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F8E56BD-6467-B84C-5705-9C5AC8F360AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {92756E7F-2068-4D1A-80B7-E9A0AD12EFEF}
+	EndGlobalSection
+EndGlobal
