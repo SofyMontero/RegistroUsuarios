@@ -7,6 +7,7 @@ use Huella\Repositories\BiometricRepository;
 use Huella\Services\AttendanceService;
 use Huella\Services\BiometricService;
 use Huella\Services\UserEnrollmentService;
+use Huella\Services\UserRegistrationService;
 
 class BiometricController
 {
@@ -14,6 +15,7 @@ class BiometricController
     private $attendanceService;
     private $biometricService;
     private $userEnrollmentService;
+    private $userRegistrationService;
 
     public function __construct()
     {
@@ -22,6 +24,7 @@ class BiometricController
         $this->attendanceService = new AttendanceService($this->repository);
         $this->biometricService = new BiometricService($this->repository, $this->attendanceService);
         $this->userEnrollmentService = new UserEnrollmentService($this->repository);
+        $this->userRegistrationService = new UserRegistrationService($this->repository);
     }
 
     public function pollVerify(array $request)
@@ -93,5 +96,99 @@ class BiometricController
             'nombre' => $user && !empty($user['usu_nombre']) ? $user['usu_nombre'] : '',
             'foto_usu' => $imagenUsuario && !empty($imagenUsuario['ext']) ? $imagenUsuario['ext'] : 'default.png',
         ));
+    }
+
+    public function registerBaseUser(array $post)
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        try {
+            echo json_encode($this->userRegistrationService->create($post));
+        } catch (\Throwable $exception) {
+            http_response_code(500);
+            echo json_encode(array(
+                'filas' => 0,
+                'message' => 'Error interno al registrar el usuario: ' . $exception->getMessage(),
+            ));
+        }
+    }
+
+    public function listHeadquarters()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(array(
+            'success' => true,
+            'sedes' => $this->repository->getHeadquartersList(),
+        ));
+    }
+
+    public function createHeadquarters(array $post)
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        try {
+            $nombre = isset($post['nombre']) ? trim($post['nombre']) : '';
+            if ($nombre === '') {
+                echo json_encode(array('success' => false, 'message' => 'El nombre de la sede es obligatorio'));
+                return;
+            }
+
+            if ($this->repository->headquartersNameExists($nombre)) {
+                echo json_encode(array('success' => false, 'message' => 'Ya existe una sede con ese nombre'));
+                return;
+            }
+
+            $rowCount = $this->repository->createHeadquarters($nombre);
+            echo json_encode(array(
+                'success' => $rowCount > 0,
+                'message' => $rowCount > 0 ? 'Sede creada con exito' : 'No fue posible crear la sede',
+                'sedes' => $this->repository->getHeadquartersList(),
+            ));
+        } catch (\Throwable $exception) {
+            http_response_code(500);
+            echo json_encode(array(
+                'success' => false,
+                'message' => 'Error interno al crear la sede: ' . $exception->getMessage(),
+            ));
+        }
+    }
+
+    public function deleteHeadquarters(array $post)
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        try {
+            $sedeId = isset($post['sede']) ? trim($post['sede']) : '';
+            if ($sedeId === '') {
+                echo json_encode(array('success' => false, 'message' => 'Debes seleccionar una sede'));
+                return;
+            }
+
+            if (!$this->repository->headquartersExists($sedeId)) {
+                echo json_encode(array('success' => false, 'message' => 'La sede no existe o ya fue eliminada'));
+                return;
+            }
+
+            $usersAssigned = $this->repository->countUsersByHeadquarters($sedeId);
+            if ($usersAssigned > 0) {
+                echo json_encode(array(
+                    'success' => false,
+                    'message' => 'No se puede borrar la sede porque tiene usuarios asignados',
+                ));
+                return;
+            }
+
+            $rowCount = $this->repository->deleteHeadquarters($sedeId);
+            echo json_encode(array(
+                'success' => $rowCount > 0,
+                'message' => $rowCount > 0 ? 'Sede eliminada con exito' : 'No fue posible eliminar la sede',
+                'sedes' => $this->repository->getHeadquartersList(),
+            ));
+        } catch (\Throwable $exception) {
+            http_response_code(500);
+            echo json_encode(array(
+                'success' => false,
+                'message' => 'Error interno al eliminar la sede: ' . $exception->getMessage(),
+            ));
+        }
     }
 }

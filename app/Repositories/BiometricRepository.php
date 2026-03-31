@@ -139,6 +139,190 @@ class BiometricRepository
         );
     }
 
+    public function getTableColumns($table)
+    {
+        $statement = $this->db->getPdo()->query("SHOW COLUMNS FROM `{$table}`");
+        $columns = array();
+
+        foreach ($statement->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+            if (!empty($row['Field'])) {
+                $columns[] = $row['Field'];
+            }
+        }
+
+        return $columns;
+    }
+
+    public function userExistsInMainTable($documento)
+    {
+        $columns = $this->getTableColumns('usuarios');
+        $documentColumn = $this->resolveFirstExistingColumn($columns, array('usu_identificacion', 'documento'));
+
+        if ($documentColumn === null) {
+            return false;
+        }
+
+        return $this->db->fetchOne(
+            "SELECT {$documentColumn} FROM usuarios WHERE {$documentColumn} = :documento LIMIT 1",
+            array('documento' => $documento)
+        );
+    }
+
+    public function getHeadquartersList()
+    {
+        $columns = $this->getTableColumns('sedes');
+        $idColumn = $this->resolveFirstExistingColumn($columns, array('idsedes', 'id', 'sede_id'));
+        $nameColumn = $this->resolveFirstExistingColumn($columns, array('sed_nombre', 'sede_nombre', 'nombre'));
+
+        if ($idColumn === null || $nameColumn === null) {
+            return array();
+        }
+
+        return $this->db->fetchAll(
+            "SELECT {$idColumn} AS id, {$nameColumn} AS nombre FROM sedes ORDER BY {$nameColumn} ASC"
+        );
+    }
+
+    public function headquartersExists($sedeId)
+    {
+        $columns = $this->getTableColumns('sedes');
+        $idColumn = $this->resolveFirstExistingColumn($columns, array('idsedes', 'id', 'sede_id'));
+
+        if ($idColumn === null) {
+            return false;
+        }
+
+        return $this->db->fetchOne(
+            "SELECT {$idColumn} FROM sedes WHERE {$idColumn} = :sede LIMIT 1",
+            array('sede' => $sedeId)
+        );
+    }
+
+    public function createHeadquarters($nombre)
+    {
+        $columns = $this->getTableColumns('sedes');
+        $nameColumn = $this->resolveFirstExistingColumn($columns, array('sed_nombre', 'sede_nombre', 'nombre'));
+
+        if ($nameColumn === null) {
+            return 0;
+        }
+
+        return $this->db->execute(
+            "INSERT INTO sedes ({$nameColumn}) VALUES (:nombre)",
+            array('nombre' => $nombre)
+        );
+    }
+
+    public function headquartersNameExists($nombre)
+    {
+        $columns = $this->getTableColumns('sedes');
+        $nameColumn = $this->resolveFirstExistingColumn($columns, array('sed_nombre', 'sede_nombre', 'nombre'));
+
+        if ($nameColumn === null) {
+            return false;
+        }
+
+        return $this->db->fetchOne(
+            "SELECT {$nameColumn} FROM sedes WHERE {$nameColumn} = :nombre LIMIT 1",
+            array('nombre' => $nombre)
+        );
+    }
+
+    public function countUsersByHeadquarters($sedeId)
+    {
+        $columns = $this->getTableColumns('usuarios');
+        $sedeColumn = $this->resolveFirstExistingColumn($columns, array('usu_idsede', 'idsedes', 'sede_id'));
+
+        if ($sedeColumn === null) {
+            return 0;
+        }
+
+        $row = $this->db->fetchOne(
+            "SELECT COUNT(*) AS total FROM usuarios WHERE {$sedeColumn} = :sede",
+            array('sede' => $sedeId)
+        );
+
+        return $row ? (int) $row['total'] : 0;
+    }
+
+    public function deleteHeadquarters($sedeId)
+    {
+        $columns = $this->getTableColumns('sedes');
+        $idColumn = $this->resolveFirstExistingColumn($columns, array('idsedes', 'id', 'sede_id'));
+
+        if ($idColumn === null) {
+            return 0;
+        }
+
+        return $this->db->execute(
+            "DELETE FROM sedes WHERE {$idColumn} = :sede",
+            array('sede' => $sedeId)
+        );
+    }
+
+    public function createMainUser($documento, $nombre, $telefono, $sedeId)
+    {
+        $columns = $this->getTableColumns('usuarios');
+        $insertColumns = array();
+        $params = array();
+
+        $documentColumn = $this->resolveFirstExistingColumn($columns, array('usu_identificacion', 'documento'));
+        if ($documentColumn !== null) {
+            $insertColumns[] = $documentColumn;
+            $params[$documentColumn] = $documento;
+        }
+
+        $nameColumn = $this->resolveFirstExistingColumn($columns, array('usu_nombre', 'nombre_completo'));
+        if ($nameColumn !== null) {
+            $insertColumns[] = $nameColumn;
+            $params[$nameColumn] = $nombre;
+        }
+
+        $phoneColumn = $this->resolveFirstExistingColumn($columns, array('telefono', 'usu_telefono', 'celular'));
+        if ($phoneColumn !== null) {
+            $insertColumns[] = $phoneColumn;
+            $params[$phoneColumn] = $telefono !== '' ? $telefono : null;
+        }
+
+        $sedeColumn = $this->resolveFirstExistingColumn($columns, array('usu_idsede', 'idsedes', 'sede_id'));
+        if ($sedeColumn !== null) {
+            $insertColumns[] = $sedeColumn;
+            $params[$sedeColumn] = $sedeId;
+        }
+
+        $stateColumn = $this->resolveFirstExistingColumn($columns, array('usu_estado'));
+        if ($stateColumn !== null) {
+            $insertColumns[] = $stateColumn;
+            $params[$stateColumn] = '1';
+        }
+
+        $fingerprintColumn = $this->resolveFirstExistingColumn($columns, array('con_huella'));
+        if ($fingerprintColumn !== null) {
+            $insertColumns[] = $fingerprintColumn;
+            $params[$fingerprintColumn] = 'no';
+        }
+
+        $createdColumn = $this->resolveFirstExistingColumn($columns, array('fecha_creacion', 'fecha_crecion'));
+        if ($createdColumn !== null) {
+            $insertColumns[] = $createdColumn;
+            $params[$createdColumn] = date('Y-m-d H:i:s');
+        }
+
+        if (count($insertColumns) < 2) {
+            return 0;
+        }
+
+        $placeholders = array();
+        foreach ($insertColumns as $column) {
+            $placeholders[] = ':' . $column;
+        }
+
+        return $this->db->execute(
+            'INSERT INTO usuarios (' . implode(', ', $insertColumns) . ') VALUES (' . implode(', ', $placeholders) . ')',
+            $params
+        );
+    }
+
     public function ensureTodayAttendanceRowsForActiveUsers($fechaActual)
     {
         return $this->db->execute(
@@ -167,5 +351,16 @@ class BiometricRepository
               AND s.seg_iduser IS NULL",
             array('fecha' => $fechaActual)
         );
+    }
+
+    private function resolveFirstExistingColumn(array $columns, array $candidates)
+    {
+        foreach ($candidates as $candidate) {
+            if (in_array($candidate, $columns, true)) {
+                return $candidate;
+            }
+        }
+
+        return null;
     }
 }

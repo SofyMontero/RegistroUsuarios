@@ -57,4 +57,9 @@ class Database
         $statement->execute($params);
         return $statement->rowCount();
     }
+
+    public function getPdo()
+    {
+        return $this->pdo;
+    }
 }
