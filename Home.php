@@ -36,13 +36,13 @@ $sede = isset($_GET["sede"]) ? $_GET["sede"] : "";
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <!-- <a class="btn-soft btn-soft-secondary" href="verificar.php?token=<?php echo urlencode($token); ?>">Regresar</a> -->
+                            <a class="btn-soft btn-soft-secondary" href="verificar.php?token=<?php echo urlencode($token); ?>">Regresar</a>
                             <a class="btn-soft btn-soft-secondary" href="registro_usuarios.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">
                                 Registrar usuarios
                             </a>
-                            <a class="btn-soft btn-soft-primary" href="Model/ActivarSensorReader.php?token=<?php echo $token; ?>&sede=<?php echo $sede; ?>">
+                            <!-- <a class="btn-soft btn-soft-primary" href="Model/ActivarSensorReader.php?token=<?php echo $token; ?>&sede=<?php echo $sede; ?>">
                                 Ingreso de usuarios
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
