@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\PluginBiometricoV4.csproj": {}
+    "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\PluginBiometricoV4.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\PluginBiometricoV4.csproj": {
+    "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\PluginBiometricoV4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\PluginBiometricoV4.csproj",
+        "projectUniqueName": "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\PluginBiometricoV4.csproj",
         "projectName": "PluginBiometricoV4",
-        "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\PluginBiometricoV4.csproj",
+        "projectPath": "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\PluginBiometricoV4.csproj",
         "packagesPath": "C:\\Users\\Sofia Montero\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\obj\\",
+        "outputPath": "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\PluginBiometricoV4\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Sofia Montero\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,7 +40,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -66,6 +67,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -74,7 +93,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
