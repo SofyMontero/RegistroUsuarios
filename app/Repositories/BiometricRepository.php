@@ -168,4 +168,56 @@ class BiometricRepository
             array('fecha' => $fechaActual)
         );
     }
+
+    /**
+     * Sedes para selects administrativos (id + nombre).
+     * SELECT * evita depender de un nombre fijo de columna de descripcion.
+     * Si la tabla no existe o falla la consulta, devuelve array vacio (evita tumbar toda la pagina).
+     */
+    public function getHeadquartersList()
+    {
+        try {
+            $filas = $this->db->fetchAll('SELECT * FROM sedes');
+        } catch (\Throwable $e) {
+            return array();
+        }
+
+        $lista = array();
+        $columnasNombre = array('nombre', 'sed_nombre', 'sed_descripcion', 'sed_nom', 'descripcion', 'nom_sede', 'sed_descrip');
+
+        foreach ($filas as $fila) {
+            $id = null;
+            if (isset($fila['idsedes'])) {
+                $id = $fila['idsedes'];
+            } elseif (isset($fila['id'])) {
+                $id = $fila['id'];
+            }
+
+            if ($id === null || $id === '') {
+                continue;
+            }
+
+            $nombre = '';
+            foreach ($columnasNombre as $columna) {
+                if (isset($fila[$columna]) && trim((string) $fila[$columna]) !== '') {
+                    $nombre = trim((string) $fila[$columna]);
+                    break;
+                }
+            }
+            if ($nombre === '') {
+                $nombre = 'Sede ' . $id;
+            }
+
+            $lista[] = array('id' => $id, 'nombre' => $nombre);
+        }
+
+        usort(
+            $lista,
+            function ($a, $b) {
+                return strcmp((string) $a['id'], (string) $b['id']);
+            }
+        );
+
+        return $lista;
+    }
 }
