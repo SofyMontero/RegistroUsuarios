@@ -26,7 +26,7 @@ if ($sede !== "") {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="refresh" content="600" />
-    <title>Ingreso por Huella | Bermudas</title>
+    <title>Ingreso por Huella | Ingreso Usuarios</title>
     <link rel="shortcut icon" href="images/fondo4.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

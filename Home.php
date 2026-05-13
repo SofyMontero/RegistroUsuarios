@@ -9,7 +9,7 @@ $sede = isset($_GET["sede"]) ? $_GET["sede"] : "";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="refresh" content="600" />
-    <title>Huella Biometrica | Bermudas</title>
+    <title>Huella Biometrica | Ingreso Usuarios</title>
     <link rel="shortcut icon" href="images/fondo4.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,9 +36,11 @@ $sede = isset($_GET["sede"]) ? $_GET["sede"] : "";
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <a class="btn-soft btn-soft-secondary" href="../seguimientouser.php">Regresar</a>
                             <a class="btn-soft btn-soft-primary" href="Model/ActivarSensorReader.php?token=<?php echo $token; ?>&sede=<?php echo $sede; ?>">
                                 Ingreso de usuarios
+                            </a>
+                            <a class="btn-soft btn-soft-secondary" href="registro_usuarios.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">
+                                Registrar usuario
                             </a>
                         </div>
                     </div>
