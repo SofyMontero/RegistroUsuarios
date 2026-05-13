@@ -168,4 +168,43 @@ class BiometricRepository
             array('fecha' => $fechaActual)
         );
     }
+
+    /**
+     * Sedes para formularios administrativos (id + nombre legible).
+     * Usa SELECT * para tolerar distintos nombres de columna de descripcion en BD.
+     */
+    public function getHeadquartersList()
+    {
+        $filas = $this->db->fetchAll('SELECT * FROM sedes ORDER BY idsedes ASC');
+        $lista = array();
+        $columnasNombre = array('nombre', 'sed_nombre', 'sed_descripcion', 'sed_nom', 'descripcion', 'nom_sede', 'sed_descrip');
+
+        foreach ($filas as $fila) {
+            $id = null;
+            if (isset($fila['idsedes'])) {
+                $id = $fila['idsedes'];
+            } elseif (isset($fila['id'])) {
+                $id = $fila['id'];
+            }
+
+            if ($id === null || $id === '') {
+                continue;
+            }
+
+            $nombre = '';
+            foreach ($columnasNombre as $columna) {
+                if (isset($fila[$columna]) && trim((string) $fila[$columna]) !== '') {
+                    $nombre = trim((string) $fila[$columna]);
+                    break;
+                }
+            }
+            if ($nombre === '') {
+                $nombre = 'Sede ' . $id;
+            }
+
+            $lista[] = array('id' => $id, 'nombre' => $nombre);
+        }
+
+        return $lista;
+    }
 }
