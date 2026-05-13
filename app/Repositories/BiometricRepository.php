@@ -220,4 +220,48 @@ class BiometricRepository
 
         return $lista;
     }
+
+    public function getUserRowByIdentification($documento)
+    {
+        return $this->db->fetchOne(
+            'SELECT usu_identificacion FROM usuarios WHERE usu_identificacion = :documento LIMIT 1',
+            array('documento' => $documento)
+        );
+    }
+
+    /**
+     * Alta de colaborador en usuarios sin plantilla biometrica (con_huella = no).
+     */
+    public function createAdministrativeUser($documento, $nombre)
+    {
+        return $this->db->execute(
+            "INSERT INTO usuarios (usu_identificacion, usu_nombre, usu_estado, con_huella, fecha_creacion)
+             VALUES (:documento, :nombre, '1', 'no', NOW())",
+            array('documento' => $documento, 'nombre' => $nombre)
+        );
+    }
+
+    /**
+     * Actualiza telefono y/o sede si las columnas existen en la BD (fallos se ignoran en el llamador).
+     */
+    public function updateAdministrativeUserExtras($documento, $telefono, $sedeId)
+    {
+        $sets = array();
+        $params = array('documento' => $documento);
+        if ($telefono !== '') {
+            $sets[] = 'usu_telefono = :telefono';
+            $params['telefono'] = $telefono;
+        }
+        if ($sedeId !== '' && $sedeId !== null) {
+            $sets[] = 'usu_idsede = :sede';
+            $params['sede'] = $sedeId;
+        }
+        if (empty($sets)) {
+            return 0;
+        }
+
+        $sql = 'UPDATE usuarios SET ' . implode(', ', $sets) . ' WHERE usu_identificacion = :documento';
+
+        return $this->db->execute($sql, $params);
+    }
 }
