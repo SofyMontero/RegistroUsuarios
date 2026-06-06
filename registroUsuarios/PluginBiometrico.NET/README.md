@@ -35,6 +35,15 @@ Agente de escritorio para Windows que conecta el lector de huellas Digital Perso
 - [x] PUT `option=verificar` compatible con `UsuarioRestApi.php`
 - [x] Ventana de estado con título "Sensor en modo lectura"
 
+## Sprint 5 — Completado
+
+- [x] Inicio automático con Windows (menú bandeja, registro Run)
+- [x] Una sola instancia del plugin (mutex global)
+- [x] Log rotativo (`plugin.log` → `.1`, `.2`, `.3` al superar 1 MB)
+- [x] Script `publish.ps1` — ejecutable autocontenido win-x64
+- [x] Guía de instalación `docs/INSTALACION.md`
+- [x] Versión de aplicación y manifiesto Windows
+
 ## Requisitos
 
 - Windows 10 o superior
@@ -49,13 +58,16 @@ dotnet build
 dotnet run --project src\PluginBiometrico.App
 ```
 
-## Publicar ejecutable
+## Publicar ejecutable (producción)
 
 ```powershell
-dotnet publish src\PluginBiometrico.App -c Release -r win-x64 --self-contained -o publish
+cd registroUsuarios\PluginBiometrico.NET
+.\publish.ps1
 ```
 
-El ejecutable quedará en `publish\PluginBiometrico.exe`.
+Genera la carpeta `publish\` con `PluginBiometrico.exe` autocontenido (no requiere .NET instalado en la PC del operador). Distribuya **toda la carpeta** `publish`.
+
+Manual para operadores: [docs/INSTALACION.md](docs/INSTALACION.md)
 
 ## Configuración
 

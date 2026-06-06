@@ -1,7 +1,9 @@
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using PluginBiometrico.App.Servicios;
+using PluginBiometrico.App.Sistema;
 using PluginBiometrico.App.Ventanas;
 using PluginBiometrico.Core.Interfaces;
 using PluginBiometrico.Infraestructura.Logging;
@@ -16,6 +18,7 @@ public sealed class TrayApplication : IDisposable
 {
     private readonly IAlmacenConfiguracion _almacen;
     private readonly IRegistroEventos _registro;
+    private readonly GestorInicioAutomatico _gestorInicio;
     private readonly ServicioSensorEnSegundoPlano _servicioSensor;
     private System.Windows.Forms.NotifyIcon? _iconoBandeja;
 
@@ -23,6 +26,7 @@ public sealed class TrayApplication : IDisposable
     {
         _almacen = almacen;
         _registro = new RegistroArchivo();
+        _gestorInicio = new GestorInicioAutomatico(almacen);
         _servicioSensor = new ServicioSensorEnSegundoPlano(
             _almacen,
             _registro,
@@ -37,6 +41,19 @@ public sealed class TrayApplication : IDisposable
             return;
         }
 
+        _gestorInicio.SincronizarBanderaConRegistro();
+
+        var version = Assembly.GetExecutingAssembly().GetName().Version;
+        _registro.Info($"Plugin Biométrico iniciado (v{version}).");
+
+        // #region agent log
+        AgenteDiagnostico.Registrar("S5-H3", "TrayApplication.Iniciar", "Aplicación en bandeja", new
+        {
+            version = version?.ToString(),
+            autoInicio = InicioAutomaticoWindows.EstaConfigurado()
+        }, "sprint5");
+        // #endregion
+
         _iconoBandeja = new System.Windows.Forms.NotifyIcon
         {
             Icon = CargarIcono(),
@@ -48,12 +65,35 @@ public sealed class TrayApplication : IDisposable
         menu.Items.Add("Configurar", null, (_, _) => AbrirConfiguracion());
         menu.Items.Add("Ver log", null, (_, _) => AbrirLog());
         menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+        menu.Items.Add("Crear inicio automático", null, (_, _) => ActivarInicioAutomatico());
+        menu.Items.Add("Eliminar inicio automático", null, (_, _) => DesactivarInicioAutomatico());
+        menu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
         menu.Items.Add("Cerrar", null, (_, _) => CerrarAplicacion());
 
         _iconoBandeja.ContextMenuStrip = menu;
         _iconoBandeja.DoubleClick += (_, _) => AbrirConfiguracion();
 
         _servicioSensor.Iniciar();
+    }
+
+    private void ActivarInicioAutomatico()
+    {
+        var resultado = _gestorInicio.Activar();
+        MostrarNotificacion(resultado.Mensaje);
+        if (resultado.Exito)
+        {
+            _registro.Info("Inicio automático con Windows activado.");
+        }
+    }
+
+    private void DesactivarInicioAutomatico()
+    {
+        var resultado = _gestorInicio.Desactivar();
+        MostrarNotificacion(resultado.Mensaje);
+        if (resultado.Exito)
+        {
+            _registro.Info("Inicio automático con Windows desactivado.");
+        }
     }
 
     private void MostrarNotificacion(string mensaje)
@@ -73,10 +113,7 @@ public sealed class TrayApplication : IDisposable
 
     private void AbrirLog()
     {
-        var ruta = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "PluginBiometrico",
-            "plugin.log");
+        var ruta = RegistroArchivo.ObtenerRutaLog();
 
         if (File.Exists(ruta))
         {
@@ -94,6 +131,7 @@ public sealed class TrayApplication : IDisposable
 
     private void CerrarAplicacion()
     {
+        _registro.Info("Plugin Biométrico cerrado por el usuario.");
         Dispose();
         Application.Current.Shutdown();
     }

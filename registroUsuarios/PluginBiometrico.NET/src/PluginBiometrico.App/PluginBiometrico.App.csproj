@@ -9,6 +9,12 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>PluginBiometrico</AssemblyName>
     <RootNamespace>PluginBiometrico.App</RootNamespace>
+    <Version>1.0.0</Version>
+    <AssemblyTitle>Plugin Biométrico</AssemblyTitle>
+    <Product>Plugin Biométrico .NET</Product>
+    <Company>Registro Usuarios</Company>
+    <Description>Agente de escritorio para lector Digital Persona</Description>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
