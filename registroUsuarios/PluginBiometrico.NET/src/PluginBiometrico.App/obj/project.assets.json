@@ -67,6 +67,67 @@
           "bin/placeholder/PluginBiometrico.Infraestructura.dll": {}
         }
       }
+    },
+    "net8.0-windows7.0/win-x64": {
+      "Microsoft.Win32.SystemEvents/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Drawing.Common/8.0.11": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/System.Drawing.Common.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Drawing.Common.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "PluginBiometrico.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/PluginBiometrico.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PluginBiometrico.Core.dll": {}
+        }
+      },
+      "PluginBiometrico.Infraestructura/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "PluginBiometrico.Core": "1.0.0",
+          "System.Drawing.Common": "8.0.11"
+        },
+        "compile": {
+          "bin/placeholder/PluginBiometrico.Infraestructura.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PluginBiometrico.Infraestructura.dll": {}
+        }
+      }
     }
   },
   "libraries": {
@@ -193,8 +254,8 @@
             "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Core\\PluginBiometrico.Core.csproj": {
               "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Core\\PluginBiometrico.Core.csproj"
             },
-            "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj": {
-              "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj"
+            "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj": {
+              "projectPath": "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj"
             }
           }
         }
@@ -231,6 +292,14 @@
             "version": "[8.0.26, 8.0.26]"
           },
           {
+            "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+            "version": "[8.0.26, 8.0.26]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
+            "version": "[8.0.26, 8.0.26]"
+          },
+          {
             "name": "Microsoft.NETCore.App.Host.win-x64",
             "version": "[8.0.26, 8.0.26]"
           },
@@ -239,7 +308,15 @@
             "version": "[8.0.26, 8.0.26]"
           },
           {
+            "name": "Microsoft.NETCore.App.Runtime.win-x64",
+            "version": "[8.0.26, 8.0.26]"
+          },
+          {
             "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.26, 8.0.26]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
             "version": "[8.0.26, 8.0.26]"
           }
         ],
@@ -252,6 +329,11 @@
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "win-x64": {
+        "#import": []
       }
     }
   }

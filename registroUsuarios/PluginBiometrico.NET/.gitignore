@@ -1,0 +1,7 @@
+# Salidas de compilación y publicación (cientos de MB)
+publish/
+publish-ligero/
+publish-test-opt/
+publish-test-dep/
+bin/
+obj/
