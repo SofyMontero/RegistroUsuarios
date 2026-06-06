@@ -23,7 +23,11 @@ public sealed class TrayApplication : IDisposable
     {
         _almacen = almacen;
         _registro = new RegistroArchivo();
-        _servicioSensor = new ServicioSensorEnSegundoPlano(_almacen, _registro, MostrarNotificacion);
+        _servicioSensor = new ServicioSensorEnSegundoPlano(
+            _almacen,
+            _registro,
+            MostrarNotificacion,
+            Application.Current.Dispatcher);
     }
 
     public void Iniciar()

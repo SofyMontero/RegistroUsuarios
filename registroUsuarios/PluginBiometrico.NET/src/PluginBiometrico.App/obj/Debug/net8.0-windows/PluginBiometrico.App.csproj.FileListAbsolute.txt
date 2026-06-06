@@ -28,3 +28,6 @@ C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuario
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Debug\net8.0-windows\PluginBiometrico.pdb
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Debug\net8.0-windows\PluginBiometrico.App.genruntimeconfig.cache
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Debug\net8.0-windows\ref\PluginBiometrico.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\System.Drawing.Common.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Debug\net8.0-windows\Ventanas\VentanaEstadoCaptura.baml
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Debug\net8.0-windows\Ventanas\VentanaEstadoCaptura.g.cs

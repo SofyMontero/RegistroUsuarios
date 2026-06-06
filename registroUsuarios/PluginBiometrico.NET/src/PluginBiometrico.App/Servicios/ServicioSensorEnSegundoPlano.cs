@@ -1,6 +1,7 @@
 using System.Net.Http;
+using System.Windows.Threading;
+using PluginBiometrico.App.Presentadores;
 using PluginBiometrico.Core.Interfaces;
-using PluginBiometrico.Core.Modelos;
 using PluginBiometrico.Core.Servicios;
 using PluginBiometrico.Infraestructura.Api;
 using PluginBiometrico.Infraestructura.Logging;
@@ -16,6 +17,7 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
     private readonly IAlmacenConfiguracion _almacen;
     private readonly IRegistroEventos _registro;
     private readonly Action<string>? _notificarBandeja;
+    private readonly Dispatcher? _dispatcherUi;
 
     private CancellationTokenSource? _cts;
     private Task? _tarea;
@@ -23,11 +25,13 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
     public ServicioSensorEnSegundoPlano(
         IAlmacenConfiguracion almacen,
         IRegistroEventos registro,
-        Action<string>? notificarBandeja = null)
+        Action<string>? notificarBandeja = null,
+        Dispatcher? dispatcherUi = null)
     {
         _almacen = almacen;
         _registro = registro;
         _notificarBandeja = notificarBandeja;
+        _dispatcherUi = dispatcherUi;
     }
 
     public void Iniciar()
@@ -49,7 +53,7 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
         {
             tieneUrlSensor = !string.IsNullOrWhiteSpace(config.UrlHabilitarSensor),
             tieneUrlApi = !string.IsNullOrWhiteSpace(config.UrlApiRest)
-        });
+        }, "sprint3");
         // #endregion
 
         _cts = new CancellationTokenSource();
@@ -60,10 +64,22 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
         };
 
         Action<string, string, string, object?> depuracion =
-            (h, l, m, d) => AgenteDiagnostico.Registrar(h, l, m, d);
+            (h, l, m, d) => AgenteDiagnostico.Registrar(h, l, m, d, "sprint3");
 
         var api = new ClienteApiBiometrica(http, config, depuracion);
-        var procesador = new ProcesadorComandoSensorPendiente(_registro, _notificarBandeja);
+
+        IPresentadorCaptura? presentador = _dispatcherUi is not null
+            ? new PresentadorCapturaVentana(_dispatcherUi)
+            : null;
+
+        IProcesadorComandoSensor procesador = new ProcesadorComandoSensor(
+            api,
+            config,
+            _registro,
+            presentador,
+            _notificarBandeja,
+            depuracion);
+
         var orquestador = new OrquestadorSensor(api, procesador, _registro, depuracion);
 
         _tarea = Task.Run(() => orquestador.EjecutarAsync(_cts.Token));

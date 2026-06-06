@@ -1,0 +1,15 @@
+#if !TIENE_SDK_DPFP
+namespace PluginBiometrico.Infraestructura.Huella;
+
+/// <summary>Implementación stub cuando el SDK no está instalado.</summary>
+public sealed partial class LectorDigitalPersona
+{
+    private static partial bool SdkEstaDisponible() => false;
+
+    partial void IniciarCapturaReal() { }
+
+    partial void DetenerCapturaReal() { }
+
+    partial void LiberarRecursosReal() { }
+}
+#endif

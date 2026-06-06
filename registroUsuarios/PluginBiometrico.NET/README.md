@@ -18,7 +18,16 @@ Agente de escritorio para Windows que conecta el lector de huellas Digital Perso
 - [x] Log legible en `%LocalAppData%\PluginBiometrico\plugin.log`
 - [x] Notificación en bandeja al recibir comando `capturar` / `leer`
 
-**Pendiente (Sprint 3+):** integración con lector Digital Persona físico.
+## Sprint 3 — Completado
+
+- [x] `ILectorHuellas` + `LectorDigitalPersona` (SDK One Touch .NET)
+- [x] `ServicioCaptura` — enrollment multi-muestra + PUT progreso + POST plantilla
+- [x] `VentanaEstadoCaptura` — ventana pequeña esquina inferior derecha
+- [x] Detección automática del SDK en `Librerias/`
+
+**Requisito hardware:** copiar DLL del SDK a `PluginBiometrico.NET/Librerias/` (ver `Librerias/README.md`).
+
+**Pendiente (Sprint 4):** verificación / lectura de huella (`leer`).
 
 ## Requisitos
 

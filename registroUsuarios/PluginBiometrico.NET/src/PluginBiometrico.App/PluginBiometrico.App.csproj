@@ -25,4 +25,11 @@
     </Content>
   </ItemGroup>
 
+  <!-- Copia DLL del SDK al ejecutable cuando existen en Librerias/ -->
+  <ItemGroup Condition="Exists('..\..\Librerias\DPFPEngNET.dll')">
+    <None Include="..\..\Librerias\DPFPShrNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPShrNET.dll" />
+    <None Include="..\..\Librerias\DPFPDevNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPDevNET.dll" />
+    <None Include="..\..\Librerias\DPFPEngNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPEngNET.dll" />
+  </ItemGroup>
+
 </Project>

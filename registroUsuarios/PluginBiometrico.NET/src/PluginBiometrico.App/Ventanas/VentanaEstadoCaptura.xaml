@@ -1,0 +1,57 @@
+<Window x:Class="PluginBiometrico.App.Ventanas.VentanaEstadoCaptura"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sensor Biométrico"
+        Height="140"
+        Width="280"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="True"
+        Background="#222832">
+    <Border BorderBrush="#333333" BorderThickness="1" Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0" LastChildFill="True">
+                <TextBlock Text="Sensor en modo captura."
+                           Foreground="White"
+                           FontFamily="Consolas"
+                           FontWeight="Bold"
+                           FontSize="12"
+                           VerticalAlignment="Center"/>
+                <Button Content="X"
+                        DockPanel.Dock="Right"
+                        Width="22"
+                        Height="22"
+                        Background="Transparent"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontWeight="Bold"
+                        Cursor="Hand"
+                        Click="BtnCerrar_Click"/>
+            </DockPanel>
+
+            <TextBox Grid.Row="1"
+                     x:Name="TxtMensajes"
+                     Margin="0,8,0,4"
+                     IsReadOnly="True"
+                     TextWrapping="Wrap"
+                     Background="#222832"
+                     Foreground="White"
+                     BorderBrush="#333333"
+                     FontSize="11"
+                     VerticalScrollBarVisibility="Auto"/>
+
+            <TextBlock Grid.Row="2"
+                       x:Name="TxtEstado"
+                       Foreground="#AAAAAA"
+                       FontSize="10"
+                       Text="Esperando..."/>
+        </Grid>
+    </Border>
+</Window>

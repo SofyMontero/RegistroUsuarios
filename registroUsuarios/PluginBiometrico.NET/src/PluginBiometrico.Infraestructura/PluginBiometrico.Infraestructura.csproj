@@ -1,13 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\PluginBiometrico.Core\PluginBiometrico.Core.csproj" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <RutaLibreriasSdk>$(MSBuildThisFileDirectory)..\..\Librerias\</RutaLibreriasSdk>
+    <TieneSdkDpfp Condition="Exists('$(RutaLibreriasSdk)DPFPEngNET.dll')">true</TieneSdkDpfp>
+    <TieneSdkDpfp Condition="'$(TieneSdkDpfp)' == ''">false</TieneSdkDpfp>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TieneSdkDpfp)' == 'true'">
+    <DefineConstants>$(DefineConstants);TIENE_SDK_DPFP</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PluginBiometrico.Core\PluginBiometrico.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TieneSdkDpfp)' == 'true'">
+    <Reference Include="DPFPShrNET">
+      <HintPath>$(RutaLibreriasSdk)DPFPShrNET.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DPFPDevNET">
+      <HintPath>$(RutaLibreriasSdk)DPFPDevNET.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DPFPEngNET">
+      <HintPath>$(RutaLibreriasSdk)DPFPEngNET.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.11" />
+  </ItemGroup>
 
 </Project>
