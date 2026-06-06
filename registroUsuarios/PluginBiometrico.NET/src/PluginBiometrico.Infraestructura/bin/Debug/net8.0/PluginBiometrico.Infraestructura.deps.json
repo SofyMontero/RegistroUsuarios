@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "PluginBiometrico.Infraestructura/1.0.0": {
+        "dependencies": {
+          "PluginBiometrico.Core": "1.0.0"
+        },
+        "runtime": {
+          "PluginBiometrico.Infraestructura.dll": {}
+        }
+      },
+      "PluginBiometrico.Core/1.0.0": {
+        "runtime": {
+          "PluginBiometrico.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PluginBiometrico.Infraestructura/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PluginBiometrico.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

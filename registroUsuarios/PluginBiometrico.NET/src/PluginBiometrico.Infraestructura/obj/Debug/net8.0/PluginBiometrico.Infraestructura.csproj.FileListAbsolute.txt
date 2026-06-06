@@ -1,0 +1,16 @@
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\bin\Debug\net8.0\PluginBiometrico.Infraestructura.deps.json
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\bin\Debug\net8.0\PluginBiometrico.Infraestructura.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\bin\Debug\net8.0\PluginBiometrico.Infraestructura.pdb
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\bin\Debug\net8.0\PluginBiometrico.Core.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\bin\Debug\net8.0\PluginBiometrico.Core.pdb
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBiometrico.Infraestructura.csproj.AssemblyReference.cache
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBiometrico.Infraestructura.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBiometrico.Infraestructura.AssemblyInfoInputs.cache
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBiometrico.Infraestructura.AssemblyInfo.cs
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBiometrico.Infraestructura.csproj.CoreCompileInputs.cache
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBiometrico.Infraestructura.sourcelink.json
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBi.EE1D6987.Up2Date
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBiometrico.Infraestructura.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\refint\PluginBiometrico.Infraestructura.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\PluginBiometrico.Infraestructura.pdb
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Debug\net8.0\ref\PluginBiometrico.Infraestructura.dll
