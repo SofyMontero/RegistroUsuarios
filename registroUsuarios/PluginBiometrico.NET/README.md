@@ -2,7 +2,7 @@
 
 Agente de escritorio para Windows que conecta el lector de huellas Digital Persona con la aplicación web PHP de registro de usuarios.
 
-## Sprint 1 — Estado actual
+## Sprint 1 — Completado
 
 - [x] Estructura de solución (.NET 8)
 - [x] Configuración local en JSON (`config.json`)
@@ -10,7 +10,15 @@ Agente de escritorio para Windows que conecta el lector de huellas Digital Perso
 - [x] Icono en bandeja del sistema (Configurar / Cerrar)
 - [x] Documentación del contrato API
 
-**Pendiente (Sprint 2+):** comunicación HTTP con PHP, captura de huella, verificación.
+## Sprint 2 — Completado
+
+- [x] DTOs alineados con `UsuarioRestApi.php` y `HabilitarSensor.php`
+- [x] `ClienteApiBiometrica` (GET comando, POST/PUT huella, GET plantillas)
+- [x] `OrquestadorSensor` — bucle de escucha en segundo plano
+- [x] Log legible en `%LocalAppData%\PluginBiometrico\plugin.log`
+- [x] Notificación en bandeja al recibir comando `capturar` / `leer`
+
+**Pendiente (Sprint 3+):** integración con lector Digital Persona físico.
 
 ## Requisitos
 
@@ -56,15 +64,36 @@ Ejemplo:
 
 El `idUnicoPc` debe coincidir con el parámetro `token` que usa la aplicación web.
 
+## Probar Sprint 2 (comunicación con PHP)
+
+1. Asegúrate de que Apache/PHP y MySQL estén corriendo con la app `registroUsuarios`.
+2. Configura el plugin con las URLs correctas y un `idUnicoPc` que coincida con el `token` de la web.
+3. Ejecuta el plugin — quedará en la bandeja escuchando comandos.
+4. Desde la web, activa el sensor (botón que llama `ActivarSensorAdd.php`).
+5. Deberías ver:
+   - Notificación en bandeja: *"Modo captura activado..."*
+   - Entrada en `%LocalAppData%\PluginBiometrico\plugin.log`
+   - Entrada en `debug-b6010c.log` (raíz del repo) con `opc: capturar`
+
+Menú bandeja → **Ver log** abre el archivo de eventos.
+
 ## Estructura del proyecto
 
 ```
 src/
-├── PluginBiometrico.App/           Programa principal + bandeja + ventanas
-├── PluginBiometrico.Core/          Modelos e interfaces (sin dependencias externas)
-└── PluginBiometrico.Infraestructura/  Guardado de configuración en JSON
+├── PluginBiometrico.App/
+│   ├── Servicios/ServicioSensorEnSegundoPlano.cs
+│   └── Tray/TrayApplication.cs
+├── PluginBiometrico.Core/
+│   ├── Modelos/          ComandoSensor, GuardarHuellaRequest, etc.
+│   ├── Interfaces/       IClienteApiBiometrica, IProcesadorComandoSensor
+│   └── Servicios/        OrquestadorSensor.cs
+└── PluginBiometrico.Infraestructura/
+    ├── Api/ClienteApiBiometrica.cs
+    ├── Config/AlmacenConfiguracionJson.cs
+    └── Logging/RegistroArchivo.cs
 docs/
-└── contrato-api.md                 Protocolo con el backend PHP
+└── contrato-api.md
 ```
 
 ## Relación con el plugin Java
