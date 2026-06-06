@@ -70,10 +70,13 @@ dotnet run --project src\PluginBiometrico.App
 
 ```powershell
 cd registroUsuarios\PluginBiometrico.NET
-.\publish.ps1
+.\publish.ps1              # ~146 MB, sin instalar .NET en la PC del operador
+.\publish.ps1 -Ligero      # ~1 MB, requiere .NET 8 Desktop Runtime
 ```
 
-Genera la carpeta `publish\` con `PluginBiometrico.exe` autocontenido (no requiere .NET instalado en la PC del operador). Distribuya **toda la carpeta** `publish`.
+**¿Por qué tantas DLL en `publish`?** En modo autocontenido, .NET empaqueta el runtime completo (WPF + WinForms + red). Son necesarias; no las elimine a mano. El script ya excluye idiomas extra (solo `es`) y reduce ~15 MB.
+
+En modo **ligero** solo hay ~8 archivos: el `.exe`, 3 DLL del proyecto, `System.Drawing.Common.dll`, `appsettings.json` y `Recursos\`.
 
 Manual para operadores: [docs/INSTALACION.md](docs/INSTALACION.md)
 

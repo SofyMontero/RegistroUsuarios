@@ -11,9 +11,17 @@ Guía rápida para operadores (1 página).
 
 ## Paso 1 — Instalar el plugin
 
+Hay dos formas de publicar (desde el proyecto fuente):
+
+| Modo | Comando | Tamaño | Requisito en la PC |
+|------|---------|--------|-------------------|
+| **Autocontenido** (recomendado) | `.\publish.ps1` | ~146 MB | Ninguno |
+| **Ligero** | `.\publish.ps1 -Ligero` | ~1 MB | [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) |
+
 1. Copie la carpeta `publish` completa a la PC del operador (ejemplo: `C:\PluginBiometrico\`).
-2. No separe el `.exe` de sus archivos: debe quedar junto a `Recursos\`, DLL del SDK, etc.
-3. Ejecute `PluginBiometrico.exe` una vez.
+2. **No borre DLL sueltas** en modo autocontenido: casi todas son el runtime .NET necesario para WPF.
+3. No separe el `.exe` de sus archivos: debe quedar junto a `Recursos\`, DLL del SDK, etc.
+4. Ejecute `PluginBiometrico.exe` una vez.
 
 ## Paso 2 — Configuración inicial
 

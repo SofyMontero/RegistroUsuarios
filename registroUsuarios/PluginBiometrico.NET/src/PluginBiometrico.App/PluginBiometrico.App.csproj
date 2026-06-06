@@ -17,6 +17,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
+  <!-- Publicación: solo español y sin datos ICU (~15 MB menos en carpeta publish) -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <SatelliteResourceLanguages>es</SatelliteResourceLanguages>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\PluginBiometrico.Core\PluginBiometrico.Core.csproj" />
     <ProjectReference Include="..\PluginBiometrico.Infraestructura\PluginBiometrico.Infraestructura.csproj" />
