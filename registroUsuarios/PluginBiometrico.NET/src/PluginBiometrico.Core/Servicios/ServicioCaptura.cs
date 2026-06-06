@@ -14,6 +14,7 @@ public sealed class ServicioCaptura
     private readonly ConfiguracionLocal _config;
     private readonly IRegistroEventos _registro;
     private readonly IPresentadorCaptura? _presentador;
+    private readonly IEmisorEventosLocal? _eventosLocal;
     private readonly Action<string, string, string, object?>? _depuracion;
 
     private readonly SemaphoreSlim _bloqueo = new(1, 1);
@@ -25,6 +26,7 @@ public sealed class ServicioCaptura
         ConfiguracionLocal config,
         IRegistroEventos registro,
         IPresentadorCaptura? presentador = null,
+        IEmisorEventosLocal? eventosLocal = null,
         Action<string, string, string, object?>? depuracion = null)
     {
         _lector = lector;
@@ -32,6 +34,7 @@ public sealed class ServicioCaptura
         _config = config;
         _registro = registro;
         _presentador = presentador;
+        _eventosLocal = eventosLocal;
         _depuracion = depuracion;
 
         _lector.MuestraProcesada += OnMuestraProcesada;
@@ -124,6 +127,13 @@ public sealed class ServicioCaptura
                         evento.EstadoPlantilla
                     });
                     // #endregion
+
+                    _eventosLocal?.Emitir("captura_progreso", new
+                    {
+                        evento.Mensaje,
+                        evento.EstadoPlantilla,
+                        imagenHuella = imagenBase64
+                    });
                     break;
 
                 case EstadoEnrollment.PlantillaLista:
@@ -148,6 +158,14 @@ public sealed class ServicioCaptura
                     // #endregion
 
                     _registro.Info("Plantilla biométrica guardada correctamente.");
+
+                    _eventosLocal?.Emitir("captura_completada", new
+                    {
+                        evento.Mensaje,
+                        evento.EstadoPlantilla,
+                        imagenHuella = imagenBase64
+                    });
+
                     _finalizacion?.TrySetResult(true);
                     break;
 

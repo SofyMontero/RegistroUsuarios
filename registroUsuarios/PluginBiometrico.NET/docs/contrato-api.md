@@ -14,6 +14,9 @@ Archivo: `%LocalAppData%\PluginBiometrico\config.json`
 | `urlApiRest` | `urlRestApi` | URL de `UsuarioRestApi.php` |
 | `navegador` | `browser` | Chrome, Mozilla, Edge, Explorer |
 | `autoInicioConfigurado` | tabla `SERVICE` | Si ya se configuró auto-inicio |
+| `puertoWebSocketLocal` | — | Puerto WS local (default 17890, Sprint 6) |
+| `habilitarWebSocketLocal` | — | Si expone `ws://127.0.0.1:.../eventos` |
+| `modoComunicacionRapida` | — | Sin espera de 1 s entre consultas `reintentar` |
 
 ---
 
@@ -30,9 +33,12 @@ GET {urlHabilitarSensor}?timestamp={unix}&token={idUnicoPc}&_={milisegundos}
 ```json
 {
   "fecha_creacion": 1717680000,
-  "opc": "capturar"
+  "opc": "capturar",
+  "documento": ""
 }
 ```
+
+El campo `documento` (opcional, Sprint 6) activa verificación **1:1** cuando `opc` es `leer`.
 
 | `opc` | Acción del plugin |
 |-------|-------------------|
@@ -52,6 +58,14 @@ GET {urlHabilitarSensor}?timestamp={unix}&token={idUnicoPc}&_={milisegundos}
 ```
 GET {urlApiRest}?token={idUnicoPc}&desde={n}&hasta={m}
 ```
+
+**Verificación 1:1 (Sprint 6):**
+
+```
+GET {urlApiRest}?token={idUnicoPc}&documento={numeroDocumento}
+```
+
+Devuelve solo las plantillas de ese usuario.
 
 **Response:** array de objetos:
 ```json

@@ -119,6 +119,33 @@ public sealed class ClienteApiBiometrica : IClienteApiBiometrica
         return JsonSerializer.Deserialize<List<PlantillaUsuario>>(cuerpo, OpcionesJson) ?? new List<PlantillaUsuario>();
     }
 
+    public async Task<IReadOnlyList<PlantillaUsuario>> ObtenerPlantillasPorDocumentoAsync(
+        string documento,
+        CancellationToken cancellationToken)
+    {
+        var url = $"{_config.UrlApiRest}" +
+                  $"?token={Uri.EscapeDataString(_config.IdUnicoPc)}" +
+                  $"&documento={Uri.EscapeDataString(documento)}" +
+                  $"&_={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
+
+        // #region agent log
+        _depuracion?.Invoke("S6-H4", "ClienteApiBiometrica.ObtenerPlantillasPorDocumentoAsync", "Consulta 1:1", new
+        {
+            documento
+        });
+        // #endregion
+
+        using var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.UserAgent.ParseAdd("Mozilla/5.0");
+        request.Headers.AcceptCharset.ParseAdd("UTF-8");
+
+        using var response = await _http.SendAsync(request, cancellationToken);
+        var cuerpo = await response.Content.ReadAsStringAsync(cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        return JsonSerializer.Deserialize<List<PlantillaUsuario>>(cuerpo, OpcionesJson) ?? new List<PlantillaUsuario>();
+    }
+
     private string ConstruirUrlHabilitarSensor(long ultimaFechaUnix)
     {
         return $"{_config.UrlHabilitarSensor}" +

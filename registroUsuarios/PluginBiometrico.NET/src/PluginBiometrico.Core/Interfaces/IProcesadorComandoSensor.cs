@@ -1,3 +1,5 @@
+using PluginBiometrico.Core.Modelos;
+
 namespace PluginBiometrico.Core.Interfaces;
 
 /// <summary>
@@ -6,7 +8,7 @@ namespace PluginBiometrico.Core.Interfaces;
 /// </summary>
 public interface IProcesadorComandoSensor
 {
-    Task ProcesarCapturaAsync(CancellationToken cancellationToken);
+    Task ProcesarCapturaAsync(ComandoSensor comando, CancellationToken cancellationToken);
 
-    Task ProcesarLecturaAsync(CancellationToken cancellationToken);
+    Task ProcesarLecturaAsync(ComandoSensor comando, CancellationToken cancellationToken);
 }

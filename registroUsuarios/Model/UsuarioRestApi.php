@@ -14,18 +14,28 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($method == "GET") {
 //    eliminar el token
     $token = $_GET['token'];
-    $desde = $_GET['desde'];
-    $hasta = $_GET['hasta'];
+    $documento = isset($_GET['documento']) ? $_GET['documento'] : '';
 
-    $sql = "select u.documento, u.nombre_completo, h.nombre_dedo, h.huella, h.imgHuella, u.ext "
-            . "from usuarios_huella u "
-            . "inner join huellas h on u.documento  = h. documento limit " . $desde . "," . $hasta . " ";
-    $rs = $con->findAll($sql);    
-    
-    
+    if (!empty($documento)) {
+        // Sprint 6: verificación 1:1 — solo plantillas de un usuario
+        $sql = "select u.documento, u.nombre_completo, h.nombre_dedo, h.huella, h.imgHuella, u.ext "
+                . "from usuarios_huella u "
+                . "inner join huellas h on u.documento = h.documento "
+                . "where u.documento = '" . $documento . "'";
+        $rs = $con->findAll($sql);
+        $rs_c = array(array('total' => count($rs)));
+    } else {
+        $desde = $_GET['desde'];
+        $hasta = $_GET['hasta'];
 
-    $sql_ = "select count(documento) total from usuarios_huella";
-    $rs_c = $con->findAll($sql_);
+        $sql = "select u.documento, u.nombre_completo, h.nombre_dedo, h.huella, h.imgHuella, u.ext "
+                . "from usuarios_huella u "
+                . "inner join huellas h on u.documento  = h. documento limit " . $desde . "," . $hasta . " ";
+        $rs = $con->findAll($sql);
+
+        $sql_ = "select count(documento) total from usuarios_huella";
+        $rs_c = $con->findAll($sql_);
+    }
 
     $arrayResponse = array();
     for ($index = 0; $index < count($rs); $index++) {

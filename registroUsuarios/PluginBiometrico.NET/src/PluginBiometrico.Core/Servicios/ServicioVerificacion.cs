@@ -6,6 +6,7 @@ namespace PluginBiometrico.Core.Servicios;
 /// <summary>
 /// Identifica usuario por huella comparando contra plantillas del servidor.
 /// Reemplaza LecturaHuella.java + identificarHuella().
+/// Sprint 6: verificación 1:1 cuando el comando incluye documento.
 /// </summary>
 public sealed class ServicioVerificacion
 {
@@ -15,6 +16,8 @@ public sealed class ServicioVerificacion
     private readonly ConfiguracionLocal _config;
     private readonly IRegistroEventos _registro;
     private readonly IPresentadorCaptura? _presentador;
+    private readonly string? _documentoObjetivo;
+    private readonly IEmisorEventosLocal? _eventosLocal;
     private readonly Action<string, string, string, object?>? _depuracion;
 
     private readonly SemaphoreSlim _bloqueo = new(1, 1);
@@ -26,6 +29,8 @@ public sealed class ServicioVerificacion
         ConfiguracionLocal config,
         IRegistroEventos registro,
         IPresentadorCaptura? presentador = null,
+        string? documentoObjetivo = null,
+        IEmisorEventosLocal? eventosLocal = null,
         Action<string, string, string, object?>? depuracion = null)
     {
         _lector = lector;
@@ -34,6 +39,8 @@ public sealed class ServicioVerificacion
         _config = config;
         _registro = registro;
         _presentador = presentador;
+        _documentoObjetivo = documentoObjetivo;
+        _eventosLocal = eventosLocal;
         _depuracion = depuracion;
 
         _lector.VerificacionCapturada += OnVerificacionCapturada;
@@ -54,7 +61,9 @@ public sealed class ServicioVerificacion
             _depuracion?.Invoke("S4-H1", "ServicioVerificacion.EjecutarAsync", "Iniciando lectura", new
             {
                 sdkLector = _lector.SdkDisponible,
-                sdkMatcher = _matcher.SdkDisponible
+                sdkMatcher = _matcher.SdkDisponible,
+                documentoObjetivo = _documentoObjetivo,
+                modo = string.IsNullOrWhiteSpace(_documentoObjetivo) ? "1:N" : "1:1"
             });
             // #endregion
 
@@ -66,12 +75,15 @@ public sealed class ServicioVerificacion
 
             if (_presentador is not null)
             {
-                await _presentador.AbrirAsync("Sensor en modo lectura.");
+                var titulo = string.IsNullOrWhiteSpace(_documentoObjetivo)
+                    ? "Sensor en modo lectura."
+                    : $"Verificación 1:1 ({_documentoObjetivo})";
+
+                await _presentador.AbrirAsync(titulo);
             }
 
             _lector.IniciarVerificacion();
 
-            // Permanece en modo lectura hasta que el orquestador cancele (como el plugin Java).
             await Task.Delay(Timeout.Infinite, cancellationToken);
         }
         catch (OperationCanceledException)
@@ -109,7 +121,8 @@ public sealed class ServicioVerificacion
             _depuracion?.Invoke("S4-H2", "ServicioVerificacion.OnVerificacionCapturada", "Resultado identificación", new
             {
                 resultado.Encontrado,
-                resultado.Mensaje
+                resultado.Mensaje,
+                modo = string.IsNullOrWhiteSpace(_documentoObjetivo) ? "1:N" : "1:1"
             });
             // #endregion
 
@@ -137,6 +150,16 @@ public sealed class ServicioVerificacion
             });
             // #endregion
 
+            _eventosLocal?.Emitir("verificacion", new
+            {
+                resultado.Encontrado,
+                resultado.Mensaje,
+                resultado.Documento,
+                resultado.Nombre,
+                resultado.Dedo,
+                imagenHuella = imagenBase64
+            });
+
             _presentador?.Actualizar(evento.Mensaje, resultado.Mensaje);
             _registro.Info(resultado.Encontrado
                 ? $"Usuario verificado: {resultado.Nombre}"
@@ -152,6 +175,7 @@ public sealed class ServicioVerificacion
             // #endregion
 
             _registro.Error("Error identificando huella.", ex);
+            _eventosLocal?.Emitir("error", new { mensaje = ex.Message });
         }
     }
 
@@ -164,6 +188,58 @@ public sealed class ServicioVerificacion
             return new ResultadoVerificacion();
         }
 
+        if (!string.IsNullOrWhiteSpace(_documentoObjetivo))
+        {
+            return await IdentificarUnoAUnoAsync(caracteristicas, _documentoObjetivo, cancellationToken);
+        }
+
+        return await IdentificarUnoANAsync(caracteristicas, cancellationToken);
+    }
+
+    private async Task<ResultadoVerificacion> IdentificarUnoAUnoAsync(
+        object caracteristicas,
+        string documento,
+        CancellationToken cancellationToken)
+    {
+        var plantillas = await _api.ObtenerPlantillasPorDocumentoAsync(documento, cancellationToken);
+
+        // #region agent log
+        _depuracion?.Invoke("S6-H4", "ServicioVerificacion.IdentificarUnoAUnoAsync", "Plantillas 1:1", new
+        {
+            documento,
+            cantidad = plantillas.Count
+        });
+        // #endregion
+
+        foreach (var plantilla in plantillas)
+        {
+            if (string.IsNullOrWhiteSpace(plantilla.HuellaBase64))
+            {
+                continue;
+            }
+
+            var bytes = Convert.FromBase64String(plantilla.HuellaBase64);
+
+            if (_matcher.CoincideConPlantilla(caracteristicas, bytes))
+            {
+                return new ResultadoVerificacion
+                {
+                    Encontrado = true,
+                    Mensaje = "Usuario Verificado",
+                    Documento = plantilla.Documento,
+                    Nombre = plantilla.NombreCompleto,
+                    Dedo = plantilla.NombreDedo
+                };
+            }
+        }
+
+        return new ResultadoVerificacion();
+    }
+
+    private async Task<ResultadoVerificacion> IdentificarUnoANAsync(
+        object caracteristicas,
+        CancellationToken cancellationToken)
+    {
         var desde = 0;
         var hasta = 200;
         var iteraciones = 3;

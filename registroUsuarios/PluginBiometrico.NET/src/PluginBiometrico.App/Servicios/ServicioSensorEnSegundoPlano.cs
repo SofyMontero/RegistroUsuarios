@@ -6,11 +6,13 @@ using PluginBiometrico.Core.Servicios;
 using PluginBiometrico.Infraestructura.Api;
 using PluginBiometrico.Infraestructura.Logging;
 using PluginBiometrico.Infraestructura.Servicios;
+using PluginBiometrico.Infraestructura.EventosLocales;
 
 namespace PluginBiometrico.App.Servicios;
 
 /// <summary>
 /// Arranca y detiene el bucle que escucha comandos del servidor PHP.
+/// Sprint 6: incluye servidor WebSocket local para la web.
 /// </summary>
 public sealed class ServicioSensorEnSegundoPlano : IDisposable
 {
@@ -21,6 +23,7 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
 
     private CancellationTokenSource? _cts;
     private Task? _tarea;
+    private IEmisorEventosLocal? _eventosLocal;
 
     public ServicioSensorEnSegundoPlano(
         IAlmacenConfiguracion almacen,
@@ -52,19 +55,29 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
         AgenteDiagnostico.Registrar("H1", "ServicioSensorEnSegundoPlano.Iniciar", "Servicio arrancando", new
         {
             tieneUrlSensor = !string.IsNullOrWhiteSpace(config.UrlHabilitarSensor),
-            tieneUrlApi = !string.IsNullOrWhiteSpace(config.UrlApiRest)
-        }, "sprint3");
+            tieneUrlApi = !string.IsNullOrWhiteSpace(config.UrlApiRest),
+            config.HabilitarWebSocketLocal,
+            config.PuertoWebSocketLocal,
+            config.ModoComunicacionRapida
+        }, "sprint6");
         // #endregion
 
         _cts = new CancellationTokenSource();
+
+        Action<string, string, string, object?> depuracion =
+            (h, l, m, d) => AgenteDiagnostico.Registrar(h, l, m, d, "sprint6");
+
+        if (config.HabilitarWebSocketLocal)
+        {
+            _eventosLocal = new ServidorWebSocketLocal(config.PuertoWebSocketLocal, depuracion);
+            _ = _eventosLocal.IniciarAsync(_cts.Token);
+            _registro.Info($"WebSocket local activo en ws://127.0.0.1:{config.PuertoWebSocketLocal}/eventos");
+        }
 
         var http = new HttpClient
         {
             Timeout = TimeSpan.FromMinutes(3)
         };
-
-        Action<string, string, string, object?> depuracion =
-            (h, l, m, d) => AgenteDiagnostico.Registrar(h, l, m, d, "sprint3");
 
         var api = new ClienteApiBiometrica(http, config, depuracion);
 
@@ -77,10 +90,17 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
             config,
             _registro,
             presentador,
+            _eventosLocal,
             _notificarBandeja,
             depuracion);
 
-        var orquestador = new OrquestadorSensor(api, procesador, _registro, depuracion);
+        var orquestador = new OrquestadorSensor(
+            api,
+            procesador,
+            _registro,
+            config,
+            _eventosLocal,
+            depuracion);
 
         _tarea = Task.Run(() => orquestador.EjecutarAsync(_cts.Token));
         _registro.Info("Servicio de escucha del sensor iniciado en segundo plano.");
@@ -98,6 +118,9 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
         {
             // cancelación esperada
         }
+
+        _eventosLocal?.Dispose();
+        _eventosLocal = null;
 
         _cts?.Dispose();
         _cts = null;

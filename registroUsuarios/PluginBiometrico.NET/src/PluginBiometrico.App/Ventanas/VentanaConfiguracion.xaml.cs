@@ -78,7 +78,10 @@ public partial class VentanaConfiguracion : Window
             UrlHabilitarSensor = urlSensor,
             UrlApiRest = urlApi,
             Navegador = navegador,
-            AutoInicioConfigurado = configAnterior?.AutoInicioConfigurado ?? false
+            AutoInicioConfigurado = configAnterior?.AutoInicioConfigurado ?? false,
+            PuertoWebSocketLocal = configAnterior?.PuertoWebSocketLocal ?? 17890,
+            HabilitarWebSocketLocal = configAnterior?.HabilitarWebSocketLocal ?? true,
+            ModoComunicacionRapida = configAnterior?.ModoComunicacionRapida ?? true
         };
 
         try

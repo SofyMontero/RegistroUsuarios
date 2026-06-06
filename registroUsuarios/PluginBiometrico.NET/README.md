@@ -35,6 +35,14 @@ Agente de escritorio para Windows que conecta el lector de huellas Digital Perso
 - [x] PUT `option=verificar` compatible con `UsuarioRestApi.php`
 - [x] Ventana de estado con título "Sensor en modo lectura"
 
+## Sprint 6 — Completado
+
+- [x] Servidor WebSocket local (`ws://127.0.0.1:17890/eventos`) — eventos instantáneos a la web
+- [x] Cliente JS `js/plugin-ws.js` para integrar en la página
+- [x] Modo comunicación rápida — sin espera de 1 s entre consultas `reintentar`
+- [x] Verificación 1:1 por `documento` en `HabilitarSensor.php` + `UsuarioRestApi.php`
+- [x] Documentación `docs/websocket-api.md`
+
 ## Sprint 5 — Completado
 
 - [x] Inicio automático con Windows (menú bandeja, registro Run)
@@ -90,6 +98,16 @@ Ejemplo:
 ```
 
 El `idUnicoPc` debe coincidir con el parámetro `token` que usa la aplicación web.
+
+## Probar Sprint 6 (WebSocket + modo rápido)
+
+1. Ejecute el plugin y confirme en `plugin.log`: `WebSocket local activo en ws://127.0.0.1:17890/eventos`.
+2. Abra la consola del navegador en la página de registro e incluya `js/plugin-ws.js`.
+3. Conecte: `PluginBiometricoWs.conectar(17890, e => console.log(e))`.
+4. Active el sensor desde la web — debe aparecer evento `comando` sin esperar 1 s.
+5. Revise `debug-b6010c.log` (entradas `S6-H1` a `S6-H5`).
+
+**Verificación 1:1:** inserte en `huellas_temp` un registro con `opc=leer` y `documento` del usuario; el plugin solo consultará sus huellas.
 
 ## Probar Sprint 4 (verificación / lectura)
 

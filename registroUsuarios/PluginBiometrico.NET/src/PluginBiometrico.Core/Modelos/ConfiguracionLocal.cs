@@ -20,4 +20,13 @@ public sealed class ConfiguracionLocal
 
     /// <summary>Indica si ya se configuró el inicio automático con Windows.</summary>
     public bool AutoInicioConfigurado { get; set; }
+
+    /// <summary>Puerto WebSocket local para notificaciones instantáneas a la web (Sprint 6).</summary>
+    public int PuertoWebSocketLocal { get; set; } = 17890;
+
+    /// <summary>Si true, el plugin expone ws://127.0.0.1:{PuertoWebSocketLocal}/eventos</summary>
+    public bool HabilitarWebSocketLocal { get; set; } = true;
+
+    /// <summary>Si true, no espera 1 s entre consultas cuando el servidor responde "reintentar".</summary>
+    public bool ModoComunicacionRapida { get; set; } = true;
 }

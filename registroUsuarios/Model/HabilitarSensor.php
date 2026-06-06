@@ -36,13 +36,16 @@ while ($fecha_bd <= $fecha_actual) {
     }
 }
 
-$query = "Select fecha_creacion, opc from huellas_temp where pc_serial = '" . $token . "' ORDER BY id DESC LIMIT 1";
+$query = "Select fecha_creacion, opc, documento from huellas_temp where pc_serial = '" . $token . "' ORDER BY id DESC LIMIT 1";
 $datos_query = $con->findAll($query);
 
-$array = array('fecha_creacion' => 0, 'opc' => 'reintentar');
+$array = array('fecha_creacion' => 0, 'opc' => 'reintentar', 'documento' => '');
 for ($i = 0; $i < count($datos_query); $i++) {
     $array['fecha_creacion'] = strtotime($datos_query[$i]['fecha_creacion']);
     $array['opc'] = $datos_query[$i]['opc'];
+    if (!empty($datos_query[$i]['documento'])) {
+        $array['documento'] = $datos_query[$i]['documento'];
+    }
 }
 $con->desconectar();
 $response = json_encode($array);
