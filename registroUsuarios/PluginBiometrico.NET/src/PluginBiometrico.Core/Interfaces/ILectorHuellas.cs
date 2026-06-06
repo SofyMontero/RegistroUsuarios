@@ -11,9 +11,13 @@ public interface ILectorHuellas : IDisposable
 
     event EventHandler<EventoMuestraHuella>? MuestraProcesada;
 
+    event EventHandler<EventoVerificacionHuella>? VerificacionCapturada;
+
     event EventHandler<string>? MensajeEstado;
 
     void IniciarCaptura();
+
+    void IniciarVerificacion();
 
     void DetenerCaptura();
 }

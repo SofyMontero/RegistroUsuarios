@@ -13,6 +13,8 @@ public sealed partial class LectorDigitalPersona : ILectorHuellas
 
     public event EventHandler<EventoMuestraHuella>? MuestraProcesada;
 
+    public event EventHandler<EventoVerificacionHuella>? VerificacionCapturada;
+
     public event EventHandler<string>? MensajeEstado;
 
     public void IniciarCaptura()
@@ -24,6 +26,20 @@ public sealed partial class LectorDigitalPersona : ILectorHuellas
             return;
         }
 
+        EstablecerModoCaptura();
+        IniciarCapturaReal();
+    }
+
+    public void IniciarVerificacion()
+    {
+        if (!SdkDisponible)
+        {
+            MensajeEstado?.Invoke(this,
+                "SDK no encontrado. Copie las DLL de Digital Persona One Touch a la carpeta Librerias/.");
+            return;
+        }
+
+        EstablecerModoVerificacion();
         IniciarCapturaReal();
     }
 
@@ -47,7 +63,12 @@ public sealed partial class LectorDigitalPersona : ILectorHuellas
     private void NotificarMensaje(string mensaje) =>
         MensajeEstado?.Invoke(this, mensaje);
 
+    private void NotificarVerificacion(EventoVerificacionHuella evento) =>
+        VerificacionCapturada?.Invoke(this, evento);
+
     private static partial bool SdkEstaDisponible();
+    partial void EstablecerModoCaptura();
+    partial void EstablecerModoVerificacion();
     partial void IniciarCapturaReal();
     partial void DetenerCapturaReal();
     partial void LiberarRecursosReal();

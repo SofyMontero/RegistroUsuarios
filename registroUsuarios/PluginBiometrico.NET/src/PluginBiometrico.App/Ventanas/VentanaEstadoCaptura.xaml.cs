@@ -15,6 +15,12 @@ public partial class VentanaEstadoCaptura : Window
         PosicionarEsquinaInferiorDerecha();
     }
 
+    public void EstablecerTitulo(string titulo)
+    {
+        TxtTitulo.Text = titulo;
+        Title = titulo;
+    }
+
     public void AgregarMensaje(string mensaje)
     {
         if (string.IsNullOrWhiteSpace(mensaje))

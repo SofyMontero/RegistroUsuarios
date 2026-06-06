@@ -10,9 +10,9 @@ Para que el plugin capture huellas reales, copie aquí las DLL del **Digital Per
 | `DPFPDevNET.dll` | Dispositivo / captura |
 | `DPFPEngNET.dll` | Enrollment y extracción |
 
-Opcional para Sprint 4 (verificación):
+Requerida para Sprint 4 (verificación):
 
-| `DPFPVerNET.dll` | Verificación 1:1 |
+| `DPFPVerNET.dll` | Verificación 1:1 contra plantillas |
 
 ## Dónde encontrarlas
 

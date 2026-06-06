@@ -18,11 +18,12 @@ public sealed class PresentadorCapturaVentana : IPresentadorCaptura
         _dispatcher = dispatcher;
     }
 
-    public Task AbrirAsync()
+    public Task AbrirAsync(string tituloVentana = "Sensor en modo captura.")
     {
         return _dispatcher.InvokeAsync(() =>
         {
             _ventana ??= new VentanaEstadoCaptura();
+            _ventana.EstablecerTitulo(tituloVentana);
             _ventana.Show();
             _ventana.Activate();
         }).Task;

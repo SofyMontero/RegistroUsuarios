@@ -7,7 +7,7 @@ namespace PluginBiometrico.Infraestructura.Servicios;
 
 /// <summary>
 /// Ejecuta captura o lectura cuando el servidor lo solicita.
-/// Sprint 3: captura real. Lectura pendiente para Sprint 4.
+/// Sprint 3: captura. Sprint 4: verificación/lectura.
 /// </summary>
 public sealed class ProcesadorComandoSensor : IProcesadorComandoSensor
 {
@@ -44,11 +44,21 @@ public sealed class ProcesadorComandoSensor : IProcesadorComandoSensor
         await servicio.EjecutarAsync(cancellationToken);
     }
 
-    public Task ProcesarLecturaAsync(CancellationToken cancellationToken)
+    public async Task ProcesarLecturaAsync(CancellationToken cancellationToken)
     {
-        const string mensaje = "Modo lectura activado (Sprint 4 — verificación pendiente).";
-        _registro.Info(mensaje);
-        _notificarBandeja?.Invoke(mensaje);
-        return Task.CompletedTask;
+        _notificarBandeja?.Invoke("Modo lectura activado.");
+
+        using var lector = FabricaLectorHuellas.Crear();
+        var matcher = FabricaMatcherHuellas.Crear();
+        var servicio = new ServicioVerificacion(
+            lector,
+            _api,
+            matcher,
+            _config,
+            _registro,
+            _presentador,
+            _depuracion);
+
+        await servicio.EjecutarAsync(cancellationToken);
     }
 }

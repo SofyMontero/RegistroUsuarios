@@ -12,16 +12,34 @@ namespace PluginBiometrico.Infraestructura.Huella;
 /// <summary>Implementación real con SDK Digital Persona One Touch (.NET).</summary>
 public sealed partial class LectorDigitalPersona : Capture.EventHandler
 {
+    private enum ModoOperacion
+    {
+        Captura,
+        Verificacion
+    }
+
     private Capture? _capturador;
     private Enrollment? _enrollment;
+    private ModoOperacion _modo = ModoOperacion.Captura;
     private byte[]? _ultimaImagenJpeg;
 
     private static partial bool SdkEstaDisponible() => true;
 
+    partial void EstablecerModoCaptura()
+    {
+        _modo = ModoOperacion.Captura;
+        _enrollment = new Enrollment();
+    }
+
+    partial void EstablecerModoVerificacion()
+    {
+        _modo = ModoOperacion.Verificacion;
+        _enrollment = null;
+    }
+
     partial void IniciarCapturaReal()
     {
-        _enrollment = new Enrollment();
-        _capturador = new Capture();
+        _capturador ??= new Capture();
 
         if (_capturador is null)
         {
@@ -55,8 +73,17 @@ public sealed partial class LectorDigitalPersona : Capture.EventHandler
         _enrollment = null;
     }
 
-    public void OnComplete(object capture, string readerSerialNumber, Sample sample) =>
-        ProcesarMuestra(sample);
+    public void OnComplete(object capture, string readerSerialNumber, Sample sample)
+    {
+        if (_modo == ModoOperacion.Verificacion)
+        {
+            ProcesarMuestraVerificacion(sample);
+        }
+        else
+        {
+            ProcesarMuestraCaptura(sample);
+        }
+    }
 
     public void OnFingerTouch(object capture, string readerSerialNumber) =>
         NotificarMensaje("Dedo colocado sobre el lector.");
@@ -74,7 +101,7 @@ public sealed partial class LectorDigitalPersona : Capture.EventHandler
 
     public void OnFeatureSet(object capture, string readerSerialNumber, FeatureSet featureSet) { }
 
-    private void ProcesarMuestra(Sample sample)
+    private void ProcesarMuestraCaptura(Sample sample)
     {
         if (_enrollment is null)
         {
@@ -135,6 +162,26 @@ public sealed partial class LectorDigitalPersona : Capture.EventHandler
         {
             NotificarMensaje($"Error procesando huella: {ex.Message}");
         }
+    }
+
+    private void ProcesarMuestraVerificacion(Sample sample)
+    {
+        NotificarMensaje("Huella dactilar capturada.");
+
+        var features = ExtraerCaracteristicas(sample, DataPurpose.Verification);
+        if (features is null)
+        {
+            return;
+        }
+
+        _ultimaImagenJpeg = ConvertirMuestraAJpeg(sample);
+
+        NotificarVerificacion(new EventoVerificacionHuella
+        {
+            Mensaje = "Huella dactilar capturada.",
+            ImagenJpeg = _ultimaImagenJpeg,
+            CaracteristicasBiometricas = features
+        });
     }
 
     private static FeatureSet? ExtraerCaracteristicas(Sample sample, DataPurpose proposito)

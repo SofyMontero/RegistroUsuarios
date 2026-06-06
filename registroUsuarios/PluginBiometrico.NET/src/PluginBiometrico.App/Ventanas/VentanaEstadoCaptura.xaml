@@ -18,7 +18,8 @@
             </Grid.RowDefinitions>
 
             <DockPanel Grid.Row="0" LastChildFill="True">
-                <TextBlock Text="Sensor en modo captura."
+                <TextBlock x:Name="TxtTitulo"
+                           Text="Sensor en modo captura."
                            Foreground="White"
                            FontFamily="Consolas"
                            FontWeight="Bold"

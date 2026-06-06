@@ -27,7 +27,13 @@ Agente de escritorio para Windows que conecta el lector de huellas Digital Perso
 
 **Requisito hardware:** copiar DLL del SDK a `PluginBiometrico.NET/Librerias/` (ver `Librerias/README.md`).
 
-**Pendiente (Sprint 4):** verificación / lectura de huella (`leer`).
+## Sprint 4 — Completado
+
+- [x] `ServicioVerificacion` — identificación 1:N contra plantillas del servidor
+- [x] `MatcherDigitalPersona` — comparación con `DPFPVerNET`
+- [x] Modo lectura en `LectorDigitalPersona` (`IniciarVerificacion`)
+- [x] PUT `option=verificar` compatible con `UsuarioRestApi.php`
+- [x] Ventana de estado con título "Sensor en modo lectura"
 
 ## Requisitos
 
@@ -72,6 +78,14 @@ Ejemplo:
 ```
 
 El `idUnicoPc` debe coincidir con el parámetro `token` que usa la aplicación web.
+
+## Probar Sprint 4 (verificación / lectura)
+
+1. Copie también `DPFPVerNET.dll` en `Librerias/` (además de las 3 DLL del Sprint 3).
+2. Ejecute el plugin y desde la web active el modo **leer** (opción que inserta `opc=leer` en `huellas_temp`).
+3. Coloque el dedo de un usuario ya registrado en el lector.
+4. La web debe mostrar nombre y documento vía `httpush.php`.
+5. Revise `plugin.log` y `debug-b6010c.log` (entradas `S4-H1` a `S4-H5`).
 
 ## Probar Sprint 2 (comunicación con PHP)
 

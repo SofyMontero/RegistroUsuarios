@@ -30,6 +30,7 @@
     <None Include="..\..\Librerias\DPFPShrNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPShrNET.dll" />
     <None Include="..\..\Librerias\DPFPDevNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPDevNET.dll" />
     <None Include="..\..\Librerias\DPFPEngNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPEngNET.dll" />
+    <None Include="..\..\Librerias\DPFPVerNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPVerNET.dll" Condition="Exists('..\..\Librerias\DPFPVerNET.dll')" />
   </ItemGroup>
 
 </Project>

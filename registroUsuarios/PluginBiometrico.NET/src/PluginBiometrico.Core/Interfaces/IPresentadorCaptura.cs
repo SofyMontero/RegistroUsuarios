@@ -5,7 +5,7 @@ namespace PluginBiometrico.Core.Interfaces;
 /// </summary>
 public interface IPresentadorCaptura
 {
-    Task AbrirAsync();
+    Task AbrirAsync(string tituloVentana = "Sensor en modo captura.");
 
     void Actualizar(string mensaje, string estadoPlantilla);
 

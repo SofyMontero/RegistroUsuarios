@@ -6,6 +6,10 @@ public sealed partial class LectorDigitalPersona
 {
     private static partial bool SdkEstaDisponible() => false;
 
+    partial void EstablecerModoCaptura() { }
+
+    partial void EstablecerModoVerificacion() { }
+
     partial void IniciarCapturaReal() { }
 
     partial void DetenerCapturaReal() { }
