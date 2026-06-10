@@ -139,8 +139,8 @@ $total = count($rows);
                                     <td><?php echo htmlspecialchars($row['documento']); ?></td>
                                     <td><?php echo htmlspecialchars($row['seg_fechaingreso']); ?></td>
                                     <td><?php echo htmlspecialchars($row['seg_horaingreso']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['seg_ingresoAlmuerzo']); ?></td>
                                     <td><?php echo htmlspecialchars($row['seg_salioAlmuerzo']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['seg_ingresoAlmuerzo']); ?></td>
                                     <td><?php echo htmlspecialchars($row['seg_horaSalida']); ?></td>
                                 </tr>
                             <?php } ?>
