@@ -23,12 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $con = new bd();
 $elapsedTime = 0;
 while ($fecha_bd <= $fecha_actual) {
-    $query = "Select fecha_creacion from huellas_temp where pc_serial = '" . $token . "' ORDER BY id DESC LIMIT 1";
+    $query = "Select update_time from huellas_temp where pc_serial = '" . $token . "' ORDER BY id DESC LIMIT 1";
     $rs = $con->findAll($query);
     usleep(100000);
     clearstatcache();
     if (count($rs) > 0) {
-        $fecha_bd = strtotime($rs[0]['fecha_creacion']);
+        $fecha_bd = strtotime($rs[0]['update_time']);
     }
     $elapsedTime = $elapsedTime + 1;
     if ($elapsedTime == 1500) {//modificar aqui si se requiere reiniciar em menos tiempo
@@ -36,12 +36,12 @@ while ($fecha_bd <= $fecha_actual) {
     }
 }
 
-$query = "Select fecha_creacion, opc, documento from huellas_temp where pc_serial = '" . $token . "' ORDER BY id DESC LIMIT 1";
+$query = "Select update_time, opc, documento from huellas_temp where pc_serial = '" . $token . "' ORDER BY id DESC LIMIT 1";
 $datos_query = $con->findAll($query);
 
 $array = array('fecha_creacion' => 0, 'opc' => 'reintentar', 'documento' => '');
 for ($i = 0; $i < count($datos_query); $i++) {
-    $array['fecha_creacion'] = strtotime($datos_query[$i]['fecha_creacion']);
+    $array['fecha_creacion'] = strtotime($datos_query[$i]['update_time']);
     $array['opc'] = $datos_query[$i]['opc'];
     if (!empty($datos_query[$i]['documento'])) {
         $array['documento'] = $datos_query[$i]['documento'];

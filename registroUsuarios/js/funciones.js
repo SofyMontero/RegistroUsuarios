@@ -136,24 +136,23 @@ var token = getParameterByName('token');
                     $("#documento").text(json["documento"]);
                     $("#nombre").text(json["nombre"]);
                     $("#imageUser").attr("src", "imagenes/"+json["foto_usu"]);
-                    if (json["nombre"]!="------") {
-                     showMessageBox("Hola, su registro se ha guardado  "+json["nombre"], "success");
-
-
+                    
+                    // Verificar si usuario fue encontrado
+                    var usuarioEncontrado = json["nombre"] && json["nombre"] !== "------" && json["documento"];
+                    
+                    if (usuarioEncontrado) {
+                        showMessageBox("Bienvenido: " + json["nombre"], "success");
                         var sound = new Howl({
-                       src: ['sound/bermu.mp3'],
-                    volume: 1.0,
-                    onend: function () {
-                     // alert('ok!');
-                      }
-                     });
-                     sound.play()
-                     }else{showMessageBox("No existe un usuario asociado a esta huella", "warning");
-
-     
-                 
-                 }
-                  borrartemp(token);
+                            src: ['sound/bermu.mp3'],
+                            volume: 1.0
+                        });
+                        sound.play();
+                    } else {
+                        showMessageBox("No existe un usuario registrado con esta huella", "warning");
+                    }
+                    
+                    borrartemp(token);
+                    timestamp = 0;
                 }
             }
             setTimeout(function () {
@@ -223,6 +222,7 @@ var token = getParameterByName('token');
                  
                  // }
                   borrartemp(token);
+                  timestamp = 0;
                 }
             }
             if (enrollPollingEnabled) {

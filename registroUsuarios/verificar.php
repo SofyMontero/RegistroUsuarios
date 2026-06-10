@@ -27,7 +27,7 @@ if ($sede !== "") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="refresh" content="600" />
     <title>Ingreso por Huella | Ingreso Usuarios</title>
-    <link rel="shortcut icon" href="images/fondo4.png" />
+    <link rel="shortcut icon" href="imagenes/finger.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
@@ -84,7 +84,7 @@ if ($sede !== "") {
                 } else {
                     $('#documento').text('');
                     $('#nombre').text('');
-                    $('#imageUser').attr('src', 'imagenes/default.png');
+                    $('#imageUser').attr('src', 'imagenes/mujer.png');
                     showMessageBox(res.message, 'warning');
                 }
 
@@ -166,7 +166,7 @@ if ($sede !== "") {
                             <span class="eyebrow">Lectura actual</span>
                         </div>
                         <div class="user-photo-frame">
-                            <img id="imageUser" src="imagenes/default.png" alt="Foto del usuario" />
+                            <img id="imageUser" src="imagenes/mujer.png" alt="Foto del usuario" />
                         </div>
                     </div>
                 </div>

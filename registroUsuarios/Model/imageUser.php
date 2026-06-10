@@ -15,13 +15,13 @@ $row = $con->findAll($rs);
         $dat = file_get_contents($img);
         echo $dat;
     } else {
-        $img = "../imagenes/default.png";
+        $img = "../imagenes/mujer.png";
         $dat = file_get_contents($img);
         echo $dat;
     }
 } else {
     header("Content-type: image/" . $ext);
-    $img = "../imagenes/default.png";
+    $img = "../imagenes/mujer.png";
     $dat = file_get_contents($img);
     echo $dat;
 }

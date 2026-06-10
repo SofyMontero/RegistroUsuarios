@@ -25,9 +25,19 @@ $fecha_bd = 0;
 
 $token = isset($_POST['token']) ? $_POST['token'] : '';
 
-$delete = "delete from huellas_temp where pc_serial = '" . $token . "'";
+$update = "update huellas_temp set "
+        . "imgHuella = NULL, "
+        . "huella = NULL, "
+        . "texto = '---', "
+        . "statusPlantilla = 'Esperando lectura', "
+        . "documento = '', "
+        . "nombre = '', "
+        . "dedo = '', "
+        . "opc = 'leer', "
+        . "update_time = NULL "
+        . "where pc_serial = '" . $token . "'";
 
-$rowd = $con->exec($delete);
+$rowd = $con->exec($update);
 
 $con->desconectar();
 

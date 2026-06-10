@@ -43,7 +43,7 @@ class BiometricService
                 'documento' => '',
                 'imgHuella' => null,
                 'tipo' => '',
-                'foto_usu' => 'default.png',
+                'foto_usu' => 'mujer.png',
             );
         }
 
@@ -53,16 +53,19 @@ class BiometricService
 
         $imagenUsuario = $this->repository->getFingerprintImageByDocument($temp['documento']);
 
+        // Si el nombre está vacío, significa que no hay usuario asociado a esta huella
+        $nombre = !empty($temp['nombre']) ? $temp['nombre'] : '------';
+
         return array(
             'id' => $temp['pc_serial'],
             'timestamp' => strtotime($temp['update_time']),
             'texto' => $temp['texto'],
             'statusPlantilla' => $temp['statusPlantilla'],
-            'nombre' => $temp['nombre'],
+            'nombre' => $nombre,
             'documento' => $temp['documento'],
             'imgHuella' => $temp['imgHuella'],
             'tipo' => $temp['opc'],
-            'foto_usu' => ($imagenUsuario && !empty($imagenUsuario['ext'])) ? $imagenUsuario['ext'] : 'default.png',
+            'foto_usu' => ($imagenUsuario && !empty($imagenUsuario['ext'])) ? $imagenUsuario['ext'] : 'mujer.png',
         );
     }
 }

@@ -91,7 +91,7 @@ if ($method == "PUT") {
                 . "documento =  '" . $jsonOBJ->documento . "',"
                 . "nombre = '" . $jsonOBJ->nombre . "',"
                 . "dedo =  '" . $jsonOBJ->dedo . "', "
-                . "foto_usu = '" . $jsonOBJ->foto_usu . "'"
+                . "foto_usu = '" . $jsonOBJ->foto_usu . "' "
                 . "where pc_serial = '" . $jsonOBJ->serial . "'";
     } else {
         $query = "update huellas_temp set imgHuella = '" . $jsonOBJ->imageHuella . "',"
