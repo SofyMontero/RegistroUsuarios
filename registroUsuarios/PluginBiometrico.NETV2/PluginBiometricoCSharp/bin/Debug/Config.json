@@ -1,6 +1,6 @@
 {
-  "urlHabSensor": "http://localhost/registroUsuarios/registroUsuarios/Model/HabilitarSensor.php",
-  "urlRestApi": "http://localhost/registroUsuarios/registroUsuarios/Model/UsuarioRestApi.php",
-  "uniqueId": "c6c7ZQ1777521270306",
+  "urlHabSensor": "https://registrousuarios.edmaramericas.com/Model/HabilitarSensor.php",
+  "urlRestApi": "https://registrousuarios.edmaramericas.com/Model/UsuarioRestApi.php",
+  "uniqueId": "3Xv4vt1774888511188",
   "browser": "Chrome"
 }

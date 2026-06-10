@@ -19,6 +19,8 @@ class AttendanceService
             return;
         }
 
+        $this->repository->ensureTodayAttendanceRowsForActiveUsers($fechaActual);
+
         $attendance = $this->repository->getAttendanceRow($documento, $fechaActual);
         if (!$attendance) {
             return;
