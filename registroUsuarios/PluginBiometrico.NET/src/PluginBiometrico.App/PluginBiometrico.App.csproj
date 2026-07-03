@@ -17,10 +17,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
-  <!-- Publicación: solo español y sin datos ICU (~15 MB menos en carpeta publish) -->
+  <!-- Publicación: solo ensamblados de idioma español -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <SatelliteResourceLanguages>es</SatelliteResourceLanguages>
-    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
