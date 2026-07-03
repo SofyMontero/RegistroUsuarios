@@ -1,19 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "6cqAtXy37PU=",
+  "dgSpecHash": "s/b8gDPeAn0=",
   "success": true,
   "projectFilePath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\PluginBiometrico.App.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.win32.systemevents\\8.0.0\\microsoft.win32.systemevents.8.0.0.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\system.drawing.common\\8.0.11\\system.drawing.common.8.0.11.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.26\\microsoft.netcore.app.ref.8.0.26.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.26\\microsoft.netcore.app.runtime.win-x64.8.0.26.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.26\\microsoft.windowsdesktop.app.ref.8.0.26.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.26\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.26.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.26\\microsoft.aspnetcore.app.ref.8.0.26.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.26\\microsoft.aspnetcore.app.runtime.win-x64.8.0.26.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\8.0.26\\microsoft.netcore.app.crossgen2.win-x64.8.0.26.nupkg.sha512",
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.26\\microsoft.netcore.app.host.win-x64.8.0.26.nupkg.sha512"
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.win32.systemevents\\8.0.0\\microsoft.win32.systemevents.8.0.0.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\system.drawing.common\\8.0.11\\system.drawing.common.8.0.11.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.netcore.app.ref\\8.0.26\\microsoft.netcore.app.ref.8.0.26.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.netcore.app.runtime.win-x64\\8.0.26\\microsoft.netcore.app.runtime.win-x64.8.0.26.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.windowsdesktop.app.ref\\8.0.26\\microsoft.windowsdesktop.app.ref.8.0.26.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.26\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.26.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.aspnetcore.app.ref\\8.0.26\\microsoft.aspnetcore.app.ref.8.0.26.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.26\\microsoft.aspnetcore.app.runtime.win-x64.8.0.26.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.netcore.app.crossgen2.win-x64\\8.0.26\\microsoft.netcore.app.crossgen2.win-x64.8.0.26.nupkg.sha512",
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget\\microsoft.netcore.app.host.win-x64\\8.0.26\\microsoft.netcore.app.host.win-x64.8.0.26.nupkg.sha512"
   ],
   "logs": []
 }

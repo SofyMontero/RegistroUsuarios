@@ -224,7 +224,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Sofia Montero\\.nuget\\packages\\": {}
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget": {}
   },
   "project": {
     "version": "1.0.0",
@@ -232,7 +232,7 @@
       "projectUniqueName": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\PluginBiometrico.App.csproj",
       "projectName": "PluginBiometrico",
       "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\PluginBiometrico.App.csproj",
-      "packagesPath": "C:\\Users\\Sofia Montero\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5d1986e97e8d4f1247f23189ebfe02df\\nuget",
       "outputPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
@@ -254,8 +254,8 @@
             "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Core\\PluginBiometrico.Core.csproj": {
               "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Core\\PluginBiometrico.Core.csproj"
             },
-            "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj": {
-              "projectPath": "c:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj"
+            "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj": {
+              "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj"
             }
           }
         }

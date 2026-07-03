@@ -3,5 +3,6 @@ publish/
 publish-ligero/
 publish-test-opt/
 publish-test-dep/
+dist-cliente/
 bin/
 obj/

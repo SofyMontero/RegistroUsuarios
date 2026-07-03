@@ -2,83 +2,260 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Configuración | Plugin Biométrico"
-        Height="420"
-        Width="520"
-        ResizeMode="NoResize"
+        Height="640"
+        Width="780"
+        MinHeight="580"
+        MinWidth="720"
+        ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5">
-    <Grid Margin="24">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        Background="#F4F6F8">
+    <Window.Resources>
+        <Style x:Key="EtiquetaCampo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <Style x:Key="CampoEntrada" TargetType="Control">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+        <Style x:Key="BotonSecundario" TargetType="Button">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#222832"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style x:Key="BotonPrimario" TargetType="Button">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="MinWidth" Value="110"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="Background" Value="#222832"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
 
-        <TextBlock Grid.Row="0"
-                   Text="Configuración del sensor biométrico"
-                   FontSize="18"
-                   FontWeight="SemiBold"
-                   Foreground="#222832"
-                   Margin="0,0,0,16"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="1" Text="URL habilitar sensor" Margin="0,0,0,4"/>
-        <TextBox Grid.Row="2"
-                 x:Name="TxtUrlHabilitarSensor"
-                 Height="32"
-                 Margin="0,0,0,12"
-                 ToolTip="Ejemplo: http://localhost/registroUsuarios/Model/HabilitarSensor.php"/>
+        <!-- Panel lateral -->
+        <Border Grid.Column="0" Background="#222832" Padding="28,32">
+            <StackPanel VerticalAlignment="Top">
+                <Image x:Name="ImgLogo"
+                       Width="56"
+                       Height="56"
+                       Margin="0,0,0,16"/>
+                <TextBlock Text="Plugin Biométrico"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           Margin="0,0,0,6"/>
+                <TextBlock x:Name="TxtVersion"
+                           Foreground="#9CA3AF"
+                           FontSize="12"
+                           Margin="0,0,0,20"/>
+                <TextBlock Text="Configure esta estación para conectar el lector Digital Persona con la aplicación web de registro."
+                           TextWrapping="Wrap"
+                           Foreground="#D1D5DB"
+                           FontSize="12"
+                           LineHeight="18"/>
+                <Separator Margin="0,24,0,16" Background="#374151"/>
+                <TextBlock Text="Archivo de configuración"
+                           Foreground="#9CA3AF"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,4"/>
+                <TextBlock x:Name="TxtRutaConfig"
+                           TextWrapping="Wrap"
+                           Foreground="#E5E7EB"
+                           FontSize="10"
+                           LineHeight="14"/>
+            </StackPanel>
+        </Border>
 
-        <TextBlock Grid.Row="3" Text="URL API REST de huellas" Margin="0,0,0,4"/>
-        <TextBox Grid.Row="4"
-                 x:Name="TxtUrlApiRest"
-                 Height="32"
-                 Margin="0,0,0,12"
-                 ToolTip="Ejemplo: http://localhost/registroUsuarios/Model/UsuarioRestApi.php"/>
+        <!-- Formulario -->
+        <ScrollViewer Grid.Column="1"
+                        VerticalScrollBarVisibility="Auto"
+                        Padding="28,24,28,16">
+            <StackPanel>
+                <TextBlock Text="Datos de conexión"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="#111827"
+                           Margin="0,0,0,4"/>
+                <TextBlock Text="Complete los campos obligatorios. Puede usar la URL base del servidor para autocompletar las rutas."
+                           TextWrapping="Wrap"
+                           Foreground="#6B7280"
+                           FontSize="12"
+                           Margin="0,0,0,20"/>
 
-        <StackPanel Grid.Row="5">
-            <TextBlock Text="ID único de esta PC (token)" Margin="0,0,0,4"/>
-            <PasswordBox x:Name="TxtIdUnicoPc"
-                         Height="32"
-                         Margin="0,0,0,12"
-                         ToolTip="Debe coincidir con el token que usa la aplicación web"/>
+                <!-- URL base -->
+                <TextBlock Style="{StaticResource EtiquetaCampo}" Text="URL base del servidor (opcional)"/>
+                <Grid Margin="0,0,0,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TxtUrlBase"
+                             Grid.Column="0"
+                             Style="{StaticResource CampoEntrada}"
+                             Margin="0,0,8,0"
+                             ToolTip="Ejemplo: https://registrousuarios.edmaramericas.com"/>
+                    <Button Grid.Column="1"
+                            Content="Autocompletar"
+                            Style="{StaticResource BotonSecundario}"
+                            Click="BtnAutocompletarUrls_Click"/>
+                </Grid>
 
-            <TextBlock Text="Navegador" Margin="0,0,0,4"/>
-            <ComboBox x:Name="CboNavegador"
-                      Height="32"
-                      Margin="0,0,0,12"
-                      SelectedIndex="0">
-                <ComboBoxItem Content="Chrome"/>
-                <ComboBoxItem Content="Mozilla"/>
-                <ComboBoxItem Content="Edge"/>
-                <ComboBoxItem Content="Explorer"/>
-            </ComboBox>
+                <TextBlock Style="{StaticResource EtiquetaCampo}" Text="URL habilitar sensor *"/>
+                <TextBox x:Name="TxtUrlHabilitarSensor"
+                         Style="{StaticResource CampoEntrada}"
+                         Margin="0,0,0,14"
+                         ToolTip="Ejemplo: https://registrousuarios.edmaramericas.com/Model/HabilitarSensor.php"/>
 
-            <TextBlock x:Name="TxtMensaje"
-                       Foreground="#C0392B"
-                       TextWrapping="Wrap"
-                       Margin="0,4,0,0"
-                       Visibility="Collapsed"/>
-        </StackPanel>
+                <TextBlock Style="{StaticResource EtiquetaCampo}" Text="URL API REST de huellas *"/>
+                <TextBox x:Name="TxtUrlApiRest"
+                         Style="{StaticResource CampoEntrada}"
+                         Margin="0,0,0,14"
+                         ToolTip="Ejemplo: https://registrousuarios.edmaramericas.com/Model/UsuarioRestApi.php"/>
 
-        <StackPanel Grid.Row="6"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Margin="0,16,0,0">
-            <Button Content="Cancelar"
-                    Width="100"
-                    Height="32"
-                    Margin="0,0,8,0"
-                    Click="BtnCancelar_Click"/>
-            <Button Content="Guardar"
-                    Width="100"
-                    Height="32"
-                    Background="#222832"
-                    Foreground="White"
-                    Click="BtnGuardar_Click"/>
-        </StackPanel>
+                <TextBlock Style="{StaticResource EtiquetaCampo}" Text="ID único de esta PC (token) *"/>
+                <Grid Margin="0,0,0,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Margin="0,0,8,0">
+                        <PasswordBox x:Name="TxtIdUnicoPc"
+                                     Style="{StaticResource CampoEntrada}"
+                                     ToolTip="Debe coincidir con el token que usa la aplicación web"/>
+                        <TextBox x:Name="TxtIdUnicoPcVisible"
+                                 Style="{StaticResource CampoEntrada}"
+                                 Visibility="Collapsed"/>
+                    </Grid>
+                    <Button Grid.Column="1"
+                            Content="Generar"
+                            Style="{StaticResource BotonSecundario}"
+                            Margin="0,0,8,0"
+                            Click="BtnGenerarId_Click"/>
+                    <Button Grid.Column="2"
+                            x:Name="BtnMostrarToken"
+                            Content="Mostrar"
+                            Style="{StaticResource BotonSecundario}"
+                            Click="BtnMostrarToken_Click"/>
+                </Grid>
+
+                <TextBlock Style="{StaticResource EtiquetaCampo}" Text="Navegador de referencia"/>
+                <ComboBox x:Name="CboNavegador"
+                          Height="34"
+                          Margin="0,0,0,20"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="Chrome"/>
+                    <ComboBoxItem Content="Mozilla"/>
+                    <ComboBoxItem Content="Edge"/>
+                    <ComboBoxItem Content="Explorer"/>
+                </ComboBox>
+
+                <!-- Opciones avanzadas -->
+                <Expander Header="Opciones avanzadas"
+                          IsExpanded="False"
+                          Margin="0,0,0,16"
+                          Background="White"
+                          BorderBrush="#E5E7EB"
+                          BorderThickness="1"
+                          Padding="12,8">
+                    <StackPanel Margin="4,8,4,4">
+                        <CheckBox x:Name="ChkWebSocket"
+                                  Content="Habilitar WebSocket local (eventos instantáneos en la web)"
+                                  IsChecked="True"
+                                  Margin="0,0,0,10"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="120"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,12,0"
+                                       Text="Puerto WebSocket"/>
+                            <TextBox Grid.Column="1"
+                                     x:Name="TxtPuertoWebSocket"
+                                     Style="{StaticResource CampoEntrada}"
+                                     Text="17890"/>
+                        </Grid>
+                        <CheckBox x:Name="ChkModoRapido"
+                                  Content="Modo comunicación rápida (sin espera de 1 s entre consultas)"
+                                  IsChecked="True"/>
+                    </StackPanel>
+                </Expander>
+
+                <Border x:Name="PanelMensaje"
+                        Background="#FEF2F2"
+                        BorderBrush="#FECACA"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="12,10"
+                        Margin="0,0,0,12"
+                        Visibility="Collapsed">
+                    <TextBlock x:Name="TxtMensaje"
+                               TextWrapping="Wrap"
+                               Foreground="#B91C1C"
+                               FontSize="12"/>
+                </Border>
+
+                <Border x:Name="PanelExito"
+                        Background="#ECFDF5"
+                        BorderBrush="#A7F3D0"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="12,10"
+                        Margin="0,0,0,12"
+                        Visibility="Collapsed">
+                    <TextBlock x:Name="TxtExito"
+                               TextWrapping="Wrap"
+                               Foreground="#047857"
+                               FontSize="12"/>
+                </Border>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1"
+                            x:Name="BtnProbarConexion"
+                            Content="Probar conexión"
+                            Style="{StaticResource BotonSecundario}"
+                            Margin="0,0,8,0"
+                            Click="BtnProbarConexion_Click"/>
+                    <Button Grid.Column="2"
+                            x:Name="BtnCancelar"
+                            Content="Cancelar"
+                            Style="{StaticResource BotonSecundario}"
+                            Margin="0,0,8,0"
+                            Click="BtnCancelar_Click"/>
+                    <Button Grid.Column="3"
+                            x:Name="BtnGuardar"
+                            Content="Guardar"
+                            Style="{StaticResource BotonPrimario}"
+                            Click="BtnGuardar_Click"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
