@@ -27,8 +27,9 @@ $datos_query = $con->findAll($query);
 
 $array = array('fecha_creacion' => 0, 'opc' => 'reintentar', 'documento' => '');
 for ($i = 0; $i < count($datos_query); $i++) {
-    $array['fecha_creacion'] = strtotime($datos_query[$i]['update_time']);
-    $array['opc'] = $datos_query[$i]['opc'];
+    $ts = strtotime($datos_query[$i]['update_time']);
+    $array['fecha_creacion'] = ($ts !== false) ? (int) $ts : 0;
+    $array['opc'] = !empty($datos_query[$i]['opc']) ? $datos_query[$i]['opc'] : 'reintentar';
     if (!empty($datos_query[$i]['documento'])) {
         $array['documento'] = $datos_query[$i]['documento'];
     }

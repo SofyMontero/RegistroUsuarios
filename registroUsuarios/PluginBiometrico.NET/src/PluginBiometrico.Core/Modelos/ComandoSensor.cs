@@ -8,6 +8,7 @@ namespace PluginBiometrico.Core.Modelos;
 public sealed class ComandoSensor
 {
     [JsonPropertyName("fecha_creacion")]
+    [JsonConverter(typeof(FlexibleUnixTimeConverter))]
     public long FechaCreacion { get; set; }
 
     /// <summary>Valores: capturar, leer, reintentar, stop.</summary>

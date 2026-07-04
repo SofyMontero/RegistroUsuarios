@@ -96,9 +96,10 @@ public sealed class OrquestadorSensor
                 if (_config.ModoComunicacionRapida && comando.Operacion == "reintentar")
                 {
                     // #region agent log
-                    _depuracion?.Invoke("S6-H3", "OrquestadorSensor.EjecutarAsync", "Modo rápido: sin espera", null);
+                    _depuracion?.Invoke("S6-H3", "OrquestadorSensor.EjecutarAsync", "Modo rápido: espera corta", null);
                     // #endregion
 
+                    await Task.Delay(300, cancellationToken);
                     continue;
                 }
             }
