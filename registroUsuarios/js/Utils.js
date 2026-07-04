@@ -7,7 +7,12 @@ function getParameterByName(name) {
 
 /** Token de la URL o, si falta, el guardado en localStorage (srnPc). */
 function obtenerTokenSesion() {
-    return getParameterByName("token") || localStorage.getItem("srnPc") || "";
+    var token = getParameterByName("token").replace(/^\s+|\s+$/g, "");
+    if (token) {
+        return token;
+    }
+    var almacenado = localStorage.getItem("srnPc");
+    return almacenado ? almacenado.replace(/^\s+|\s+$/g, "") : "";
 }
 
 /**
@@ -15,9 +20,12 @@ function obtenerTokenSesion() {
  * Si no hay token en ningun lado, redirige a index.php.
  */
 function asegurarTokenSesion() {
-    var token = getParameterByName("token");
+    var token = getParameterByName("token").replace(/^\s+|\s+$/g, "");
     var sede = getParameterByName("sede");
     var almacenado = localStorage.getItem("srnPc");
+    if (almacenado) {
+        almacenado = almacenado.replace(/^\s+|\s+$/g, "");
+    }
 
     if (token) {
         if (token !== almacenado) {

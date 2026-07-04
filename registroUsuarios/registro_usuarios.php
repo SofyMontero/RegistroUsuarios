@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/inc/token_sesion.php';
 
 use Huella\Core\Database;
 use Huella\Repositories\BiometricRepository;
 
-$token = isset($_GET['token']) ? $_GET['token'] : '';
-$sede = isset($_GET['sede']) ? $_GET['sede'] : '';
+list($token, $sede) = requerir_token_sesion();
 $repository = new BiometricRepository(new Database());
 $sedes = $repository->getHeadquartersList();
 ?>

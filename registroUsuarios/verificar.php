@@ -1,11 +1,11 @@
 <?php
 require_once 'Model/bd.php';
+require_once __DIR__ . '/inc/token_sesion.php';
 set_time_limit(0);
 date_default_timezone_set("America/Bogota");
 
 $con = new bd();
-$token = isset($_GET["token"]) ? $_GET["token"] : "";
-$sede = isset($_GET["sede"]) ? $_GET["sede"] : "";
+list($token, $sede) = requerir_token_sesion();
 
 $estadoActual = "";
 if ($sede !== "") {

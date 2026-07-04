@@ -1,7 +1,8 @@
 <?php
+require_once __DIR__ . '/inc/token_sesion.php';
+
 $fechaactual = date("Y-m-d");
-$token = isset($_GET["token"]) ? $_GET["token"] : "";
-$sede = isset($_GET["sede"]) ? $_GET["sede"] : "";
+list($token, $sede) = requerir_token_sesion();
 ?>
 <!DOCTYPE html>
 <html lang="es">
