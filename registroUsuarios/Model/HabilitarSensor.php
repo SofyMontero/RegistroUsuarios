@@ -6,47 +6,22 @@ header("Pragma: no-cache");
 header("Content-Type: application/json; charset=utf-8");
 
 include_once './bd.php';
-set_time_limit(0);
 date_default_timezone_set("America/Bogota");
 
-// Respuesta inmediata para "Probar conexión" del plugin .NET (sin long-polling).
+// Respuesta inmediata para "Probar conexión" del plugin .NET.
 if (isset($_GET['ping']) && $_GET['ping'] === '1') {
     echo json_encode(array('fecha_creacion' => 0, 'opc' => 'reintentar', 'documento' => ''));
     exit;
 }
 
-$token = $_GET['token']; // esto no es mio o si?
-//esta linea no estaba en mi9 codigo original
-// solo le puse el aqui para saber si esstaba enviando el token 
-$fecha_actual = 0;
-$fecha_bd = 0;
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $fecha_actual = (isset($_POST['timestamp']) && $_POST['timestamp'] != 'null') ? $_POST['timestamp'] : 0;
-} else {
-    if (isset($_GET['timestamp']) && $_GET['timestamp'] != 'null') {
-        $fecha_actual = $_GET['timestamp'];
-    }
+$token = isset($_GET['token']) ? $_GET['token'] : '';
+if ($token === '' && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
+    $token = $_POST['token'];
 }
 
 $con = new bd();
-$elapsedTime = 0;
-while ($fecha_bd <= $fecha_actual) {
-    $query = "Select update_time from huellas_temp where pc_serial = '" . $token . "' ORDER BY id DESC LIMIT 1";
-    $rs = $con->findAll($query);
-    usleep(100000);
-    clearstatcache();
-    if (count($rs) === 0) {
-        break;
-    }
-    if (count($rs) > 0) {
-        $fecha_bd = strtotime($rs[0]['update_time']);
-    }
-    $elapsedTime = $elapsedTime + 1;
-    if ($elapsedTime == 1500) {//modificar aqui si se requiere reiniciar em menos tiempo
-        break;
-    }
-}
 
+// Consulta inmediata: el plugin .NET hace polling en bucle local (evita 504 Gateway Timeout).
 $query = "Select update_time, opc, documento from huellas_temp where pc_serial = '" . $token . "' ORDER BY id DESC LIMIT 1";
 $datos_query = $con->findAll($query);
 
@@ -59,8 +34,4 @@ for ($i = 0; $i < count($datos_query); $i++) {
     }
 }
 $con->desconectar();
-$response = json_encode($array);
-//echo "hola Mundo";
-echo $response;
-
-
+echo json_encode($array);

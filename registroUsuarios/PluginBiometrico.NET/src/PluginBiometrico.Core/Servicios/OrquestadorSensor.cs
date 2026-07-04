@@ -114,7 +114,11 @@ public sealed class OrquestadorSensor
                 _depuracion?.Invoke("H3", "OrquestadorSensor.EjecutarAsync", "Error en ciclo", new { error = ex.Message });
                 // #endregion
 
-                _registro.Error("Error consultando el servidor. Se reintentará en 1 segundo.", ex);
+                _registro.Error(
+                    ex.Message.Contains("504", StringComparison.Ordinal)
+                        ? "El servidor tardó demasiado (504). Suba HabilitarSensor.php actualizado a producción."
+                        : "Error consultando el servidor. Se reintentará en 1 segundo.",
+                    ex);
                 _eventosLocal?.Emitir("error", new { mensaje = ex.Message });
             }
 

@@ -76,7 +76,7 @@ public sealed class ServicioSensorEnSegundoPlano : IDisposable
 
         var http = new HttpClient
         {
-            Timeout = TimeSpan.FromMinutes(3)
+            Timeout = TimeSpan.FromSeconds(30)
         };
 
         var api = new ClienteApiBiometrica(http, config, depuracion);
