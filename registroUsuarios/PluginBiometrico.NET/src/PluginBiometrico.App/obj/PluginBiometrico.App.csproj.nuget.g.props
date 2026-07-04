@@ -4,15 +4,15 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\AppData\Local\Temp\cursor-sandbox-cache\5ba866f79847eea43059387ea289f8f1\nuget</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\5ba866f79847eea43059387ea289f8f1\nuget</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\AppData\Local\Temp\cursor-sandbox-cache\7eeae72f8d98ae2f82b1eb4767baba3c\nuget</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\7eeae72f8d98ae2f82b1eb4767baba3c\nuget</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.14.3</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\5ba866f79847eea43059387ea289f8f1\nuget\" />
+    <SourceRoot Include="C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\7eeae72f8d98ae2f82b1eb4767baba3c\nuget\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgDigitalPersona_NET Condition=" '$(PkgDigitalPersona_NET)' == '' ">C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\5ba866f79847eea43059387ea289f8f1\nuget\digitalpersona.net\1.4.0</PkgDigitalPersona_NET>
+    <PkgDigitalPersona_NET Condition=" '$(PkgDigitalPersona_NET)' == '' ">C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\7eeae72f8d98ae2f82b1eb4767baba3c\nuget\digitalpersona.net\1.4.0</PkgDigitalPersona_NET>
   </PropertyGroup>
 </Project>

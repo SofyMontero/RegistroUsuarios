@@ -23,8 +23,6 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
     private ModoOperacion _modo = ModoOperacion.Captura;
     private byte[]? _ultimaImagenJpeg;
 
-    private static partial bool SdkEstaDisponible() => true;
-
     partial void EstablecerModoCaptura()
     {
         _modo = ModoOperacion.Captura;

@@ -60,7 +60,7 @@ public sealed class ServicioCaptura
 
             if (!_lector.SdkDisponible)
             {
-                _registro.Error("SDK Digital Persona no disponible. Revise Librerias/README.md");
+                _registro.Error("SDK Digital Persona no disponible. Cierre el plugin, ejecute publish.ps1 y vuelva a abrirlo desde la carpeta publish.");
                 return;
             }
 

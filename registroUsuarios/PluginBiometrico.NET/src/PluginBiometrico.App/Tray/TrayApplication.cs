@@ -56,8 +56,8 @@ public sealed class TrayApplication : IDisposable
             else
             {
                 _registro.Advertencia(
-                    "SDK Digital Persona NO incluido en este ejecutable. " +
-                    "Recompile con publish.ps1 (el SDK se incluye vía NuGet).");
+                    "SDK Digital Persona no disponible. Cierre el plugin, ejecute publish.ps1 " +
+                    "y abra PluginBiometrico.exe desde la carpeta publish (con las DLL DPFP*.dll).");
             }
         }
 

@@ -4,8 +4,6 @@ namespace PluginBiometrico.Infraestructura.Huella;
 /// <summary>Implementación stub cuando el SDK no está instalado.</summary>
 public sealed partial class LectorDigitalPersona
 {
-    private static partial bool SdkEstaDisponible() => false;
-
     partial void EstablecerModoCaptura() { }
 
     partial void EstablecerModoVerificacion() { }

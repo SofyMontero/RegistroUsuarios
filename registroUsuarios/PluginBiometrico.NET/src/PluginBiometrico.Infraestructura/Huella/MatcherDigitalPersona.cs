@@ -5,7 +5,7 @@ namespace PluginBiometrico.Infraestructura.Huella;
 /// <summary>Comparador de huellas Digital Persona One Touch (.NET).</summary>
 public sealed partial class MatcherDigitalPersona : IMatcherHuellas
 {
-    public bool SdkDisponible => SdkMatcherDisponible();
+    public bool SdkDisponible => SdkDigitalPersona.EstaDisponible();
 
     public bool CoincideConPlantilla(object caracteristicasBiometricas, byte[] plantillaReferencia)
     {
@@ -17,6 +17,5 @@ public sealed partial class MatcherDigitalPersona : IMatcherHuellas
         return CoincideConPlantillaReal(caracteristicasBiometricas, plantillaReferencia);
     }
 
-    private static partial bool SdkMatcherDisponible(); // stub o real
     private partial bool CoincideConPlantillaReal(object caracteristicasBiometricas, byte[] plantillaReferencia);
 }

@@ -31,3 +31,11 @@ C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuario
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\System.Drawing.Common.dll
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Debug\net8.0-windows\Ventanas\VentanaEstadoCaptura.baml
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Debug\net8.0-windows\Ventanas\VentanaEstadoCaptura.g.cs
+c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\DPFPShrNET.dll
+c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\DPFPDevNET.dll
+c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\DPFPEngNET.dll
+c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\DPFPVerNET.dll
+c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\DPFPCtlXTypeLibNET.dll
+c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\DPFPCtlXWrapperNET.dll
+c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\DPFPGuiNET.dll
+c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Debug\net8.0-windows\DPFPShrXTypeLibNET.dll

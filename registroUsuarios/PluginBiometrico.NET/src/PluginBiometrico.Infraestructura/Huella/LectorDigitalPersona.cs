@@ -9,7 +9,7 @@ namespace PluginBiometrico.Infraestructura.Huella;
 /// </summary>
 public sealed partial class LectorDigitalPersona : ILectorHuellas
 {
-    public bool SdkDisponible => SdkEstaDisponible();
+    public bool SdkDisponible => SdkDigitalPersona.EstaDisponible();
 
     public event EventHandler<EventoMuestraHuella>? MuestraProcesada;
 
@@ -21,8 +21,7 @@ public sealed partial class LectorDigitalPersona : ILectorHuellas
     {
         if (!SdkDisponible)
         {
-            MensajeEstado?.Invoke(this,
-                "SDK no encontrado. Copie las DLL de Digital Persona One Touch a la carpeta Librerias/.");
+            MensajeEstado?.Invoke(this, SdkDigitalPersona.ObtenerMensajeNoDisponible());
             return;
         }
 
@@ -34,8 +33,7 @@ public sealed partial class LectorDigitalPersona : ILectorHuellas
     {
         if (!SdkDisponible)
         {
-            MensajeEstado?.Invoke(this,
-                "SDK no encontrado. Copie las DLL de Digital Persona One Touch a la carpeta Librerias/.");
+            MensajeEstado?.Invoke(this, SdkDigitalPersona.ObtenerMensajeNoDisponible());
             return;
         }
 
@@ -66,7 +64,6 @@ public sealed partial class LectorDigitalPersona : ILectorHuellas
     private void NotificarVerificacion(EventoVerificacionHuella evento) =>
         VerificacionCapturada?.Invoke(this, evento);
 
-    private static partial bool SdkEstaDisponible();
     partial void EstablecerModoCaptura();
     partial void EstablecerModoVerificacion();
     partial void IniciarCapturaReal();

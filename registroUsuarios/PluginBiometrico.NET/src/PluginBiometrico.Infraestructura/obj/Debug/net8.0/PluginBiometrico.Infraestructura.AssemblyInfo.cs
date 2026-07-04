@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PluginBiometrico.Infraestructura")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e49de4a69c52fdb17922163cdfc9484f4ab130c6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6056427818aaa531a4d44782e37012eb4ff42f32")]
 [assembly: System.Reflection.AssemblyProductAttribute("PluginBiometrico.Infraestructura")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PluginBiometrico.Infraestructura")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

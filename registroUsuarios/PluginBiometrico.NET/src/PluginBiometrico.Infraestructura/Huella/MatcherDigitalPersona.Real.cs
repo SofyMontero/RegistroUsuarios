@@ -6,8 +6,6 @@ namespace PluginBiometrico.Infraestructura.Huella;
 
 public sealed partial class MatcherDigitalPersona
 {
-    private static partial bool SdkMatcherDisponible() => true;
-
     private partial bool CoincideConPlantillaReal(object caracteristicasBiometricas, byte[] plantillaReferencia)
     {
         if (caracteristicasBiometricas is not FeatureSet caracteristicas)
