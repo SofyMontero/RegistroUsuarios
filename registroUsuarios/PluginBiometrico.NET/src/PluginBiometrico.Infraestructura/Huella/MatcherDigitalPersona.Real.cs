@@ -19,7 +19,8 @@ public sealed partial class MatcherDigitalPersona
         referencia.DeSerialize(plantillaReferencia);
 
         var verificador = new Verification();
-        var resultado = verificador.Verify(caracteristicas, referencia);
+        var resultado = new Verification.Result();
+        verificador.Verify(caracteristicas, referencia, ref resultado);
         return resultado.Verified;
     }
 }

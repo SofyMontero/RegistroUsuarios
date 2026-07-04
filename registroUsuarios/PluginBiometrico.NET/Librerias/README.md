@@ -1,39 +1,38 @@
 # SDK Digital Persona One Touch (.NET)
 
-Para que el plugin capture huellas reales, copie aquí las DLL del **Digital Persona One Touch SDK** para .NET.
+Para que el plugin capture huellas reales, el proyecto usa el paquete NuGet **DigitalPersona.NET** (se descarga al compilar).
 
-## DLL requeridas
+## Si compiló antes sin SDK
+
+Los **drivers del lector** y el **SDK .NET** son cosas distintas:
+
+| Componente | Qué instala | Para qué sirve |
+|------------|-------------|----------------|
+| Drivers U.are.U | Administrador de dispositivos | Windows reconoce el lector USB |
+| SDK .NET (`DPFP*NET.dll`) | NuGet al compilar | El plugin captura la huella |
+
+Tras instalar drivers, ejecute:
+
+```powershell
+cd registroUsuarios\PluginBiometrico.NET
+.\publish.ps1
+```
+
+## DLL del SDK (referencia)
 
 | Archivo | Descripción |
 |---------|-------------|
 | `DPFPShrNET.dll` | Tipos compartidos |
 | `DPFPDevNET.dll` | Dispositivo / captura |
 | `DPFPEngNET.dll` | Enrollment y extracción |
+| `DPFPVerNET.dll` | Verificación 1:1 |
 
-Requerida para Sprint 4 (verificación):
-
-| `DPFPVerNET.dll` | Verificación 1:1 contra plantillas |
-
-## Dónde encontrarlas
-
-Tras instalar el SDK, suelen estar en:
+Opcional: copie manualmente a esta carpeta si tiene el instalador oficial en:
 
 ```
 C:\Program Files\DigitalPersona\One Touch SDK\.NET\Bin\
 ```
 
-o en la carpeta `Bin` del instalador del SDK.
+## Driver correcto
 
-## Después de copiar
-
-Recompile el proyecto:
-
-```powershell
-dotnet build registroUsuarios\PluginBiometrico.NET
-```
-
-Si las DLL están presentes, el proyecto detecta `TIENE_SDK_DPFP` automáticamente y habilita el lector real.
-
-## Compatibilidad con el plugin Java
-
-Use el **mismo SDK One Touch** (no DPUruNet) para que las plantillas guardadas sean compatibles con las del plugin Java (`PluginBiometricoV4`).
+En **Administrador de dispositivos**, el lector debe ser **U.are.U 4500** sin **WBF** (Windows Hello). El driver WBF no funciona con este SDK.

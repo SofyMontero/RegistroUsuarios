@@ -10,7 +10,7 @@ using PluginBiometrico.Core.Modelos;
 namespace PluginBiometrico.Infraestructura.Huella;
 
 /// <summary>Implementación real con SDK Digital Persona One Touch (.NET).</summary>
-public sealed partial class LectorDigitalPersona : Capture.EventHandler
+public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
 {
     private enum ModoOperacion
     {
@@ -134,13 +134,14 @@ public sealed partial class LectorDigitalPersona : Capture.EventHandler
             {
                 case Enrollment.Status.Ready:
                     DetenerCapturaReal();
-                    var plantilla = _enrollment.Template.Serialize();
+                    byte[]? plantillaBytes = null;
+                    plantillaBytes = _enrollment.Template.Serialize(ref plantillaBytes);
                     NotificarMuestra(new EventoMuestraHuella
                     {
                         Mensaje = "La plantilla ha sido creada ya puede identificarla",
                         EstadoPlantilla = estadoPlantilla,
                         ImagenJpeg = _ultimaImagenJpeg,
-                        PlantillaSerializada = plantilla,
+                        PlantillaSerializada = plantillaBytes,
                         Estado = EstadoEnrollment.PlantillaLista
                     });
                     break;
@@ -189,7 +190,16 @@ public sealed partial class LectorDigitalPersona : Capture.EventHandler
         var extractor = new FeatureExtraction();
         try
         {
-            return extractor.CreateFeatureSet(sample, proposito);
+            CaptureFeedback feedback = CaptureFeedback.Good;
+            FeatureSet features = new();
+            extractor.CreateFeatureSet(sample, proposito, ref feedback, ref features);
+
+            if (feedback is CaptureFeedback.Good or CaptureFeedback.None)
+            {
+                return features;
+            }
+
+            return null;
         }
         catch
         {
@@ -209,9 +219,11 @@ public sealed partial class LectorDigitalPersona : Capture.EventHandler
         }
 
         using (bitmap)
-        using var stream = new MemoryStream();
-        bitmap.Save(stream, ImageFormat.Jpeg);
-        return stream.ToArray();
+        {
+            using var stream = new MemoryStream();
+            bitmap.Save(stream, ImageFormat.Jpeg);
+            return stream.ToArray();
+        }
     }
 }
 #endif

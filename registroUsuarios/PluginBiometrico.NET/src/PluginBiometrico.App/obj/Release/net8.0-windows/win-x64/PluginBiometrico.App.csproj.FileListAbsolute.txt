@@ -280,8 +280,11 @@ C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuario
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\es\UIAutomationTypes.resources.dll
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\es\WindowsBase.resources.dll
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\es\WindowsFormsIntegration.resources.dll
-C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\PluginBiometrico.pdb
-C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\PluginBiometrico.Core.pdb
-C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\PluginBiometrico.Infraestructura.pdb
-C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Release\net8.0-windows\win-x64\PluginBiometrico.App.sourcelink.json
-C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\obj\Release\net8.0-windows\win-x64\PluginBiometrico.pdb
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\DPFPCtlXTypeLibNET.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\DPFPCtlXWrapperNET.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\DPFPDevNET.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\DPFPEngNET.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\DPFPGuiNET.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\DPFPShrNET.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\DPFPShrXTypeLibNET.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\bin\Release\net8.0-windows\win-x64\DPFPVerNET.dll

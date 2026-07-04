@@ -10,7 +10,7 @@
         "projectUniqueName": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\PluginBiometrico.App.csproj",
         "projectName": "PluginBiometrico",
         "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\PluginBiometrico.App.csproj",
-        "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\a35abe1fa8b640f87c900d07da656524\\nuget",
+        "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5ba866f79847eea43059387ea289f8f1\\nuget",
         "outputPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -53,6 +53,13 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "DigitalPersona.NET": {
+              "target": "Package",
+              "version": "[1.4.0, )",
+              "generatePathProperty": true
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -71,6 +78,10 @@
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
               "version": "[8.0.26, 8.0.26]"
             },
             {
@@ -117,7 +128,7 @@
         "projectUniqueName": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Core\\PluginBiometrico.Core.csproj",
         "projectName": "PluginBiometrico.Core",
         "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Core\\PluginBiometrico.Core.csproj",
-        "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\a35abe1fa8b640f87c900d07da656524\\nuget",
+        "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5ba866f79847eea43059387ea289f8f1\\nuget",
         "outputPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -174,6 +185,10 @@
               "version": "[8.0.26, 8.0.26]"
             },
             {
+              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
               "name": "Microsoft.NETCore.App.Ref",
               "version": "[8.0.26, 8.0.26]"
             },
@@ -210,7 +225,7 @@
         "projectUniqueName": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj",
         "projectName": "PluginBiometrico.Infraestructura",
         "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj",
-        "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\a35abe1fa8b640f87c900d07da656524\\nuget",
+        "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5ba866f79847eea43059387ea289f8f1\\nuget",
         "outputPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -251,6 +266,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "DigitalPersona.NET": {
+              "target": "Package",
+              "version": "[1.4.0, )"
+            },
             "System.Drawing.Common": {
               "target": "Package",
               "version": "[8.0.11, )"
@@ -274,6 +293,10 @@
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
               "version": "[8.0.26, 8.0.26]"
             },
             {

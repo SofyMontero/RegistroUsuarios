@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Agente de escritorio para lector Digital Persona")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6b15126d0d57744c983aa7c7e0a0e8e8df3000f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06b1ee789b3d1c8aa2169ec63673552f7da2bcc3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Plugin Biométrico .NET")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Plugin Biométrico")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

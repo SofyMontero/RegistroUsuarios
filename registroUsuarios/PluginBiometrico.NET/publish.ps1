@@ -44,8 +44,15 @@ else {
 
 $librerias = Join-Path $raiz "Librerias"
 if (Test-Path (Join-Path $librerias "DPFPEngNET.dll")) {
-    Write-Host "Copiando DLL del SDK Digital Persona..." -ForegroundColor Yellow
+    Write-Host "Copiando DLL del SDK Digital Persona (Librerias/)..." -ForegroundColor Yellow
     Copy-Item (Join-Path $librerias "DPFP*.dll") $salida -Force -ErrorAction SilentlyContinue
+}
+else {
+    $sdkNuget = Join-Path $env:USERPROFILE ".nuget\packages\digitalpersona.net\1.4.0\lib\net46"
+    if (Test-Path $sdkNuget) {
+        Write-Host "Copiando DLL del SDK Digital Persona (NuGet)..." -ForegroundColor Yellow
+        Copy-Item (Join-Path $sdkNuget "DPFP*.dll") $salida -Force
+    }
 }
 
 $version = "1.0.0"
@@ -87,8 +94,11 @@ La configuración queda en:
 
 PASO 3 — LECTOR (si no responde)
 --------------------------------
-Copie junto al .exe las DLL del SDK Digital Persona One Touch:
-  DPFPShrNET.dll, DPFPDevNET.dll, DPFPEngNET.dll, DPFPVerNET.dll
+El ejecutable incluye las DLL del SDK Digital Persona (.NET).
+Si el lector no responde:
+- Verifique drivers U.are.U (NO use driver WBF / Windows Hello).
+- En Administrador de dispositivos el lector debe aparecer como "U.are.U 4500" sin "WBF".
+- Reinicie el plugin tras conectar el lector USB.
 
 PASO 4 — INICIO AUTOMÁTICO
 --------------------------

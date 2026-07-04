@@ -2,6 +2,29 @@
   "version": 3,
   "targets": {
     "net8.0-windows7.0": {
+      "DigitalPersona.NET/1.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/DPFPCtlXTypeLibNET.dll": {},
+          "lib/net46/DPFPCtlXWrapperNET.dll": {},
+          "lib/net46/DPFPDevNET.dll": {},
+          "lib/net46/DPFPEngNET.dll": {},
+          "lib/net46/DPFPGuiNET.dll": {},
+          "lib/net46/DPFPShrNET.dll": {},
+          "lib/net46/DPFPShrXTypeLibNET.dll": {},
+          "lib/net46/DPFPVerNET.dll": {}
+        },
+        "runtime": {
+          "lib/net46/DPFPCtlXTypeLibNET.dll": {},
+          "lib/net46/DPFPCtlXWrapperNET.dll": {},
+          "lib/net46/DPFPDevNET.dll": {},
+          "lib/net46/DPFPEngNET.dll": {},
+          "lib/net46/DPFPGuiNET.dll": {},
+          "lib/net46/DPFPShrNET.dll": {},
+          "lib/net46/DPFPShrXTypeLibNET.dll": {},
+          "lib/net46/DPFPVerNET.dll": {}
+        }
+      },
       "Microsoft.Win32.SystemEvents/8.0.0": {
         "type": "package",
         "compile": {
@@ -57,6 +80,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "DigitalPersona.NET": "1.4.0",
           "PluginBiometrico.Core": "1.0.0",
           "System.Drawing.Common": "8.0.11"
         },
@@ -69,6 +93,29 @@
       }
     },
     "net8.0-windows7.0/win-x64": {
+      "DigitalPersona.NET/1.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/DPFPCtlXTypeLibNET.dll": {},
+          "lib/net46/DPFPCtlXWrapperNET.dll": {},
+          "lib/net46/DPFPDevNET.dll": {},
+          "lib/net46/DPFPEngNET.dll": {},
+          "lib/net46/DPFPGuiNET.dll": {},
+          "lib/net46/DPFPShrNET.dll": {},
+          "lib/net46/DPFPShrXTypeLibNET.dll": {},
+          "lib/net46/DPFPVerNET.dll": {}
+        },
+        "runtime": {
+          "lib/net46/DPFPCtlXTypeLibNET.dll": {},
+          "lib/net46/DPFPCtlXWrapperNET.dll": {},
+          "lib/net46/DPFPDevNET.dll": {},
+          "lib/net46/DPFPEngNET.dll": {},
+          "lib/net46/DPFPGuiNET.dll": {},
+          "lib/net46/DPFPShrNET.dll": {},
+          "lib/net46/DPFPShrXTypeLibNET.dll": {},
+          "lib/net46/DPFPVerNET.dll": {}
+        }
+      },
       "Microsoft.Win32.SystemEvents/8.0.0": {
         "type": "package",
         "compile": {
@@ -118,6 +165,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "DigitalPersona.NET": "1.4.0",
           "PluginBiometrico.Core": "1.0.0",
           "System.Drawing.Common": "8.0.11"
         },
@@ -131,6 +179,57 @@
     }
   },
   "libraries": {
+    "DigitalPersona.NET/1.4.0": {
+      "sha512": "YmlWbAWLWdlhCypT5roLJGzPpUH2VeXalRX119tO2K6JxBUYf9ngfX9MvDO1N82HUJt1t8xm+kq3hgjZQi+KgA==",
+      "type": "package",
+      "path": "digitalpersona.net/1.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "digitalpersona.net.1.4.0.nupkg.sha512",
+        "digitalpersona.net.nuspec",
+        "lib/net40/DPFPCtlXTypeLibNET.dll",
+        "lib/net40/DPFPCtlXWrapperNET.dll",
+        "lib/net40/DPFPDevNET.dll",
+        "lib/net40/DPFPEngNET.dll",
+        "lib/net40/DPFPGuiNET.dll",
+        "lib/net40/DPFPShrNET.dll",
+        "lib/net40/DPFPShrXTypeLibNET.dll",
+        "lib/net40/DPFPVerNET.dll",
+        "lib/net45/DPFPCtlXTypeLibNET.dll",
+        "lib/net45/DPFPCtlXWrapperNET.dll",
+        "lib/net45/DPFPDevNET.dll",
+        "lib/net45/DPFPEngNET.dll",
+        "lib/net45/DPFPGuiNET.dll",
+        "lib/net45/DPFPShrNET.dll",
+        "lib/net45/DPFPShrXTypeLibNET.dll",
+        "lib/net45/DPFPVerNET.dll",
+        "lib/net46/DPFPCtlXTypeLibNET.dll",
+        "lib/net46/DPFPCtlXWrapperNET.dll",
+        "lib/net46/DPFPDevNET.dll",
+        "lib/net46/DPFPEngNET.dll",
+        "lib/net46/DPFPGuiNET.dll",
+        "lib/net46/DPFPShrNET.dll",
+        "lib/net46/DPFPShrXTypeLibNET.dll",
+        "lib/net46/DPFPVerNET.dll",
+        "lib/net47/DPFPCtlXTypeLibNET.dll",
+        "lib/net47/DPFPCtlXWrapperNET.dll",
+        "lib/net47/DPFPDevNET.dll",
+        "lib/net47/DPFPEngNET.dll",
+        "lib/net47/DPFPGuiNET.dll",
+        "lib/net47/DPFPShrNET.dll",
+        "lib/net47/DPFPShrXTypeLibNET.dll",
+        "lib/net47/DPFPVerNET.dll",
+        "lib/net48/DPFPCtlXTypeLibNET.dll",
+        "lib/net48/DPFPCtlXWrapperNET.dll",
+        "lib/net48/DPFPDevNET.dll",
+        "lib/net48/DPFPEngNET.dll",
+        "lib/net48/DPFPGuiNET.dll",
+        "lib/net48/DPFPShrNET.dll",
+        "lib/net48/DPFPShrXTypeLibNET.dll",
+        "lib/net48/DPFPVerNET.dll"
+      ]
+    },
     "Microsoft.Win32.SystemEvents/8.0.0": {
       "sha512": "9opKRyOKMCi2xJ7Bj7kxtZ1r9vbzosMvRrdEhVhDz8j8MoBGgB+WmC94yH839NPH+BclAjtQ/pyagvi/8gDLkw==",
       "type": "package",
@@ -219,12 +318,13 @@
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
+      "DigitalPersona.NET >= 1.4.0",
       "PluginBiometrico.Core >= 1.0.0",
       "PluginBiometrico.Infraestructura >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\a35abe1fa8b640f87c900d07da656524\\nuget": {}
+    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5ba866f79847eea43059387ea289f8f1\\nuget": {}
   },
   "project": {
     "version": "1.0.0",
@@ -232,7 +332,7 @@
       "projectUniqueName": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\PluginBiometrico.App.csproj",
       "projectName": "PluginBiometrico",
       "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\PluginBiometrico.App.csproj",
-      "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\a35abe1fa8b640f87c900d07da656524\\nuget",
+      "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5ba866f79847eea43059387ea289f8f1\\nuget",
       "outputPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.App\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
@@ -275,6 +375,13 @@
     "frameworks": {
       "net8.0-windows7.0": {
         "targetAlias": "net8.0-windows",
+        "dependencies": {
+          "DigitalPersona.NET": {
+            "target": "Package",
+            "version": "[1.4.0, )",
+            "generatePathProperty": true
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -293,6 +400,10 @@
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+            "version": "[8.0.26, 8.0.26]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
             "version": "[8.0.26, 8.0.26]"
           },
           {
@@ -332,5 +443,17 @@
         "#import": []
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"DigitalPersona.NET 1.4.0\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" en lugar de la plataforma de destino del proyecto \"net8.0-windows7.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "DigitalPersona.NET",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    }
+  ]
 }

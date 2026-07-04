@@ -8,8 +8,9 @@
 
   <PropertyGroup>
     <RutaLibreriasSdk>$(MSBuildThisFileDirectory)..\..\Librerias\</RutaLibreriasSdk>
+    <!-- SDK vía NuGet (DigitalPersona.NET) o DLL manuales en Librerias/ -->
     <TieneSdkDpfp Condition="Exists('$(RutaLibreriasSdk)DPFPEngNET.dll')">true</TieneSdkDpfp>
-    <TieneSdkDpfp Condition="'$(TieneSdkDpfp)' == ''">false</TieneSdkDpfp>
+    <TieneSdkDpfp Condition="'$(TieneSdkDpfp)' == ''">true</TieneSdkDpfp>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TieneSdkDpfp)' == 'true'">
@@ -20,7 +21,8 @@
     <ProjectReference Include="..\PluginBiometrico.Core\PluginBiometrico.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TieneSdkDpfp)' == 'true'">
+  <!-- Fallback manual si NuGet no está disponible y hay DLL en Librerias/ -->
+  <ItemGroup Condition="Exists('$(RutaLibreriasSdk)DPFPEngNET.dll')">
     <Reference Include="DPFPShrNET">
       <HintPath>$(RutaLibreriasSdk)DPFPShrNET.dll</HintPath>
       <Private>true</Private>
@@ -40,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DigitalPersona.NET" Version="1.4.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.11" />
   </ItemGroup>
 

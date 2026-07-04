@@ -6,6 +6,7 @@ using PluginBiometrico.App.Servicios;
 using PluginBiometrico.App.Sistema;
 using PluginBiometrico.App.Ventanas;
 using PluginBiometrico.Core.Interfaces;
+using PluginBiometrico.Infraestructura.Huella;
 using PluginBiometrico.Infraestructura.Logging;
 using Application = System.Windows.Application;
 
@@ -45,6 +46,20 @@ public sealed class TrayApplication : IDisposable
 
         var version = Assembly.GetExecutingAssembly().GetName().Version;
         _registro.Info($"Plugin Biométrico iniciado (v{version}).");
+
+        using (var lector = FabricaLectorHuellas.Crear())
+        {
+            if (lector.SdkDisponible)
+            {
+                _registro.Info("SDK Digital Persona activo. El lector puede capturar huellas.");
+            }
+            else
+            {
+                _registro.Advertencia(
+                    "SDK Digital Persona NO incluido en este ejecutable. " +
+                    "Recompile con publish.ps1 (el SDK se incluye vía NuGet).");
+            }
+        }
 
         // #region agent log
         AgenteDiagnostico.Registrar("S5-H3", "TrayApplication.Iniciar", "Aplicación en bandeja", new
