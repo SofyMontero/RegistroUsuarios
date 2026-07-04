@@ -43,7 +43,7 @@ function activarSensor(srn) {
         data: "&token=" + srn,
         dataType: "json",
         success: function (data) {
-            var json = JSON.parse(data);
+            var json = (typeof data === "string") ? JSON.parse(data) : data;
             console.log(json);
             if (json["filas"] === 1) {
                 $("#activeSensorLocal").attr("disabled", true);

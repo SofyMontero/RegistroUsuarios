@@ -60,7 +60,17 @@ public sealed class ServicioCaptura
 
             if (!_lector.SdkDisponible)
             {
-                _registro.Error("SDK Digital Persona no disponible. Cierre el plugin, ejecute publish.ps1 y vuelva a abrirlo desde la carpeta publish.");
+                const string mensaje =
+                    "SDK Digital Persona no disponible. Cierre el plugin y abra publish\\PluginBiometrico.exe " +
+                    "(debe incluir las DLL DPFP*.dll junto al .exe).";
+
+                if (_presentador is not null)
+                {
+                    await _presentador.AbrirAsync("Error — sensor biométrico");
+                    _presentador.Actualizar(mensaje, "Revise Librerias/README.md");
+                }
+
+                _registro.Error(mensaje);
                 return;
             }
 
