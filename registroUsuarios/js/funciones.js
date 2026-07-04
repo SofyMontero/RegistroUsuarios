@@ -114,12 +114,12 @@ var sed = sede;
 //     var estado}
     
 
-var token = getParameterByName('token');
+var token = obtenerTokenSesion();
     $.ajax({
         async: true,
         type: "POST",
         url: "Model/httpush.php",
-        data: "&tipo=" + aux +"&timestamp=" + timestamp + "&token=" + getParameterByName('token')+"&sede="+sede,
+        data: "&tipo=" + aux +"&timestamp=" + timestamp + "&token=" + token +"&sede="+sede,
         dataType: "json",
         success: function (data) {
 
@@ -182,12 +182,12 @@ function cargar_push1() {
 //     var estado}
     
 
-var token = getParameterByName('token');
+var token = obtenerTokenSesion();
     $.ajax({
         async: true,
         type: "POST",
         url: "Model/httpush1.php",
-        data: "&tipo=" + aux +"&timestamp=" + timestamp + "&token=" + getParameterByName('token'),
+        data: "&tipo=" + aux +"&timestamp=" + timestamp + "&token=" + token,
         dataType: "json",
         success: function (data) {
 

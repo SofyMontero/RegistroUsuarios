@@ -30,12 +30,14 @@
                             </div>
 
                             <ol class="note-list mb-4">
-                                <li>Si es la primera vez que abres este módulo en el navegador, configura el token dentro del plugin biométrico.</li>
-                                <li>Si ya estaba configurado y dejó de funcionar, es posible que otra aplicación lo haya eliminado y debas registrarlo de nuevo.</li>
+                                <li>Copie el token de abajo y péguelo en el plugin biométrico (ID único PC).</li>
+                                <li>El token del navegador y el del plugin deben ser <strong>exactamente iguales</strong>.</li>
+                                <li>Si ya estaba configurado y dejó de funcionar, abra <code>index.php</code> de nuevo o borre el almacenamiento local del sitio.</li>
                             </ol>
 
                             <div class="d-flex flex-column flex-md-row gap-3">
-                                <a class="btn-soft btn-soft-primary" href="index.php?sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>">Refrescar</a>
+                                <a class="btn-soft btn-soft-primary" id="irModulo" href="#">Ir al módulo principal</a>
+                                <a class="btn-soft btn-soft-secondary" href="index.php?sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>">Refrescar</a>
                                 <a class="btn-soft btn-soft-secondary" href="javascript:void(0)">Descargar plugin</a>
                             </div>
                         </div>
@@ -57,6 +59,12 @@
         } else {
             saveSrnPc();
             $("#Token").html(localStorage.getItem("srnPc"));
+            var sede = "<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
+            var destino = "Home.php?token=" + encodeURIComponent(localStorage.getItem("srnPc"));
+            if (sede) {
+                destino += "&sede=" + encodeURIComponent(sede);
+            }
+            $("#irModulo").attr("href", destino);
             $("#content").css("display", "block");
             $("#loadingState").hide();
         }
