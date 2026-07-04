@@ -3,10 +3,18 @@
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
+header("Content-Type: application/json; charset=utf-8");
 
 include_once './bd.php';
 set_time_limit(0);
 date_default_timezone_set("America/Bogota");
+
+// Respuesta inmediata para "Probar conexión" del plugin .NET (sin long-polling).
+if (isset($_GET['ping']) && $_GET['ping'] === '1') {
+    echo json_encode(array('fecha_creacion' => 0, 'opc' => 'reintentar', 'documento' => ''));
+    exit;
+}
+
 $token = $_GET['token']; // esto no es mio o si?
 //esta linea no estaba en mi9 codigo original
 // solo le puse el aqui para saber si esstaba enviando el token 
@@ -27,6 +35,9 @@ while ($fecha_bd <= $fecha_actual) {
     $rs = $con->findAll($query);
     usleep(100000);
     clearstatcache();
+    if (count($rs) === 0) {
+        break;
+    }
     if (count($rs) > 0) {
         $fecha_bd = strtotime($rs[0]['update_time']);
     }
