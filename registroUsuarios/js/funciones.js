@@ -6,6 +6,42 @@ var timestamp = null;
 var aux ='';
 var enrollPollingEnabled = false;
 var enrollPollingTimer = null;
+var stationToken = null;
+
+function setStationToken(token) {
+    stationToken = (token || '').replace(/^\s+|\s+$/g, '');
+}
+
+function getStationToken() {
+    if (stationToken) {
+        return stationToken;
+    }
+    return typeof obtenerTokenSesion === 'function' ? obtenerTokenSesion() : '';
+}
+
+function mostrarPanelCaptura() {
+    $("#fingerPrint").css("display", "block");
+    $("#sensorPlaceholder").hide();
+}
+
+function actualizarVistaCaptura(json) {
+    var id = json["id"] || getStationToken();
+    if (!id) {
+        return;
+    }
+
+    mostrarPanelCaptura();
+    $("#" + id + "_status").text(json["statusPlantilla"] || '');
+    $("#" + id + "_texto").text(json["texto"] || '');
+
+    var imageHuella = json["imgHuella"];
+    if (imageHuella && String(imageHuella).length > 20) {
+        var src = String(imageHuella).indexOf('data:image') === 0
+            ? imageHuella
+            : "data:image/jpeg;base64," + imageHuella;
+        $("#" + id).attr("src", src);
+    }
+}
 
 
 function enviar_valores(valor){
@@ -36,20 +72,28 @@ function borrartemp(tok) {
 }
 
 function activarSensor(srn) {
+    setStationToken(srn);
+    timestamp = 0;
+
     $.ajax({
         async: true,
         type: "POST",
         url: "Model/ActivarSensorAdd.php",
-        data: "&token=" + srn,
+        data: { token: srn },
         dataType: "json",
         success: function (data) {
             var json = (typeof data === "string") ? JSON.parse(data) : data;
             console.log(json);
             if (json["filas"] === 1) {
                 $("#activeSensorLocal").attr("disabled", true);
-                $("#fingerPrint").css("display", "block");
+                mostrarPanelCaptura();
                 startEnrollPolling();
+            } else {
+                showMessageBox("No se pudo activar el sensor. Revise la conexion con el servidor.", "warning");
             }
+        },
+        error: function () {
+            showMessageBox("Error al activar el sensor. Verifique que ActivarSensorAdd.php responda en el servidor.", "danger");
         }
     });
 }
@@ -173,69 +217,47 @@ function cargar_push1() {
         return;
     }
 
-// if (true) {
-
-
-    
-// }else{
-
-//     var estado}
-    
-
-var token = obtenerTokenSesion();
+    var token = getStationToken();
     $.ajax({
         async: true,
         type: "POST",
         url: "Model/httpush1.php",
-        data: "&tipo=" + aux +"&timestamp=" + timestamp + "&token=" + token,
+        data: {
+            tipo: aux,
+            timestamp: timestamp || 0,
+            token: token
+        },
         dataType: "json",
+        timeout: 15000,
         success: function (data) {
-
-            var json = JSON.parse(JSON.stringify(data));
-            timestamp = json["timestamp"];
-            imageHuella = json["imgHuella"];
-            tipo = json["tipo"];
-            id = json["id"];
-            $("#" + id + "_status").text(json["statusPlantilla"]);
-            $("#" + id + "_texto").text(json["texto"]);
-            if (imageHuella !== null) {
-                $("#" + id).attr("src", "data:image/png;base64," + imageHuella);
-                if (tipo === "leer") {
-                    $("#documento").text(json["documento"]);
-                    $("#nombre").text(json["nombre"]);
-                    $("#imageUser").attr("src", "imagenes/"+json["foto_usu"]);
-                 //    if (json["nombre"]!="------") {
-                 //     showMessageBox("Hola, su registro se ha guardado  "+json["nombre"], "success");
-
-
-                 //        var sound = new Howl({
-                 //       src: ['sound/bermu.mp3'],
-                 //    volume: 1.0,
-                 //    onend: function () {
-                 //     // alert('ok!');
-                 //      }
-                 //     });
-                 //     sound.play()
-                 //     }else{showMessageBox("NO EXISTE "+json["nombre"], "success");
-
-     
-                 
-                 // }
-                  borrartemp(token);
-                  timestamp = 0;
-                }
+            var json = (typeof data === "string") ? JSON.parse(data) : data;
+            if (json["timestamp"] !== false && json["timestamp"] !== null && json["timestamp"] !== undefined) {
+                timestamp = json["timestamp"];
             }
+            actualizarVistaCaptura(json);
+
+            var tipo = json["tipo"];
+            if (tipo === "leer") {
+                $("#documento").val(json["documento"]);
+                $("#nombre").val(json["nombre"]);
+                borrartemp(token);
+                timestamp = 0;
+            }
+
             if (enrollPollingEnabled) {
                 enrollPollingTimer = setTimeout(function () {
                     cargar_push1();
                 }, 1000);
             }
-
-                     // 
+        },
+        error: function () {
+            if (enrollPollingEnabled) {
+                enrollPollingTimer = setTimeout(function () {
+                    cargar_push1();
+                }, 2000);
+            }
         }
     });
-    
-    // alert(aux);
 }
 
 function startEnrollPolling() {

@@ -1,0 +1,178 @@
+.shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4f46e5;
+  background: #eef2ff;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+
+.header h1 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1.75rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: #5c6478;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 24px rgba(20, 30, 55, 0.08);
+}
+
+.card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4b5568;
+}
+
+.field input {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #d8dee9;
+  border-radius: 8px;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.status {
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.status-ready,
+.status-sample {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.status-scanning {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.status-need-websdk,
+.status-need-lite-client,
+.status-error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.device {
+  font-size: 0.85rem;
+  color: #374151;
+  margin: 0 0 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.btn.primary {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+.btn.secondary {
+  background: #f3f4f6;
+}
+
+.btn.accent {
+  background: #059669;
+  color: #fff;
+  border-color: #059669;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.preview {
+  min-height: 180px;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #222832;
+}
+
+.preview img {
+  max-width: 100%;
+  max-height: 220px;
+}
+
+.preview-placeholder {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.api-msg p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.footer {
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.footer code {
+  background: #e5e7eb;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}

@@ -1,5 +1,5 @@
 ﻿PluginBiometrico
-
+1.0.0.0
 
 winexe
 C#
@@ -12,8 +12,8 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 c:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.App\App.xaml
 2-1141460808
 11020022495
-15204357760
-217-798929076
+17357767142
+2171926929078
 Ventanas\VentanaConfiguracion.xaml;Ventanas\VentanaEstadoCaptura.xaml;
 
 False

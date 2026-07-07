@@ -289,7 +289,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\7eeae72f8d98ae2f82b1eb4767baba3c\\nuget": {}
+    "C:\\Users\\Sofia Montero\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -297,7 +297,7 @@
       "projectUniqueName": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj",
       "projectName": "PluginBiometrico.Infraestructura",
       "projectPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\PluginBiometrico.Infraestructura.csproj",
-      "packagesPath": "C:\\Users\\Sofia Montero\\AppData\\Local\\Temp\\cursor-sandbox-cache\\7eeae72f8d98ae2f82b1eb4767baba3c\\nuget",
+      "packagesPath": "C:\\Users\\Sofia Montero\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Sofia Montero\\Documents\\Proyecto\\otros\\RegistroUsuarios\\registroUsuarios\\PluginBiometrico.NET\\src\\PluginBiometrico.Infraestructura\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [

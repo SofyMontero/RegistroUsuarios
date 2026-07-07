@@ -113,13 +113,21 @@ Set-Content -Path (Join-Path $salida "LEEME.txt") -Value $leeme -Encoding UTF8
 
 $archivos = (Get-ChildItem $salida -Recurse -File).Count
 $tamanoMb = [math]::Round((Get-ChildItem $salida -Recurse -File | Measure-Object Length -Sum).Sum / 1MB, 1)
+$countDpfp = (Get-ChildItem $salida -Filter "DPFP*.dll" -File -ErrorAction SilentlyContinue).Count
 
 Write-Host ""
 Write-Host "Listo. Ejecutable:" -ForegroundColor Green
 Write-Host "  $salida\PluginBiometrico.exe"
 Write-Host "  $archivos archivos, $tamanoMb MB" -ForegroundColor Gray
+Write-Host "  DLL SDK (DPFP*): $countDpfp" -ForegroundColor $(if ($countDpfp -ge 3) { "Gray" } else { "Red" })
 Write-Host "  LEEME.txt incluido para el operador" -ForegroundColor Gray
+Write-Host "  Inicio rapido: .\iniciar-plugin.ps1" -ForegroundColor Gray
 Write-Host ""
+
+if ($countDpfp -lt 3) {
+    Write-Host "ADVERTENCIA: Faltan DLL del SDK. La captura NO funcionara." -ForegroundColor Red
+    Write-Host "  Copie DPFPEngNET.dll a Librerias/ o restaure paquetes NuGet y vuelva a publicar." -ForegroundColor Yellow
+}
 
 if ($Ligero) {
     Write-Host "Modo ligero: instale .NET 8 Desktop Runtime si la PC no lo tiene:" -ForegroundColor Yellow

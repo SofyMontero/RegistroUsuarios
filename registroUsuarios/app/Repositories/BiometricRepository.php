@@ -139,6 +139,16 @@ class BiometricRepository
         );
     }
 
+    /** Enrollment directo desde React WebSDK (sin huellas_temp). */
+    public function createFingerprintTemplateDirect($documento, $huella, $imgHuella)
+    {
+        return $this->db->execute(
+            "INSERT INTO huellas (documento, nombre_dedo, huella, imgHuella)
+             VALUES (:documento, 'Indice D', :huella, :imgHuella)",
+            array('documento' => $documento, 'huella' => $huella, 'imgHuella' => $imgHuella)
+        );
+    }
+
     public function ensureTodayAttendanceRowsForActiveUsers($fechaActual)
     {
         return $this->db->execute(

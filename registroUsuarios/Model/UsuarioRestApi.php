@@ -9,6 +9,23 @@ $con = new bd();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+function leerJsonEntrada()
+{
+    $jsonString = file_get_contents("php://input");
+    if ($jsonString === false || $jsonString === '') {
+        return null;
+    }
+
+    $datos = json_decode($jsonString, true);
+    return is_array($datos) ? $datos : null;
+}
+
+function responderErrorJson($mensaje, $codigo = 400)
+{
+    http_response_code($codigo);
+    echo json_encode(array('error' => $mensaje));
+    exit;
+}
 
 // Metodo para peticiones tipo GET
 if ($method == "GET") {
@@ -47,76 +64,136 @@ if ($method == "GET") {
         $arrayObject["huella"] = $rs[$index]["huella"];
         $arrayObject["imgHuella"] = $rs[$index]["imgHuella"];
         $arrayObject["foto_usu"] = $rs[$index]["ext"];
-        // $arrayObject["ext"] = $rs[$index]["ext"];
-
-
-
-        
-
-
-
         $arrayResponse[] = $arrayObject;
     }
-//echo count($arrayResponse); die;
     echo json_encode($arrayResponse);
+    exit;
 }
 
 // Metodo para peticiones tipo POST
 if ($method == "POST") {
-    $jsonString = file_get_contents("php://input");
-    $jsonOBJ = json_decode($jsonString, true);
-    $query = "update huellas_temp set huella = '" . $jsonOBJ['huella'] . "', imgHuella = '" . $jsonOBJ['imageHuella'] . "',"
-            . "update_time = NOW(), statusPlantilla = '" . $jsonOBJ['statusPlantilla'] . "',"
-            . "texto = '" . $jsonOBJ['texto'] . "',foto_usu = '" . $jsonOBJ['foto_usu'] . "' "
-            . "where pc_serial = '" . $jsonOBJ['serial'] . "'";
+    $jsonOBJ = leerJsonEntrada();
+    if (!$jsonOBJ) {
+        responderErrorJson('JSON invalido');
+    }
 
+    // Fallback: algunos hostings bloquean PUT; el plugin puede reenviar progreso por POST.
+    if (isset($jsonOBJ['option']) && $jsonOBJ['option'] === 'actualizar') {
+        $row = $con->executePrepared(
+            "UPDATE huellas_temp SET imgHuella = :imgHuella, update_time = NOW(), "
+            . "statusPlantilla = :statusPlantilla, texto = :texto "
+            . "WHERE pc_serial = :serial",
+            array(
+                'imgHuella' => isset($jsonOBJ['imageHuella']) ? $jsonOBJ['imageHuella'] : '',
+                'statusPlantilla' => isset($jsonOBJ['statusPlantilla']) ? $jsonOBJ['statusPlantilla'] : '',
+                'texto' => isset($jsonOBJ['texto']) ? $jsonOBJ['texto'] : '',
+                'serial' => isset($jsonOBJ['serial']) ? $jsonOBJ['serial'] : '',
+            )
+        );
+        $con->desconectar();
+        echo json_encode(array('filas' => (int) $row));
+        exit;
+    }
 
-//    echo $query;
-    $row = $con->exec($query);
+    $row = $con->executePrepared(
+        "UPDATE huellas_temp SET huella = :huella, imgHuella = :imgHuella, update_time = NOW(), "
+        . "statusPlantilla = :statusPlantilla, texto = :texto, foto_usu = :foto_usu, opc = 'stop' "
+        . "WHERE pc_serial = :serial",
+        array(
+            'huella' => isset($jsonOBJ['huella']) ? $jsonOBJ['huella'] : '',
+            'imgHuella' => isset($jsonOBJ['imageHuella']) ? $jsonOBJ['imageHuella'] : '',
+            'statusPlantilla' => isset($jsonOBJ['statusPlantilla']) ? $jsonOBJ['statusPlantilla'] : '',
+            'texto' => isset($jsonOBJ['texto']) ? $jsonOBJ['texto'] : '',
+            'foto_usu' => isset($jsonOBJ['foto_usu']) ? $jsonOBJ['foto_usu'] : '',
+            'serial' => isset($jsonOBJ['serial']) ? $jsonOBJ['serial'] : '',
+        )
+    );
     $con->desconectar();
-    echo json_encode("Filas Agregadas: " . $row);
+    echo json_encode(array('filas' => (int) $row));
+    exit;
 }
-
 
 // Metodo para peticiones tipo PUT
 if ($method == "PUT") {
-    $jsonString = stripslashes(file_get_contents("php://input"));
-    $jsonOBJ = json_decode($jsonString);
-
-    if ($jsonOBJ->option == "verificar") {
-        $query = "update huellas_temp set imgHuella = '" . $jsonOBJ->imageHuella . "',"
-                . "update_time = NOW(),"
-                . "statusPlantilla = '" . $jsonOBJ->statusPlantilla . "',"
-                . "texto = '" . $jsonOBJ->texto . "',"
-                . "documento =  '" . $jsonOBJ->documento . "',"
-                . "nombre = '" . $jsonOBJ->nombre . "',"
-                . "dedo =  '" . $jsonOBJ->dedo . "', "
-                . "foto_usu = '" . $jsonOBJ->foto_usu . "' "
-                . "where pc_serial = '" . $jsonOBJ->serial . "'";
-    } else {
-        $query = "update huellas_temp set imgHuella = '" . $jsonOBJ->imageHuella . "',"
-                . "update_time = NOW(), statusPlantilla = '" . $jsonOBJ->statusPlantilla . "',"
-                . " texto = '" . $jsonOBJ->texto . "', opc = 'stop' "
-                . "where pc_serial = '" . $jsonOBJ->serial . "'";
+    $jsonOBJ = leerJsonEntrada();
+    if (!$jsonOBJ) {
+        responderErrorJson('JSON invalido');
     }
 
+    $option = isset($jsonOBJ['option']) ? $jsonOBJ['option'] : '';
 
-    $row = $con->exec($query);
+    if ($option === 'verificar') {
+        $row = $con->executePrepared(
+            "UPDATE huellas_temp SET imgHuella = :imgHuella, update_time = NOW(), "
+            . "statusPlantilla = :statusPlantilla, texto = :texto, documento = :documento, "
+            . "nombre = :nombre, dedo = :dedo, foto_usu = :foto_usu "
+            . "WHERE pc_serial = :serial",
+            array(
+                'imgHuella' => isset($jsonOBJ['imageHuella']) ? $jsonOBJ['imageHuella'] : '',
+                'statusPlantilla' => isset($jsonOBJ['statusPlantilla']) ? $jsonOBJ['statusPlantilla'] : '',
+                'texto' => isset($jsonOBJ['texto']) ? $jsonOBJ['texto'] : '',
+                'documento' => isset($jsonOBJ['documento']) ? $jsonOBJ['documento'] : '',
+                'nombre' => isset($jsonOBJ['nombre']) ? $jsonOBJ['nombre'] : '',
+                'dedo' => isset($jsonOBJ['dedo']) ? $jsonOBJ['dedo'] : '',
+                'foto_usu' => isset($jsonOBJ['foto_usu']) ? $jsonOBJ['foto_usu'] : '',
+                'serial' => isset($jsonOBJ['serial']) ? $jsonOBJ['serial'] : '',
+            )
+        );
+    } elseif ($option === 'actualizar') {
+        $row = $con->executePrepared(
+            "UPDATE huellas_temp SET imgHuella = :imgHuella, update_time = NOW(), "
+            . "statusPlantilla = :statusPlantilla, texto = :texto "
+            . "WHERE pc_serial = :serial",
+            array(
+                'imgHuella' => isset($jsonOBJ['imageHuella']) ? $jsonOBJ['imageHuella'] : '',
+                'statusPlantilla' => isset($jsonOBJ['statusPlantilla']) ? $jsonOBJ['statusPlantilla'] : '',
+                'texto' => isset($jsonOBJ['texto']) ? $jsonOBJ['texto'] : '',
+                'serial' => isset($jsonOBJ['serial']) ? $jsonOBJ['serial'] : '',
+            )
+        );
+    } else {
+        $row = $con->executePrepared(
+            "UPDATE huellas_temp SET imgHuella = :imgHuella, update_time = NOW(), "
+            . "statusPlantilla = :statusPlantilla, texto = :texto, opc = 'stop' "
+            . "WHERE pc_serial = :serial",
+            array(
+                'imgHuella' => isset($jsonOBJ['imageHuella']) ? $jsonOBJ['imageHuella'] : '',
+                'statusPlantilla' => isset($jsonOBJ['statusPlantilla']) ? $jsonOBJ['statusPlantilla'] : '',
+                'texto' => isset($jsonOBJ['texto']) ? $jsonOBJ['texto'] : '',
+                'serial' => isset($jsonOBJ['serial']) ? $jsonOBJ['serial'] : '',
+            )
+        );
+    }
+
     $con->desconectar();
-    echo json_encode("Filas Actualizadas: " . $row);
+    echo json_encode(array('filas' => (int) $row));
+    exit;
 }
-
-
 
 // Metodo para peticiones tipo PATCH
 if ($method == "PATCH") {
-    $jsonString = file_get_contents("php://input");
-    $jsonOBJ = json_decode($jsonString, true);
-    $query = "update huellas_temp set imgHuella = '" . $jsonOBJ['imgHuella'] . "',"
-            . "update_time = NOW(), statusPlantilla = '" . $jsonOBJ['statusPlantilla'] . "', texto = '" . $jsonOBJ['texto'] . "', "
-            . "documento = '" . $jsonOBJ['documento'] . "', nombre = '" . $jsonOBJ['nombre'] . "',"
-            . "dedo = '" . $jsonOBJ['dedo'] . "',foto_usu = '" . $jsonOBJ['foto_usu'] . "' where pc_serial = '" . $jsonOBJ['serial'] . "'";
-    $row = $con->exec($query);
+    $jsonOBJ = leerJsonEntrada();
+    if (!$jsonOBJ) {
+        responderErrorJson('JSON invalido');
+    }
+
+    $row = $con->executePrepared(
+        "UPDATE huellas_temp SET imgHuella = :imgHuella, update_time = NOW(), "
+        . "statusPlantilla = :statusPlantilla, texto = :texto, documento = :documento, "
+        . "nombre = :nombre, dedo = :dedo, foto_usu = :foto_usu "
+        . "WHERE pc_serial = :serial",
+        array(
+            'imgHuella' => isset($jsonOBJ['imgHuella']) ? $jsonOBJ['imgHuella'] : '',
+            'statusPlantilla' => isset($jsonOBJ['statusPlantilla']) ? $jsonOBJ['statusPlantilla'] : '',
+            'texto' => isset($jsonOBJ['texto']) ? $jsonOBJ['texto'] : '',
+            'documento' => isset($jsonOBJ['documento']) ? $jsonOBJ['documento'] : '',
+            'nombre' => isset($jsonOBJ['nombre']) ? $jsonOBJ['nombre'] : '',
+            'dedo' => isset($jsonOBJ['dedo']) ? $jsonOBJ['dedo'] : '',
+            'foto_usu' => isset($jsonOBJ['foto_usu']) ? $jsonOBJ['foto_usu'] : '',
+            'serial' => isset($jsonOBJ['serial']) ? $jsonOBJ['serial'] : '',
+        )
+    );
     $con->desconectar();
-    echo json_encode("Filas Actualizadas: " . $row);
+    echo json_encode(array('filas' => (int) $row));
+    exit;
 }

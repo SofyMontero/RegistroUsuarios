@@ -54,6 +54,24 @@ class BiometricController
         }
     }
 
+    public function createUserDirect(array $data)
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type');
+
+        try {
+            echo json_encode($this->userEnrollmentService->createDirect($data));
+        } catch (\Throwable $exception) {
+            http_response_code(500);
+            echo json_encode(array(
+                'filas' => 0,
+                'message' => 'Error interno al guardar el usuario: ' . $exception->getMessage(),
+            ));
+        }
+    }
+
     public function registerByDocument(array $request)
     {
         header('Content-Type: application/json; charset=utf-8');

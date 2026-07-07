@@ -71,4 +71,43 @@ class UserEnrollmentService
             'message' => $row > 0 ? 'Usuario creado con exito' : 'No fue posible crear el usuario',
         );
     }
+
+    /**
+     * Enrollment desde React + WebSDK: recibe plantilla e imagen sin pasar por huellas_temp.
+     */
+    public function createDirect(array $data)
+    {
+        $documento = isset($data['documento']) ? trim($data['documento']) : '';
+        $nombre = isset($data['nombre']) ? trim($data['nombre']) : '';
+        $huella = isset($data['huella']) ? trim($data['huella']) : '';
+        $imgHuella = isset($data['imgHuella']) ? trim($data['imgHuella']) : '';
+
+        if ($documento === '' || $nombre === '' || $huella === '') {
+            return array('filas' => 0, 'message' => 'Faltan datos obligatorios (documento, nombre, huella)');
+        }
+
+        if ($this->repository->getFingerprintUserByDocument($documento)) {
+            return array('filas' => 0, 'message' => 'El usuario ya tiene huella registrada');
+        }
+
+        $this->repository->markUserHasFingerprint($documento);
+        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, null, null);
+        if ($usuarioCreado < 1) {
+            return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
+        }
+
+        $row = $this->repository->createFingerprintTemplateDirect(
+            $documento,
+            $huella,
+            $imgHuella !== '' ? $imgHuella : $huella
+        );
+        if ($row < 1) {
+            return array('filas' => 0, 'message' => 'Se guardaron los datos del usuario, pero no fue posible registrar la plantilla de huella');
+        }
+
+        return array(
+            'filas' => $row,
+            'message' => 'Usuario registrado via WebSDK',
+        );
+    }
 }

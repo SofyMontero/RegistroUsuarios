@@ -90,12 +90,35 @@ public sealed class ClienteApiBiometrica : IClienteApiBiometrica
         var url = ConstruirUrlConCacheBuster(_config.UrlApiRest);
         var json = JsonSerializer.Serialize(datos, OpcionesJson);
 
-        using var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-        using var request = new HttpRequestMessage(HttpMethod.Put, url) { Content = contenido };
-        request.Headers.UserAgent.ParseAdd("Mozilla/5.0");
+        var intentoPut = true;
+        try
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Put, url)
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
+            request.Headers.UserAgent.ParseAdd("Mozilla/5.0");
+            using var response = await _http.SendAsync(request, cancellationToken);
+            intentoPut = !response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            intentoPut = true;
+        }
 
-        using var response = await _http.SendAsync(request, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        if (!intentoPut)
+        {
+            return;
+        }
+
+        using var requestPost = new HttpRequestMessage(HttpMethod.Post, url)
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
+        };
+        requestPost.Headers.UserAgent.ParseAdd("Mozilla/5.0");
+
+        using var responsePost = await _http.SendAsync(requestPost, cancellationToken);
+        responsePost.EnsureSuccessStatusCode();
     }
 
     public async Task<IReadOnlyList<PlantillaUsuario>> ObtenerPlantillasAsync(

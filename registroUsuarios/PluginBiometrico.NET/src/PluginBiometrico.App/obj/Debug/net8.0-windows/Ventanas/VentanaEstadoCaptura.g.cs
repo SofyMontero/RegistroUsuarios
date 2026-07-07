@@ -76,7 +76,7 @@ namespace PluginBiometrico.App.Ventanas {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/PluginBiometrico;component/ventanas/ventanaestadocaptura.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/PluginBiometrico;V1.0.0.0;component/ventanas/ventanaestadocaptura.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Ventanas\VentanaEstadoCaptura.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
