@@ -22,6 +22,8 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
     private Enrollment? _enrollment;
     private ModoOperacion _modo = ModoOperacion.Captura;
     private byte[]? _ultimaImagenJpeg;
+    private bool _capturaActiva;
+    private string? _lectorActivoSerial;
 
     partial void EstablecerModoCaptura()
     {
@@ -46,12 +48,14 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         }
 
         _capturador.EventHandler = this;
-        _capturador.StartCapture();
-        NotificarMensaje("Utilizando el lector de huella dactilar");
+        _capturaActiva = true;
+        ReiniciarCapturaEnLector("Iniciando captura");
     }
 
     partial void DetenerCapturaReal()
     {
+        _capturaActiva = false;
+
         if (_capturador is not null)
         {
             try
@@ -65,14 +69,59 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         }
     }
 
+    private void ReiniciarCapturaEnLector(string motivo)
+    {
+        if (_capturador is null || !_capturaActiva)
+        {
+            return;
+        }
+
+        try
+        {
+            try
+            {
+                _capturador.StopCapture();
+            }
+            catch
+            {
+                // puede no estar activa aún
+            }
+
+            _capturador.StartCapture();
+            NotificarMensaje("Utilizando el lector de huella dactilar");
+            NotificarMensaje($"{motivo}. Coloque el dedo firmemente 2-3 segundos.");
+        }
+        catch (Exception ex)
+        {
+            NotificarMensaje($"No se pudo activar el lector: {ex.Message}");
+        }
+    }
+
+    private static bool EsLectorDigitalPersona(string readerSerialNumber) =>
+        readerSerialNumber.Contains("05BA", StringComparison.OrdinalIgnoreCase)
+        || readerSerialNumber.Contains("Digital Persona", StringComparison.OrdinalIgnoreCase)
+        || readerSerialNumber.Contains("U.are.U", StringComparison.OrdinalIgnoreCase);
+
     partial void LiberarRecursosReal()
     {
+        _capturaActiva = false;
         _capturador = null;
         _enrollment = null;
+        _lectorActivoSerial = null;
     }
 
     public void OnComplete(object capture, string readerSerialNumber, Sample sample)
     {
+        _lectorActivoSerial = readerSerialNumber;
+
+        if (!EsLectorDigitalPersona(readerSerialNumber))
+        {
+            NotificarMensaje(
+                "La muestra llegó desde un lector incompatible (probablemente WBF del portátil). " +
+                "Desactive 'ELAN WBF Fingerprint Sensor' en Administrador de dispositivos y use solo U.are.U 4500.");
+            return;
+        }
+
         if (_modo == ModoOperacion.Verificacion)
         {
             ProcesarMuestraVerificacion(sample);
@@ -83,19 +132,58 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         }
     }
 
-    public void OnFingerTouch(object capture, string readerSerialNumber) =>
+    public void OnFingerTouch(object capture, string readerSerialNumber)
+    {
+        if (!EsLectorDigitalPersona(readerSerialNumber))
+        {
+            NotificarMensaje("Use el lector U.are.U 4500 (USB), no el sensor integrado del portátil.");
+            return;
+        }
+
         NotificarMensaje("Dedo colocado sobre el lector.");
+    }
 
     public void OnFingerGone(object capture, string readerSerialNumber) =>
         NotificarMensaje("Dedo retirado del lector.");
 
-    public void OnReaderConnect(object capture, string readerSerialNumber) =>
-        NotificarMensaje("Sensor activado o conectado.");
+    public void OnReaderConnect(object capture, string readerSerialNumber)
+    {
+        _lectorActivoSerial = readerSerialNumber;
 
-    public void OnReaderDisconnect(object capture, string readerSerialNumber) =>
+        if (EsLectorDigitalPersona(readerSerialNumber))
+        {
+            NotificarMensaje($"U.are.U conectado ({readerSerialNumber}).");
+            if (_capturaActiva)
+            {
+                ReiniciarCapturaEnLector("Lector USB listo");
+            }
+            return;
+        }
+
+        NotificarMensaje(
+            $"Sensor detectado: {readerSerialNumber}. Si no es U.are.U 4500, desactívelo en Administrador de dispositivos.");
+    }
+
+    public void OnReaderDisconnect(object capture, string readerSerialNumber)
+    {
+        if (EsLectorDigitalPersona(readerSerialNumber))
+        {
+            NotificarMensaje("U.are.U desconectado. Verifique el cable USB.");
+            return;
+        }
+
         NotificarMensaje("Sensor desactivado o no conectado.");
+    }
 
-    public void OnSampleQuality(object capture, string readerSerialNumber, CaptureFeedback feedback) { }
+    public void OnSampleQuality(object capture, string readerSerialNumber, CaptureFeedback feedback)
+    {
+        if (feedback is CaptureFeedback.Good or CaptureFeedback.None)
+        {
+            return;
+        }
+
+        NotificarMensaje($"Calidad insuficiente ({feedback}). Limpie el lector y presione el dedo de nuevo 2-3 s.");
+    }
 
     public void OnFeatureSet(object capture, string readerSerialNumber, FeatureSet featureSet) { }
 
@@ -108,9 +196,13 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
 
         NotificarMensaje("Huella dactilar capturada.");
 
-        var features = ExtraerCaracteristicas(sample, DataPurpose.Enrollment);
+        var features = ExtraerCaracteristicas(sample, DataPurpose.Enrollment, out var feedbackCalidad);
         if (features is null)
         {
+            var detalle = feedbackCalidad is CaptureFeedback.Good or CaptureFeedback.None
+                ? "No se pudieron extraer características"
+                : $"Calidad: {feedbackCalidad}";
+            NotificarMensaje($"Muestra rechazada ({detalle}). Intente de nuevo con el dedo seco y centrado.");
             return;
         }
 
@@ -167,9 +259,10 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
     {
         NotificarMensaje("Huella dactilar capturada.");
 
-        var features = ExtraerCaracteristicas(sample, DataPurpose.Verification);
+        var features = ExtraerCaracteristicas(sample, DataPurpose.Verification, out _);
         if (features is null)
         {
+            NotificarMensaje("Muestra no válida para verificación. Intente de nuevo.");
             return;
         }
 
@@ -183,12 +276,15 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         });
     }
 
-    private static FeatureSet? ExtraerCaracteristicas(Sample sample, DataPurpose proposito)
+    private static FeatureSet? ExtraerCaracteristicas(
+        Sample sample,
+        DataPurpose proposito,
+        out CaptureFeedback feedback)
     {
+        feedback = CaptureFeedback.Good;
         var extractor = new FeatureExtraction();
         try
         {
-            CaptureFeedback feedback = CaptureFeedback.Good;
             FeatureSet features = new();
             extractor.CreateFeatureSet(sample, proposito, ref feedback, ref features);
 
@@ -201,6 +297,7 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         }
         catch
         {
+            feedback = CaptureFeedback.None;
             return null;
         }
     }

@@ -10,3 +10,7 @@ C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuario
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Release\net8.0\PluginBiometrico.Infraestructura.dll
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Release\net8.0\refint\PluginBiometrico.Infraestructura.dll
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Release\net8.0\ref\PluginBiometrico.Infraestructura.dll
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\bin\Release\net8.0\PluginBiometrico.Infraestructura.pdb
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\bin\Release\net8.0\PluginBiometrico.Core.pdb
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Release\net8.0\PluginBiometrico.Infraestructura.sourcelink.json
+C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Infraestructura\obj\Release\net8.0\PluginBiometrico.Infraestructura.pdb
