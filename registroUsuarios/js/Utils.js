@@ -70,9 +70,14 @@ function saveSrnPc() {
 //    localStorage.removeItem("srnPc");
 }
 
-$("#refrescar").click(function () {
-    window.location = "index.php"
-})
+function enlaceRefrescarIndex() {
+    if (typeof jQuery === "undefined") {
+        return;
+    }
+    jQuery("#refrescar").click(function () {
+        window.location = "index.php";
+    });
+}
 
 
 function saveToken() {

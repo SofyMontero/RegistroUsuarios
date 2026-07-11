@@ -129,6 +129,36 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
             .Equals(GuidSensorIntegradoWbf, StringComparison.OrdinalIgnoreCase);
     }
 
+    /// <summary>
+    /// OnComplete a veces llega con serial vacío aunque el dedo fue en el U.are.U.
+    /// </summary>
+    private string ResolverSerialLector(string readerSerialNumber)
+    {
+        if (!string.IsNullOrWhiteSpace(readerSerialNumber)
+            && !EsSensorIntegradoWbf(readerSerialNumber))
+        {
+            return readerSerialNumber.Trim();
+        }
+
+        if (!string.IsNullOrWhiteSpace(_lectorUsbSerial))
+        {
+            return _lectorUsbSerial;
+        }
+
+        if (!string.IsNullOrWhiteSpace(UltimoLectorUsbConocido))
+        {
+            return UltimoLectorUsbConocido;
+        }
+
+        return readerSerialNumber?.Trim() ?? string.Empty;
+    }
+
+    private bool DebeIgnorarEvento(string readerSerialNumber)
+    {
+        var serial = ResolverSerialLector(readerSerialNumber);
+        return EsSensorIntegradoWbf(serial);
+    }
+
     partial void LiberarRecursosReal()
     {
         _capturaActiva = false;
@@ -140,14 +170,16 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
 
     public void OnComplete(object capture, string readerSerialNumber, Sample sample)
     {
-        RegistrarLectorUsb(readerSerialNumber);
-        _lectorActivoSerial = readerSerialNumber;
+        var serial = ResolverSerialLector(readerSerialNumber);
 
-        if (EsSensorIntegradoWbf(readerSerialNumber))
+        if (EsSensorIntegradoWbf(serial))
         {
+            NotificarMensaje("Muestra descartada (sensor integrado). Use el U.are.U USB.");
             return;
         }
 
+        RegistrarLectorUsb(serial);
+        _lectorActivoSerial = serial;
         NotificarMensaje("Huella dactilar capturada.");
 
         if (_modo == ModoOperacion.Verificacion)
@@ -162,25 +194,18 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
 
     public void OnFingerTouch(object capture, string readerSerialNumber)
     {
-        if (EsSensorIntegradoWbf(readerSerialNumber))
+        if (DebeIgnorarEvento(readerSerialNumber))
         {
             return;
         }
 
-        RegistrarLectorUsb(readerSerialNumber);
-
-        if (_lectorUsbSerial is not null
-            && !readerSerialNumber.Equals(_lectorUsbSerial, StringComparison.OrdinalIgnoreCase))
-        {
-            return;
-        }
-
+        RegistrarLectorUsb(ResolverSerialLector(readerSerialNumber));
         NotificarMensaje("Dedo colocado sobre el lector U.are.U.");
     }
 
     public void OnFingerGone(object capture, string readerSerialNumber)
     {
-        if (EsSensorIntegradoWbf(readerSerialNumber))
+        if (DebeIgnorarEvento(readerSerialNumber))
         {
             return;
         }

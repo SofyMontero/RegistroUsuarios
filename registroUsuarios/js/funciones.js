@@ -74,6 +74,14 @@ function selectorPorToken(token) {
     return "[id='" + String(token).replace(/'/g, "\\'") + "']";
 }
 
+function uriImagenHuella(base64) {
+    if (base64 == null || String(base64).length === 0) {
+        return "";
+    }
+    var mime = String(base64).indexOf("/9j/") === 0 ? "jpeg" : "png";
+    return "data:image/" + mime + ";base64," + base64;
+}
+
 function actualizarVistaCaptura(json) {
     var id = json.id || obtenerTokenSesion();
     var imageHuella = json.imgHuella;
@@ -92,7 +100,7 @@ function actualizarVistaCaptura(json) {
         $("#fingerPrint").css("display", "block");
         $("#sensorPlaceholder").hide();
         if ($img.length) {
-            $img.attr("src", "data:image/png;base64," + imageHuella);
+            $img.attr("src", uriImagenHuella(imageHuella));
         }
     }
 }
@@ -272,13 +280,44 @@ function startEnrollPolling() {
     }
     enrollPollingEnabled = true;
     clearTimeout(enrollPollingTimer);
+    conectarPluginWebSocket();
     cargar_push1();
+}
+
+function conectarPluginWebSocket() {
+    if (typeof PluginBiometricoWs === "undefined") {
+        return;
+    }
+    PluginBiometricoWs.conectar(17890, function (evento) {
+        if (!enrollPollingEnabled || !evento) {
+            return;
+        }
+        if (evento.tipo === "captura_progreso" && evento.datos) {
+            actualizarVistaCaptura({
+                id: obtenerTokenSesion(),
+                imgHuella: evento.datos.imagenHuella,
+                statusPlantilla: evento.datos.estadoPlantilla,
+                texto: evento.datos.mensaje
+            });
+        }
+        if (evento.tipo === "captura_completada" && evento.datos) {
+            actualizarVistaCaptura({
+                id: obtenerTokenSesion(),
+                imgHuella: evento.datos.imagenHuella,
+                statusPlantilla: evento.datos.estadoPlantilla,
+                texto: evento.datos.mensaje
+            });
+        }
+    });
 }
 
 function stopEnrollPolling() {
     enrollPollingEnabled = false;
     clearTimeout(enrollPollingTimer);
     enrollPollingTimer = null;
+    if (typeof PluginBiometricoWs !== "undefined") {
+        PluginBiometricoWs.cerrar();
+    }
 }
 
 function getParameterByName(name) {
