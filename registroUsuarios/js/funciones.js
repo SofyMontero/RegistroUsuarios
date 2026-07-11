@@ -6,42 +6,6 @@ var timestamp = null;
 var aux ='';
 var enrollPollingEnabled = false;
 var enrollPollingTimer = null;
-var stationToken = null;
-
-function setStationToken(token) {
-    stationToken = (token || '').replace(/^\s+|\s+$/g, '');
-}
-
-function getStationToken() {
-    if (stationToken) {
-        return stationToken;
-    }
-    return typeof obtenerTokenSesion === 'function' ? obtenerTokenSesion() : '';
-}
-
-function mostrarPanelCaptura() {
-    $("#fingerPrint").css("display", "block");
-    $("#sensorPlaceholder").hide();
-}
-
-function actualizarVistaCaptura(json) {
-    var id = json["id"] || getStationToken();
-    if (!id) {
-        return;
-    }
-
-    mostrarPanelCaptura();
-    $("#" + id + "_status").text(json["statusPlantilla"] || '');
-    $("#" + id + "_texto").text(json["texto"] || '');
-
-    var imageHuella = json["imgHuella"];
-    if (imageHuella && String(imageHuella).length > 20) {
-        var src = String(imageHuella).indexOf('data:image') === 0
-            ? imageHuella
-            : "data:image/jpeg;base64," + imageHuella;
-        $("#" + id).attr("src", src);
-    }
-}
 
 
 function enviar_valores(valor){
@@ -72,30 +36,65 @@ function borrartemp(tok) {
 }
 
 function activarSensor(srn) {
-    setStationToken(srn);
-    timestamp = 0;
+    var token = (srn || obtenerTokenSesion()).replace(/^\s+|\s+$/g, "");
+    if (!token) {
+        showMessageBox("No hay token de sesion. Abra index.php primero.", "warning");
+        return;
+    }
+
+    $("#fingerPrint").css("display", "block");
+    $("#sensorPlaceholder").hide();
+    $("#activeSensorLocal").attr("disabled", true);
 
     $.ajax({
         async: true,
         type: "POST",
         url: "Model/ActivarSensorAdd.php",
-        data: { token: srn },
+        data: { token: token },
         dataType: "json",
         success: function (data) {
             var json = (typeof data === "string") ? JSON.parse(data) : data;
-            console.log(json);
-            if (json["filas"] === 1) {
-                $("#activeSensorLocal").attr("disabled", true);
-                mostrarPanelCaptura();
+            console.log("ActivarSensorAdd:", json);
+            if (Number(json.filas) >= 1) {
                 startEnrollPolling();
             } else {
-                showMessageBox("No se pudo activar el sensor. Revise la conexion con el servidor.", "warning");
+                showMessageBox("No se pudo activar el sensor en el servidor.", "warning");
+                $("#activeSensorLocal").attr("disabled", false);
             }
         },
-        error: function () {
-            showMessageBox("Error al activar el sensor. Verifique que ActivarSensorAdd.php responda en el servidor.", "danger");
+        error: function (xhr) {
+            console.error("ActivarSensorAdd error", xhr.status, xhr.responseText);
+            showMessageBox("Error al activar el sensor. Revise la consola (F12).", "danger");
+            $("#activeSensorLocal").attr("disabled", false);
         }
     });
+}
+
+function selectorPorToken(token) {
+    return "[id='" + String(token).replace(/'/g, "\\'") + "']";
+}
+
+function actualizarVistaCaptura(json) {
+    var id = json.id || obtenerTokenSesion();
+    var imageHuella = json.imgHuella;
+    var $img = $(selectorPorToken(id));
+    var $status = $(selectorPorToken(id + "_status"));
+    var $texto = $(selectorPorToken(id + "_texto"));
+
+    if ($status.length) {
+        $status.text(json.statusPlantilla || "");
+    }
+    if ($texto.length) {
+        $texto.val(json.texto || "");
+    }
+
+    if (imageHuella != null && String(imageHuella).length > 0) {
+        $("#fingerPrint").css("display", "block");
+        $("#sensorPlaceholder").hide();
+        if ($img.length) {
+            $img.attr("src", "data:image/png;base64," + imageHuella);
+        }
+    }
 }
 
 
@@ -123,8 +122,8 @@ function addUser(srn) {
             var json = (typeof data === "string") ? JSON.parse(data) : data;
             if (json["filas"] === 1) {
                 console.log(srn)
-                $("#" + srn).attr("src", "imagenes/finger.png");
-                $("#" + srn + "_texto").text("El sensor esta activado");
+                $(selectorPorToken(srn)).attr("src", "imagenes/finger.png");
+                $(selectorPorToken(srn + "_texto")).val("El sensor esta activado");
                 $("#fingerPrint").css("display", "none");
                 stopEnrollPolling();
                 showMessageBox(json["message"] || "Usuario creado con exito", "success");
@@ -217,40 +216,45 @@ function cargar_push1() {
         return;
     }
 
-    var token = getStationToken();
+// if (true) {
+
+
+    
+// }else{
+
+//     var estado}
+    
+
+var token = obtenerTokenSesion();
     $.ajax({
         async: true,
         type: "POST",
         url: "Model/httpush1.php",
-        data: {
-            tipo: aux,
-            timestamp: timestamp || 0,
-            token: token
-        },
+        data: { tipo: aux, timestamp: timestamp, token: token },
         dataType: "json",
-        timeout: 15000,
         success: function (data) {
             var json = (typeof data === "string") ? JSON.parse(data) : data;
-            if (json["timestamp"] !== false && json["timestamp"] !== null && json["timestamp"] !== undefined) {
-                timestamp = json["timestamp"];
+            if (json.error) {
+                console.error("httpush1:", json.error);
+            } else {
+                timestamp = json.timestamp;
+                actualizarVistaCaptura(json);
+                if (json.tipo === "leer") {
+                    $("#documento").val(json.documento);
+                    $("#nombre").val(json.nombre);
+                    $("#imageUser").attr("src", "imagenes/" + json.foto_usu);
+                    borrartemp(token);
+                    timestamp = 0;
+                }
             }
-            actualizarVistaCaptura(json);
-
-            var tipo = json["tipo"];
-            if (tipo === "leer") {
-                $("#documento").val(json["documento"]);
-                $("#nombre").val(json["nombre"]);
-                borrartemp(token);
-                timestamp = 0;
-            }
-
             if (enrollPollingEnabled) {
                 enrollPollingTimer = setTimeout(function () {
                     cargar_push1();
                 }, 1000);
             }
         },
-        error: function () {
+        error: function (xhr) {
+            console.error("httpush1 error", xhr.status, xhr.responseText);
             if (enrollPollingEnabled) {
                 enrollPollingTimer = setTimeout(function () {
                     cargar_push1();
@@ -258,6 +262,8 @@ function cargar_push1() {
             }
         }
     });
+    
+    // alert(aux);
 }
 
 function startEnrollPolling() {

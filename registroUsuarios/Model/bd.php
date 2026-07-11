@@ -52,11 +52,4 @@ class bd {
          return $this->stm->rowCount();        
     }
 
-    public function executePrepared($query, array $params = array())
-    {
-        $this->stm = $this->con->prepare($query);
-        $this->stm->execute($params);
-        return $this->stm->rowCount();
-    }
-
 }

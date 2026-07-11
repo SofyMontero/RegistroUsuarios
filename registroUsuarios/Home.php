@@ -145,8 +145,6 @@ list($token, $sede) = requerir_token_sesion();
 
     <script src="js/funciones.js" type="text/javascript"></script>
     <script>
-        setStationToken(<?php echo json_encode($token); ?>);
-
         (function () {
             var observer = new MutationObserver(function () {
                 var visible = $("#fingerPrint").css("display") !== "none";

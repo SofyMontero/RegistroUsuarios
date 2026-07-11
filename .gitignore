@@ -1,3 +1,4 @@
 # Logs de depuración del plugin (pueden crecer a cientos de MB)
 debug-b6010c.log
 debug-*.log
+*.log
