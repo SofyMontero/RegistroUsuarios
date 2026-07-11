@@ -27,6 +27,9 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
     private string? _lectorActivoSerial;
     private string? _lectorUsbSerial;
 
+    /// <summary>Recuerda el U.are.U entre sesiones (cada captura crea un lector nuevo).</summary>
+    private static string? UltimoLectorUsbConocido;
+
     partial void EstablecerModoCaptura()
     {
         _modo = ModoOperacion.Captura;
@@ -54,14 +57,21 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         _capturador.EventHandler = this;
         _capturaActiva = true;
         _escuchaActiva = false;
+        _lectorUsbSerial = UltimoLectorUsbConocido;
 
-        if (_lectorUsbSerial is not null)
+        // Igual que el plugin Java: startCapture() de inmediato (el lector ya puede estar conectado).
+        ActivarEscuchaLector("Iniciando captura");
+    }
+
+    private void RegistrarLectorUsb(string readerSerialNumber)
+    {
+        if (EsSensorIntegradoWbf(readerSerialNumber))
         {
-            ActivarEscuchaLector("Iniciando captura");
             return;
         }
 
-        NotificarMensaje("Espere el mensaje 'U.are.U listo' antes de colocar el dedo.");
+        UltimoLectorUsbConocido = readerSerialNumber.Trim();
+        _lectorUsbSerial = UltimoLectorUsbConocido;
     }
 
     partial void DetenerCapturaReal()
@@ -126,11 +136,11 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         _capturador = null;
         _enrollment = null;
         _lectorActivoSerial = null;
-        _lectorUsbSerial = null;
     }
 
     public void OnComplete(object capture, string readerSerialNumber, Sample sample)
     {
+        RegistrarLectorUsb(readerSerialNumber);
         _lectorActivoSerial = readerSerialNumber;
 
         if (EsSensorIntegradoWbf(readerSerialNumber))
@@ -156,6 +166,8 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         {
             return;
         }
+
+        RegistrarLectorUsb(readerSerialNumber);
 
         if (_lectorUsbSerial is not null
             && !readerSerialNumber.Equals(_lectorUsbSerial, StringComparison.OrdinalIgnoreCase))
@@ -183,14 +195,9 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
             return;
         }
 
+        RegistrarLectorUsb(readerSerialNumber);
         _lectorActivoSerial = readerSerialNumber;
-        _lectorUsbSerial = readerSerialNumber;
-        NotificarMensaje($"U.are.U listo ({readerSerialNumber}). Ya puede colocar el dedo.");
-
-        if (_capturaActiva)
-        {
-            ActivarEscuchaLector("Lector USB conectado");
-        }
+        NotificarMensaje($"U.are.U listo ({readerSerialNumber}).");
     }
 
     public void OnReaderDisconnect(object capture, string readerSerialNumber)
