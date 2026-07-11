@@ -1,4 +1,61 @@
-# Logs de depuración del plugin (pueden crecer a cientos de MB)
-debug-b6010c.log
-debug-*.log
+# --- Logs y depuración (pueden superar 100 MB) ---
 *.log
+debug-*.log
+debug-b6010c.log
+logs/
+
+# --- .NET / PluginBiometrico.NET ---
+**/bin/
+**/obj/
+**/.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+publish/
+publish-ligero/
+publish-test-opt/
+publish-test-dep/
+publish_old_*/
+dist-cliente/
+*.zip
+
+# --- Java / PluginBiometricoV4 (legacy) ---
+**/build/
+**/dist/
+**/nbproject/private/
+**/store/*.jar
+
+# --- Node / React (registroUsuarios-web) ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.example
+
+# WebSdk real del Lite Client (copiar manualmente en cada PC)
+registroUsuarios-web/public/websdk/websdk.client.ui.min.js
+
+# --- PHP / credenciales locales ---
+registroUsuarios/config/database.php
+
+# --- IDE y SO ---
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Cursor / assets temporales ---
+.cursor/
+assets/
+
+# --- NuGet / paquetes locales ---
+*.nupkg
+packages/

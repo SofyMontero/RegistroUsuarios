@@ -7,6 +7,3 @@ C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuario
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Core\obj\Release\net8.0\PluginBiometrico.Core.dll
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Core\obj\Release\net8.0\refint\PluginBiometrico.Core.dll
 C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Core\obj\Release\net8.0\ref\PluginBiometrico.Core.dll
-C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Core\bin\Release\net8.0\PluginBiometrico.Core.pdb
-C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Core\obj\Release\net8.0\PluginBiometrico.Core.sourcelink.json
-C:\Users\Sofia Montero\Documents\Proyecto\otros\RegistroUsuarios\registroUsuarios\PluginBiometrico.NET\src\PluginBiometrico.Core\obj\Release\net8.0\PluginBiometrico.Core.pdb

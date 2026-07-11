@@ -17,9 +17,45 @@ $salida = Join-Path $raiz "publish"
 $proyecto = Join-Path $raiz "src\PluginBiometrico.App\PluginBiometrico.App.csproj"
 $distCliente = Join-Path $raiz "dist-cliente"
 
-if (Test-Path $salida) {
-    Remove-Item $salida -Recurse -Force
+function Stop-PluginBiometrico {
+    Get-Process -Name "PluginBiometrico" -ErrorAction SilentlyContinue | ForEach-Object {
+        Write-Host "Cerrando PluginBiometrico (PID $($_.Id))..." -ForegroundColor Yellow
+        Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
+    }
+    Start-Sleep -Seconds 2
 }
+
+function Remove-PublishFolder {
+    param([string]$Path)
+
+    if (-not (Test-Path $Path)) {
+        return
+    }
+
+    Stop-PluginBiometrico
+
+    for ($intento = 1; $intento -le 3; $intento++) {
+        try {
+            Remove-Item $Path -Recurse -Force -ErrorAction Stop
+            return
+        }
+        catch {
+            if ($intento -eq 3) {
+                $backup = "${Path}_old_$(Get-Date -Format 'yyyyMMddHHmmss')"
+                Write-Host "No se pudo borrar publish (archivos en uso). Renombrando a:" -ForegroundColor Yellow
+                Write-Host "  $backup" -ForegroundColor Gray
+                Rename-Item $Path $backup -Force
+                return
+            }
+
+            Write-Host "Archivos bloqueados, reintento $intento/3..." -ForegroundColor Yellow
+            Stop-PluginBiometrico
+            Start-Sleep -Seconds 2
+        }
+    }
+}
+
+Remove-PublishFolder -Path $salida
 
 $modo = if ($Ligero) { "LIGERO" } else { "AUTOCONTENIDO" }
 Write-Host "Publicando modo $modo..." -ForegroundColor Cyan

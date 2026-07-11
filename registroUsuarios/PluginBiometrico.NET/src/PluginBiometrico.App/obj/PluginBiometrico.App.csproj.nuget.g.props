@@ -4,15 +4,15 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Sofia Montero\.nuget\packages\</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\AppData\Local\Temp\cursor-sandbox-cache\09462c38e6719265e8a5512d8a6334a9\nuget</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\09462c38e6719265e8a5512d8a6334a9\nuget</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.14.3</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="C:\Users\Sofia Montero\.nuget\packages\" />
+    <SourceRoot Include="C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\09462c38e6719265e8a5512d8a6334a9\nuget\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgDigitalPersona_NET Condition=" '$(PkgDigitalPersona_NET)' == '' ">C:\Users\Sofia Montero\.nuget\packages\digitalpersona.net\1.4.0</PkgDigitalPersona_NET>
+    <PkgDigitalPersona_NET Condition=" '$(PkgDigitalPersona_NET)' == '' ">C:\Users\Sofia Montero\AppData\Local\Temp\cursor-sandbox-cache\09462c38e6719265e8a5512d8a6334a9\nuget\digitalpersona.net\1.4.0</PkgDigitalPersona_NET>
   </PropertyGroup>
 </Project>
