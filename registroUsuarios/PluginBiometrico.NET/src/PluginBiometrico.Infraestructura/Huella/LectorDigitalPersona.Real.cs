@@ -23,7 +23,9 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
     private ModoOperacion _modo = ModoOperacion.Captura;
     private byte[]? _ultimaImagenJpeg;
     private bool _capturaActiva;
+    private bool _escuchaActiva;
     private string? _lectorActivoSerial;
+    private string? _lectorUsbSerial;
 
     partial void EstablecerModoCaptura()
     {
@@ -39,22 +41,33 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
 
     partial void IniciarCapturaReal()
     {
-        _capturador ??= new Capture();
-
-        if (_capturador is null)
+        try
         {
-            NotificarMensaje("No se pudo iniciar el lector de huellas.");
+            _capturador?.StopCapture();
+        }
+        catch
+        {
+            // ignorar
+        }
+
+        _capturador = new Capture();
+        _capturador.EventHandler = this;
+        _capturaActiva = true;
+        _escuchaActiva = false;
+
+        if (_lectorUsbSerial is not null)
+        {
+            ActivarEscuchaLector("Iniciando captura");
             return;
         }
 
-        _capturador.EventHandler = this;
-        _capturaActiva = true;
-        ReiniciarCapturaEnLector("Iniciando captura");
+        NotificarMensaje("Espere el mensaje 'U.are.U listo' antes de colocar el dedo.");
     }
 
     partial void DetenerCapturaReal()
     {
         _capturaActiva = false;
+        _escuchaActiva = false;
 
         if (_capturador is not null)
         {
@@ -69,27 +82,19 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         }
     }
 
-    private void ReiniciarCapturaEnLector(string motivo)
+    private void ActivarEscuchaLector(string motivo)
     {
-        if (_capturador is null || !_capturaActiva)
+        if (_capturador is null || !_capturaActiva || _escuchaActiva)
         {
             return;
         }
 
         try
         {
-            try
-            {
-                _capturador.StopCapture();
-            }
-            catch
-            {
-                // puede no estar activa aún
-            }
-
             _capturador.StartCapture();
+            _escuchaActiva = true;
             NotificarMensaje("Utilizando el lector de huella dactilar");
-            NotificarMensaje($"{motivo}. Coloque el dedo firmemente 2-3 segundos.");
+            NotificarMensaje($"{motivo}. Presione el dedo 4 segundos y retírelo despacio.");
         }
         catch (Exception ex)
         {
@@ -97,30 +102,43 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         }
     }
 
-    private static bool EsLectorDigitalPersona(string readerSerialNumber) =>
-        readerSerialNumber.Contains("05BA", StringComparison.OrdinalIgnoreCase)
-        || readerSerialNumber.Contains("Digital Persona", StringComparison.OrdinalIgnoreCase)
-        || readerSerialNumber.Contains("U.are.U", StringComparison.OrdinalIgnoreCase);
+    private static readonly string GuidSensorIntegradoWbf = "00000000-0000-0000-0000-000000000000";
+
+    /// <summary>
+    /// El SDK reporta el sensor WBF del portátil con GUID vacío.
+    /// U.are.U 4500 usa un GUID real (ej. 39cae277-7977-7348-bcac-...).
+    /// </summary>
+    private static bool EsSensorIntegradoWbf(string readerSerialNumber)
+    {
+        if (string.IsNullOrWhiteSpace(readerSerialNumber))
+        {
+            return true;
+        }
+
+        return readerSerialNumber.Trim()
+            .Equals(GuidSensorIntegradoWbf, StringComparison.OrdinalIgnoreCase);
+    }
 
     partial void LiberarRecursosReal()
     {
         _capturaActiva = false;
+        _escuchaActiva = false;
         _capturador = null;
         _enrollment = null;
         _lectorActivoSerial = null;
+        _lectorUsbSerial = null;
     }
 
     public void OnComplete(object capture, string readerSerialNumber, Sample sample)
     {
         _lectorActivoSerial = readerSerialNumber;
 
-        if (!EsLectorDigitalPersona(readerSerialNumber))
+        if (EsSensorIntegradoWbf(readerSerialNumber))
         {
-            NotificarMensaje(
-                "La muestra llegó desde un lector incompatible (probablemente WBF del portátil). " +
-                "Desactive 'ELAN WBF Fingerprint Sensor' en Administrador de dispositivos y use solo U.are.U 4500.");
             return;
         }
+
+        NotificarMensaje("Huella dactilar capturada.");
 
         if (_modo == ModoOperacion.Verificacion)
         {
@@ -134,45 +152,56 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
 
     public void OnFingerTouch(object capture, string readerSerialNumber)
     {
-        if (!EsLectorDigitalPersona(readerSerialNumber))
+        if (EsSensorIntegradoWbf(readerSerialNumber))
         {
-            NotificarMensaje("Use el lector U.are.U 4500 (USB), no el sensor integrado del portátil.");
             return;
         }
 
-        NotificarMensaje("Dedo colocado sobre el lector.");
+        if (_lectorUsbSerial is not null
+            && !readerSerialNumber.Equals(_lectorUsbSerial, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        NotificarMensaje("Dedo colocado sobre el lector U.are.U.");
     }
 
-    public void OnFingerGone(object capture, string readerSerialNumber) =>
-        NotificarMensaje("Dedo retirado del lector.");
+    public void OnFingerGone(object capture, string readerSerialNumber)
+    {
+        if (EsSensorIntegradoWbf(readerSerialNumber))
+        {
+            return;
+        }
+
+        NotificarMensaje("Dedo retirado. Si no apareció 'Huella capturada', presione 4 segundos la próxima vez.");
+    }
 
     public void OnReaderConnect(object capture, string readerSerialNumber)
     {
-        _lectorActivoSerial = readerSerialNumber;
-
-        if (EsLectorDigitalPersona(readerSerialNumber))
+        if (EsSensorIntegradoWbf(readerSerialNumber))
         {
-            NotificarMensaje($"U.are.U conectado ({readerSerialNumber}).");
-            if (_capturaActiva)
-            {
-                ReiniciarCapturaEnLector("Lector USB listo");
-            }
             return;
         }
 
-        NotificarMensaje(
-            $"Sensor detectado: {readerSerialNumber}. Si no es U.are.U 4500, desactívelo en Administrador de dispositivos.");
+        _lectorActivoSerial = readerSerialNumber;
+        _lectorUsbSerial = readerSerialNumber;
+        NotificarMensaje($"U.are.U listo ({readerSerialNumber}). Ya puede colocar el dedo.");
+
+        if (_capturaActiva)
+        {
+            ActivarEscuchaLector("Lector USB conectado");
+        }
     }
 
     public void OnReaderDisconnect(object capture, string readerSerialNumber)
     {
-        if (EsLectorDigitalPersona(readerSerialNumber))
+        if (EsSensorIntegradoWbf(readerSerialNumber))
         {
-            NotificarMensaje("U.are.U desconectado. Verifique el cable USB.");
+            NotificarMensaje("Sensor integrado desactivado.");
             return;
         }
 
-        NotificarMensaje("Sensor desactivado o no conectado.");
+        NotificarMensaje("U.are.U desconectado. Verifique el cable USB.");
     }
 
     public void OnSampleQuality(object capture, string readerSerialNumber, CaptureFeedback feedback)
@@ -193,8 +222,6 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         {
             return;
         }
-
-        NotificarMensaje("Huella dactilar capturada.");
 
         var features = ExtraerCaracteristicas(sample, DataPurpose.Enrollment, out var feedbackCalidad);
         if (features is null)
@@ -238,6 +265,7 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
 
                 case Enrollment.Status.Failed:
                     _enrollment.Clear();
+                    _escuchaActiva = false;
                     DetenerCapturaReal();
                     NotificarMuestra(new EventoMuestraHuella
                     {
