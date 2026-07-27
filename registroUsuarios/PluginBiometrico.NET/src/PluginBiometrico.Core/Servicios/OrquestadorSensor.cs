@@ -17,6 +17,9 @@ public sealed class OrquestadorSensor
     private readonly Action<string, string, string, object?>? _depuracion;
 
     private long _ultimaFechaConocida;
+    private CancellationTokenSource? _cancelacionOperacion;
+    private Task? _operacionActiva;
+    private string? _tipoOperacionActiva;
 
     public OrquestadorSensor(
         IClienteApiBiometrica api,
@@ -74,17 +77,38 @@ public sealed class OrquestadorSensor
                 switch (comando.Operacion)
                 {
                     case "capturar":
-                        _registro.Info("Comando recibido: CAPTURAR huella.");
-                        await _procesador.ProcesarCapturaAsync(comando, cancellationToken);
+                        if (await CambiarOperacionAsync(
+                            "capturar",
+                            comando.FechaCreacion,
+                            token => _procesador.ProcesarCapturaAsync(comando, token),
+                            cancellationToken))
+                        {
+                            _registro.Info("Comando recibido: CAPTURAR huella.");
+                        }
+                        else
+                        {
+                            await Task.Delay(300, cancellationToken);
+                        }
                         break;
 
                     case "leer":
-                        _registro.Info("Comando recibido: LEER huella.");
-                        await _procesador.ProcesarLecturaAsync(comando, cancellationToken);
+                        if (await CambiarOperacionAsync(
+                            "leer",
+                            comando.FechaCreacion,
+                            token => _procesador.ProcesarLecturaAsync(comando, token),
+                            cancellationToken))
+                        {
+                            _registro.Info("Comando recibido: LEER huella.");
+                        }
+                        else
+                        {
+                            await Task.Delay(300, cancellationToken);
+                        }
                         break;
 
                     case "stop":
                         _registro.Info("Comando recibido: STOP.");
+                        CancelarOperacionActiva();
                         _eventosLocal?.Emitir("stop", null);
                         break;
 
@@ -129,6 +153,81 @@ public sealed class OrquestadorSensor
             }
         }
 
+        CancelarOperacionActiva();
+        if (_operacionActiva is not null)
+        {
+            try
+            {
+                await _operacionActiva;
+            }
+            catch (OperationCanceledException)
+            {
+                // Cierre normal del servicio.
+            }
+            catch (Exception ex)
+            {
+                _registro.Error("La operación biométrica terminó con error.", ex);
+            }
+        }
+
         _registro.Info("Orquestador del sensor detenido.");
+    }
+
+    private async Task<bool> CambiarOperacionAsync(
+        string tipo,
+        long fechaComando,
+        Func<CancellationToken, Task> iniciar,
+        CancellationToken cancellationToken)
+    {
+        // Los PUT de progreso también modifican fecha_creacion en huellas_temp.
+        // Mientras el enrolamiento/lectura siga activo, ese cambio no representa
+        // una orden nueva: reiniciarlo aquí perdería las muestras ya acumuladas.
+        if (_tipoOperacionActiva == tipo
+            && _operacionActiva is { IsCompleted: false })
+        {
+            return false;
+        }
+
+        CancelarOperacionActiva();
+        if (_operacionActiva is not null)
+        {
+            await _operacionActiva;
+        }
+
+        _cancelacionOperacion?.Dispose();
+        _cancelacionOperacion = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        _tipoOperacionActiva = tipo;
+        _operacionActiva = EjecutarOperacionAsync(tipo, iniciar, _cancelacionOperacion.Token);
+        return true;
+    }
+
+    private async Task EjecutarOperacionAsync(
+        string tipo,
+        Func<CancellationToken, Task> iniciar,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await iniciar(cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            _registro.Info($"Operación {tipo} cancelada para cambiar de modo.");
+        }
+        catch (Exception ex)
+        {
+            _registro.Error($"Error durante la operación biométrica {tipo}.", ex);
+            _eventosLocal?.Emitir("error", new { mensaje = ex.Message });
+        }
+    }
+
+    private void CancelarOperacionActiva()
+    {
+        if (_cancelacionOperacion is not null && !_cancelacionOperacion.IsCancellationRequested)
+        {
+            _cancelacionOperacion.Cancel();
+        }
+
+        _tipoOperacionActiva = null;
     }
 }

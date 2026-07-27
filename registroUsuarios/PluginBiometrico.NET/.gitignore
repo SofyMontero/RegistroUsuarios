@@ -6,3 +6,9 @@ publish-test-dep/
 dist-cliente/
 bin/
 obj/
+
+# Distribución oficial lista para copiar a un PC Windows x86.
+# Se versiona completa; el driver DigitalPersona debe instalarse aparte.
+distribucion/*
+!distribucion/PluginBiometrico-win-x86/
+!distribucion/PluginBiometrico-win-x86/**

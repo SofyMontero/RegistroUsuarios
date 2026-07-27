@@ -1,28 +1,26 @@
 namespace PluginBiometrico.Infraestructura.Huella;
 
-/// <summary>Comprueba en tiempo de ejecución que las DLL del SDK estén junto al .exe.</summary>
+/// <summary>Comprueba las DLL y el registro COM del SDK ActiveX de DigitalPersona.</summary>
 internal static class SdkDigitalPersona
 {
     private static readonly string[] DllsRequeridas =
     [
-        "DPFPShrNET.dll",
-        "DPFPDevNET.dll",
-        "DPFPEngNET.dll"
+        "DPFPShrXLib.dll",
+        "DPFPDevXLib.dll",
+        "DPFPEngXLib.dll"
     ];
 
     public static bool EstaDisponible()
     {
-#if TIENE_SDK_DPFP
+#if TIENE_SDK_DPFP_ACTIVEX
         var dir = AppContext.BaseDirectory;
-        foreach (var dll in DllsRequeridas)
+        if (DllsRequeridas.Any(dll => !File.Exists(Path.Combine(dir, dll))))
         {
-            if (!File.Exists(Path.Combine(dir, dll)))
-            {
-                return false;
-            }
+            return false;
         }
 
-        return true;
+        return Type.GetTypeFromProgID("DPFPDevX.DPFPCapture") is not null
+            || Type.GetTypeFromProgID("DPFPDevX.DPFPCapture.1") is not null;
 #else
         return false;
 #endif
@@ -30,7 +28,7 @@ internal static class SdkDigitalPersona
 
     public static string ObtenerMensajeNoDisponible()
     {
-#if TIENE_SDK_DPFP
+#if TIENE_SDK_DPFP_ACTIVEX
         var dir = AppContext.BaseDirectory;
         var faltantes = DllsRequeridas
             .Where(dll => !File.Exists(Path.Combine(dir, dll)))
@@ -38,17 +36,17 @@ internal static class SdkDigitalPersona
 
         if (faltantes.Count == 0)
         {
-            return "SDK Digital Persona no disponible.";
+            return
+                "DigitalPersona ActiveX no está registrado para aplicaciones x86. " +
+                "Ejecute el registrador ActiveX como administrador.";
         }
 
         return
-            "Faltan DLL del SDK junto al ejecutable (" +
+            "Faltan DLL ActiveX junto al ejecutable (" +
             string.Join(", ", faltantes) +
-            "). Ejecute publish.ps1 y reinicie el plugin.";
+            "). Compile nuevamente el plugin.";
 #else
-        return
-            "SDK Digital Persona no incluido en este ejecutable. " +
-            "Ejecute publish.ps1 desde PluginBiometrico.NET y reinicie el plugin.";
+        return "SDK DigitalPersona ActiveX no incluido en este ejecutable.";
 #endif
     }
 }

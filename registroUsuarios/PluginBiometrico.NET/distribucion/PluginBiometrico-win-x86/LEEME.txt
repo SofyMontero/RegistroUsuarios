@@ -1,0 +1,12 @@
+PLUGIN BIOMETRICO - WINDOWS x86
+
+Ejecucion:
+1. Instale el driver y el Runtime/SDK de DigitalPersona en Windows.
+2. Conecte el lector biometrico.
+3. Ejecute PluginBiometrico.exe.
+
+Esta carpeta incluye el runtime de .NET y debe copiarse completa.
+No mueva solamente el archivo EXE, porque necesita las DLL que lo acompanan.
+
+El plugin usa la configuracion local guardada en:
+%LocalAppData%\PluginBiometrico\config.json

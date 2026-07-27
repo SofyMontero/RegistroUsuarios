@@ -1,6 +1,6 @@
-#if TIENE_SDK_DPFP
-using DPFP;
-using DPFP.Verification;
+#if TIENE_SDK_DPFP_ACTIVEX
+using DPFPEngXLib;
+using DPFPShrXLib;
 
 namespace PluginBiometrico.Infraestructura.Huella;
 
@@ -8,17 +8,15 @@ public sealed partial class MatcherDigitalPersona
 {
     private partial bool CoincideConPlantillaReal(object caracteristicasBiometricas, byte[] plantillaReferencia)
     {
-        if (caracteristicasBiometricas is not FeatureSet caracteristicas)
+        if (caracteristicasBiometricas is not CaracteristicasActiveX caracteristicas)
         {
             return false;
         }
 
-        var referencia = new Template();
-        referencia.DeSerialize(plantillaReferencia);
-
-        var verificador = new Verification();
-        var resultado = new Verification.Result();
-        verificador.Verify(caracteristicas, referencia, ref resultado);
+        var plantilla = new DPFPTemplateClass();
+        plantilla.Deserialize(plantillaReferencia);
+        var verificador = new DPFPVerificationClass();
+        var resultado = (IDPFPVerificationResult)verificador.Verify(caracteristicas.Valor, plantilla);
         return resultado.Verified;
     }
 }

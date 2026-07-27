@@ -1,4 +1,4 @@
-#if !TIENE_SDK_DPFP
+#if !TIENE_SDK_DPFP_ACTIVEX
 namespace PluginBiometrico.Infraestructura.Huella;
 
 /// <summary>Implementación stub cuando el SDK no está instalado.</summary>

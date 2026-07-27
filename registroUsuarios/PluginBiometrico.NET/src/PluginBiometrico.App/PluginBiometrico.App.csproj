@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
+    <PlatformTarget>x86</PlatformTarget>
     <AssemblyName>PluginBiometrico</AssemblyName>
     <RootNamespace>PluginBiometrico.App</RootNamespace>
     <Version>1.0.0</Version>
@@ -34,32 +35,6 @@
     <Content Include="Recursos\tryicon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="DigitalPersona.NET" Version="1.4.0" GeneratePathProperty="true" />
-  </ItemGroup>
-
-  <Target Name="CopyDigitalPersonaRuntime" AfterTargets="Build">
-    <ItemGroup>
-      <DpfpRuntime Include="$(PkgDigitalPersona_NET)\lib\net46\DPFPShrNET.dll" />
-      <DpfpRuntime Include="$(PkgDigitalPersona_NET)\lib\net46\DPFPDevNET.dll" />
-      <DpfpRuntime Include="$(PkgDigitalPersona_NET)\lib\net46\DPFPEngNET.dll" />
-      <DpfpRuntime Include="$(PkgDigitalPersona_NET)\lib\net46\DPFPVerNET.dll" />
-      <DpfpRuntime Include="$(PkgDigitalPersona_NET)\lib\net46\DPFPGuiNET.dll" />
-      <DpfpRuntime Include="$(PkgDigitalPersona_NET)\lib\net46\DPFPCtlXWrapperNET.dll" />
-      <DpfpRuntime Include="$(PkgDigitalPersona_NET)\lib\net46\DPFPCtlXTypeLibNET.dll" />
-      <DpfpRuntime Include="$(PkgDigitalPersona_NET)\lib\net46\DPFPShrXTypeLibNET.dll" />
-    </ItemGroup>
-    <Copy SourceFiles="@(DpfpRuntime)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" Condition="Exists('$(PkgDigitalPersona_NET)\lib\net46\DPFPEngNET.dll')" />
-  </Target>
-
-  <!-- Fallback manual si existen en Librerias/ -->
-  <ItemGroup Condition="Exists('..\..\Librerias\DPFPEngNET.dll')">
-    <None Include="..\..\Librerias\DPFPShrNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPShrNET.dll" />
-    <None Include="..\..\Librerias\DPFPDevNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPDevNET.dll" />
-    <None Include="..\..\Librerias\DPFPEngNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPEngNET.dll" />
-    <None Include="..\..\Librerias\DPFPVerNET.dll" CopyToOutputDirectory="PreserveNewest" Link="DPFPVerNET.dll" Condition="Exists('..\..\Librerias\DPFPVerNET.dll')" />
   </ItemGroup>
 
 </Project>

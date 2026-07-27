@@ -39,7 +39,6 @@ public sealed class ProcesadorComandoSensor : IProcesadorComandoSensor
 
     public async Task ProcesarCapturaAsync(ComandoSensor comando, CancellationToken cancellationToken)
     {
-        _notificarBandeja?.Invoke("Modo captura activado.");
         _eventosLocal?.Emitir("captura_iniciada", new { comando.Operacion });
 
         using var lector = FabricaLectorHuellas.Crear();
@@ -57,7 +56,6 @@ public sealed class ProcesadorComandoSensor : IProcesadorComandoSensor
 
     public async Task ProcesarLecturaAsync(ComandoSensor comando, CancellationToken cancellationToken)
     {
-        _notificarBandeja?.Invoke("Modo lectura activado.");
         _eventosLocal?.Emitir("lectura_iniciada", new
         {
             comando.Operacion,

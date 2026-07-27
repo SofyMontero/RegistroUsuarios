@@ -160,6 +160,19 @@ public sealed class ServicioCaptura
                         EstadoPlantilla = evento.EstadoPlantilla
                     }, CancellationToken.None);
 
+                    // El POST histórico guarda la plantilla, pero deja opc='capturar'.
+                    // Cerramos explícitamente la orden para impedir que el
+                    // orquestador inicie un segundo enrolamiento y sobrescriba
+                    // el indicador final mostrado por la web.
+                    await _api.ActualizarHuellaAsync(new ActualizarHuellaRequest
+                    {
+                        SerialPc = _config.IdUnicoPc,
+                        ImagenHuellaBase64 = imagenBase64,
+                        Mensaje = evento.Mensaje,
+                        EstadoPlantilla = evento.EstadoPlantilla,
+                        Opcion = null
+                    }, CancellationToken.None);
+
                     // #region agent log
                     _depuracion?.Invoke("S3-H3", "ServicioCaptura.OnMuestraProcesada", "Plantilla guardada POST", new
                     {

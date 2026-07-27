@@ -1,48 +1,85 @@
-#if TIENE_SDK_DPFP
+#if TIENE_SDK_DPFP_ACTIVEX
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.IO;
-using DPFP;
-using DPFP.Capture;
-using DPFP.Processing;
+using System.Runtime.InteropServices;
+using DPFPEngXLib;
+using DPFPDevXLib;
+using DPFPShrXLib;
 using PluginBiometrico.Core.Modelos;
 
 namespace PluginBiometrico.Infraestructura.Huella;
 
-/// <summary>Implementación real con SDK Digital Persona One Touch (.NET).</summary>
-public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
+/// <summary>Captura mediante el SDK ActiveX de DigitalPersona (proceso x86).</summary>
+public sealed partial class LectorDigitalPersona
 {
-    private enum ModoOperacion
-    {
-        Captura,
-        Verificacion
-    }
-
-    private Capture? _capturador;
-    private Enrollment? _enrollment;
-    private ModoOperacion _modo = ModoOperacion.Captura;
+    private DPFPCaptureClass? _capturador;
+    private DPFPEnrollmentClass? _enrollment;
+    private DPFPFeatureExtractionClass? _extractor;
+    private DPFPSampleConversionClass? _convertidor;
+    private bool _modoVerificacion;
     private byte[]? _ultimaImagenJpeg;
-    private bool _capturaActiva;
-    private bool _escuchaActiva;
-    private string? _lectorActivoSerial;
-    private string? _lectorUsbSerial;
-
-    /// <summary>Recuerda el U.are.U entre sesiones (cada captura crea un lector nuevo).</summary>
-    private static string? UltimoLectorUsbConocido;
 
     partial void EstablecerModoCaptura()
     {
-        _modo = ModoOperacion.Captura;
-        _enrollment = new Enrollment();
+        _modoVerificacion = false;
+        _enrollment = null;
     }
 
     partial void EstablecerModoVerificacion()
     {
-        _modo = ModoOperacion.Verificacion;
+        _modoVerificacion = true;
         _enrollment = null;
     }
 
     partial void IniciarCapturaReal()
+    {
+        DetenerCapturaReal();
+
+        try
+        {
+            _capturador = new DPFPCaptureClass();
+            // Los objetos de procesamiento COM se crean en OnComplete.
+            // El SDK entrega ese callback desde otro apartment y no permite
+            // utilizar allí objetos creados en el hilo que inició la captura.
+            _extractor = null;
+            _convertidor = null;
+
+            _capturador.OnReaderConnect += OnReaderConnect;
+            _capturador.OnReaderDisconnect += OnReaderDisconnect;
+            _capturador.OnFingerTouch += OnFingerTouch;
+            _capturador.OnFingerGone += OnFingerGone;
+            _capturador.OnSampleQuality += OnSampleQuality;
+            _capturador.OnComplete += OnComplete;
+            _capturador.StartCapture();
+
+            NotificarMensaje(_modoVerificacion
+                ? "ActiveX: lector en modo lectura."
+                : "ActiveX: lector en modo captura.");
+
+            if (!_modoVerificacion)
+            {
+                _ultimaImagenJpeg = CrearIndicadorJpeg(false);
+                NotificarMuestra(new EventoMuestraHuella
+                {
+                    Mensaje = "Esperando captura de huella.",
+                    EstadoPlantilla = "Muestras Restantes: 4",
+                    ImagenJpeg = _ultimaImagenJpeg,
+                    Estado = EstadoEnrollment.EnProgreso
+                });
+            }
+        }
+        catch (COMException ex)
+        {
+            NotificarMensaje($"DigitalPersona ActiveX no está registrado: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            NotificarMensaje($"No se pudo iniciar DigitalPersona ActiveX: {ex.Message}");
+        }
+    }
+
+    partial void DetenerCapturaReal()
     {
         try
         {
@@ -50,335 +87,267 @@ public sealed partial class LectorDigitalPersona : DPFP.Capture.EventHandler
         }
         catch
         {
-            // ignorar
+            // El control COM puede estar detenido o desconectado.
         }
-
-        _capturador = new Capture();
-        _capturador.EventHandler = this;
-        _capturaActiva = true;
-        _escuchaActiva = false;
-        _lectorUsbSerial = UltimoLectorUsbConocido;
-
-        // Igual que el plugin Java: startCapture() de inmediato (el lector ya puede estar conectado).
-        ActivarEscuchaLector("Iniciando captura");
-    }
-
-    private void RegistrarLectorUsb(string readerSerialNumber)
-    {
-        if (EsSensorIntegradoWbf(readerSerialNumber))
-        {
-            return;
-        }
-
-        UltimoLectorUsbConocido = readerSerialNumber.Trim();
-        _lectorUsbSerial = UltimoLectorUsbConocido;
-    }
-
-    partial void DetenerCapturaReal()
-    {
-        _capturaActiva = false;
-        _escuchaActiva = false;
-
-        if (_capturador is not null)
-        {
-            try
-            {
-                _capturador.StopCapture();
-            }
-            catch
-            {
-                // ignorar si ya estaba detenido
-            }
-        }
-    }
-
-    private void ActivarEscuchaLector(string motivo)
-    {
-        if (_capturador is null || !_capturaActiva || _escuchaActiva)
-        {
-            return;
-        }
-
-        try
-        {
-            _capturador.StartCapture();
-            _escuchaActiva = true;
-            NotificarMensaje("Utilizando el lector de huella dactilar");
-            NotificarMensaje($"{motivo}. Presione el dedo 4 segundos y retírelo despacio.");
-        }
-        catch (Exception ex)
-        {
-            NotificarMensaje($"No se pudo activar el lector: {ex.Message}");
-        }
-    }
-
-    private static readonly string GuidSensorIntegradoWbf = "00000000-0000-0000-0000-000000000000";
-
-    /// <summary>
-    /// El SDK reporta el sensor WBF del portátil con GUID vacío.
-    /// U.are.U 4500 usa un GUID real (ej. 39cae277-7977-7348-bcac-...).
-    /// </summary>
-    private static bool EsSensorIntegradoWbf(string readerSerialNumber)
-    {
-        if (string.IsNullOrWhiteSpace(readerSerialNumber))
-        {
-            return true;
-        }
-
-        return readerSerialNumber.Trim()
-            .Equals(GuidSensorIntegradoWbf, StringComparison.OrdinalIgnoreCase);
-    }
-
-    /// <summary>
-    /// OnComplete a veces llega con serial vacío aunque el dedo fue en el U.are.U.
-    /// </summary>
-    private string ResolverSerialLector(string readerSerialNumber)
-    {
-        if (!string.IsNullOrWhiteSpace(readerSerialNumber)
-            && !EsSensorIntegradoWbf(readerSerialNumber))
-        {
-            return readerSerialNumber.Trim();
-        }
-
-        if (!string.IsNullOrWhiteSpace(_lectorUsbSerial))
-        {
-            return _lectorUsbSerial;
-        }
-
-        if (!string.IsNullOrWhiteSpace(UltimoLectorUsbConocido))
-        {
-            return UltimoLectorUsbConocido;
-        }
-
-        return readerSerialNumber?.Trim() ?? string.Empty;
-    }
-
-    private bool DebeIgnorarEvento(string readerSerialNumber)
-    {
-        var serial = ResolverSerialLector(readerSerialNumber);
-        return EsSensorIntegradoWbf(serial);
     }
 
     partial void LiberarRecursosReal()
     {
-        _capturaActiva = false;
-        _escuchaActiva = false;
+        DetenerCapturaReal();
+        LiberarCom(_capturador);
+        LiberarCom(_enrollment);
+        LiberarCom(_extractor);
+        LiberarCom(_convertidor);
         _capturador = null;
         _enrollment = null;
-        _lectorActivoSerial = null;
+        _extractor = null;
+        _convertidor = null;
     }
 
-    public void OnComplete(object capture, string readerSerialNumber, Sample sample)
+    private void OnReaderConnect(string serial) =>
+        NotificarMensaje("Sensor activado o conectado.");
+
+    private void OnReaderDisconnect(string serial) =>
+        NotificarMensaje("Sensor desactivado o no conectado.");
+
+    private void OnFingerTouch(string serial) =>
+        NotificarMensaje("Dedo colocado sobre el lector.");
+
+    private void OnFingerGone(string serial) =>
+        NotificarMensaje("Dedo retirado del lector.");
+
+    private void OnSampleQuality(string serial, DPFPDevXLib.DPFPCaptureFeedbackEnum feedback) =>
+        NotificarMensaje(feedback == DPFPDevXLib.DPFPCaptureFeedbackEnum.CaptureFeedbackGood
+            ? "Calidad de muestra correcta."
+            : $"Calidad de muestra: {feedback}");
+
+    private void OnComplete(string serial, object sample)
     {
-        var serial = ResolverSerialLector(readerSerialNumber);
-
-        if (EsSensorIntegradoWbf(serial))
-        {
-            NotificarMensaje("Muestra descartada (sensor integrado). Use el U.are.U USB.");
-            return;
-        }
-
-        RegistrarLectorUsb(serial);
-        _lectorActivoSerial = serial;
         NotificarMensaje("Huella dactilar capturada.");
-
-        if (_modo == ModoOperacion.Verificacion)
-        {
-            ProcesarMuestraVerificacion(sample);
-        }
-        else
-        {
-            ProcesarMuestraCaptura(sample);
-        }
-    }
-
-    public void OnFingerTouch(object capture, string readerSerialNumber)
-    {
-        if (DebeIgnorarEvento(readerSerialNumber))
-        {
-            return;
-        }
-
-        RegistrarLectorUsb(ResolverSerialLector(readerSerialNumber));
-        NotificarMensaje("Dedo colocado sobre el lector U.are.U.");
-    }
-
-    public void OnFingerGone(object capture, string readerSerialNumber)
-    {
-        if (DebeIgnorarEvento(readerSerialNumber))
-        {
-            return;
-        }
-
-        NotificarMensaje("Dedo retirado. Si no apareció 'Huella capturada', presione 4 segundos la próxima vez.");
-    }
-
-    public void OnReaderConnect(object capture, string readerSerialNumber)
-    {
-        if (EsSensorIntegradoWbf(readerSerialNumber))
-        {
-            return;
-        }
-
-        RegistrarLectorUsb(readerSerialNumber);
-        _lectorActivoSerial = readerSerialNumber;
-        NotificarMensaje($"U.are.U listo ({readerSerialNumber}).");
-    }
-
-    public void OnReaderDisconnect(object capture, string readerSerialNumber)
-    {
-        if (EsSensorIntegradoWbf(readerSerialNumber))
-        {
-            NotificarMensaje("Sensor integrado desactivado.");
-            return;
-        }
-
-        NotificarMensaje("U.are.U desconectado. Verifique el cable USB.");
-    }
-
-    public void OnSampleQuality(object capture, string readerSerialNumber, CaptureFeedback feedback)
-    {
-        if (feedback is CaptureFeedback.Good or CaptureFeedback.None)
-        {
-            return;
-        }
-
-        NotificarMensaje($"Calidad insuficiente ({feedback}). Limpie el lector y presione el dedo de nuevo 2-3 s.");
-    }
-
-    public void OnFeatureSet(object capture, string readerSerialNumber, FeatureSet featureSet) { }
-
-    private void ProcesarMuestraCaptura(Sample sample)
-    {
-        if (_enrollment is null)
-        {
-            return;
-        }
-
-        var features = ExtraerCaracteristicas(sample, DataPurpose.Enrollment, out var feedbackCalidad);
-        if (features is null)
-        {
-            var detalle = feedbackCalidad is CaptureFeedback.Good or CaptureFeedback.None
-                ? "No se pudieron extraer características"
-                : $"Calidad: {feedbackCalidad}";
-            NotificarMensaje($"Muestra rechazada ({detalle}). Intente de nuevo con el dedo seco y centrado.");
-            return;
-        }
 
         try
         {
-            _enrollment.AddFeatures(features);
-            _ultimaImagenJpeg = ConvertirMuestraAJpeg(sample);
-            var estadoPlantilla = $"Muestras Restantes: {_enrollment.FeaturesNeeded}";
+            _extractor ??= new DPFPFeatureExtractionClass();
+            _convertidor ??= new DPFPSampleConversionClass();
 
-            NotificarMuestra(new EventoMuestraHuella
+            if (_modoVerificacion)
             {
-                Mensaje = "Huella dactilar capturada.",
-                EstadoPlantilla = estadoPlantilla,
-                ImagenJpeg = _ultimaImagenJpeg,
-                Estado = EstadoEnrollment.EnProgreso
-            });
-
-            switch (_enrollment.TemplateStatus)
+                ProcesarVerificacion(sample);
+            }
+            else
             {
-                case Enrollment.Status.Ready:
-                    DetenerCapturaReal();
-                    byte[]? plantillaBytes = null;
-                    plantillaBytes = _enrollment.Template.Serialize(ref plantillaBytes);
-                    NotificarMuestra(new EventoMuestraHuella
-                    {
-                        Mensaje = "La plantilla ha sido creada ya puede identificarla",
-                        EstadoPlantilla = estadoPlantilla,
-                        ImagenJpeg = _ultimaImagenJpeg,
-                        PlantillaSerializada = plantillaBytes,
-                        Estado = EstadoEnrollment.PlantillaLista
-                    });
-                    break;
-
-                case Enrollment.Status.Failed:
-                    _enrollment.Clear();
-                    _escuchaActiva = false;
-                    DetenerCapturaReal();
-                    NotificarMuestra(new EventoMuestraHuella
-                    {
-                        Mensaje = "La plantilla no pudo ser creada",
-                        EstadoPlantilla = estadoPlantilla,
-                        ImagenJpeg = _ultimaImagenJpeg,
-                        Estado = EstadoEnrollment.Fallido
-                    });
-                    break;
+                _enrollment ??= new DPFPEnrollmentClass();
+                ProcesarEnrollment(sample);
             }
         }
         catch (Exception ex)
         {
-            NotificarMensaje($"Error procesando huella: {ex.Message}");
+            NotificarMensaje($"No se pudo preparar el procesamiento ActiveX: {ex.Message}");
         }
     }
 
-    private void ProcesarMuestraVerificacion(Sample sample)
+    private void ProcesarEnrollment(object sample)
     {
-        NotificarMensaje("Huella dactilar capturada.");
-
-        var features = ExtraerCaracteristicas(sample, DataPurpose.Verification, out _);
-        if (features is null)
+        if (_extractor is null || _enrollment is null)
         {
-            NotificarMensaje("Muestra no válida para verificación. Intente de nuevo.");
             return;
         }
 
-        _ultimaImagenJpeg = ConvertirMuestraAJpeg(sample);
-
-        NotificarVerificacion(new EventoVerificacionHuella
-        {
-            Mensaje = "Huella dactilar capturada.",
-            ImagenJpeg = _ultimaImagenJpeg,
-            CaracteristicasBiometricas = features
-        });
-    }
-
-    private static FeatureSet? ExtraerCaracteristicas(
-        Sample sample,
-        DataPurpose proposito,
-        out CaptureFeedback feedback)
-    {
-        feedback = CaptureFeedback.Good;
-        var extractor = new FeatureExtraction();
         try
         {
-            FeatureSet features = new();
-            extractor.CreateFeatureSet(sample, proposito, ref feedback, ref features);
+            var feedback = _extractor.CreateFeatureSet(
+                sample,
+                DPFPDataPurposeEnum.DataPurposeEnrollment);
 
-            if (feedback is CaptureFeedback.Good or CaptureFeedback.None)
+            if (feedback != DPFPEngXLib.DPFPCaptureFeedbackEnum.CaptureFeedbackGood)
             {
-                return features;
+                NotificarMensaje($"No se pudieron extraer características: {feedback}");
+                return;
             }
 
-            return null;
+            _enrollment.AddFeatures(_extractor.FeatureSet);
+            _ultimaImagenJpeg = CrearIndicadorJpeg(true);
+            var estado = $"Muestras Restantes: {_enrollment.FeaturesNeeded}";
+
+            NotificarMuestra(new EventoMuestraHuella
+            {
+                Mensaje = "Huella dactilar capturada.",
+                EstadoPlantilla = estado,
+                ImagenJpeg = _ultimaImagenJpeg,
+                Estado = EstadoEnrollment.EnProgreso
+            });
+
+            if (_enrollment.TemplateStatus == DPFPTemplateStatusEnum.TemplateStatusTemplateReady)
+            {
+                var plantilla = (IDPFPTemplate)_enrollment.Template;
+                var bytes = ConvertirABytes(plantilla.Serialize());
+                DetenerCapturaReal();
+
+                NotificarMuestra(new EventoMuestraHuella
+                {
+                    Mensaje = "La plantilla ha sido creada ya puede identificarla",
+                    EstadoPlantilla = estado,
+                    ImagenJpeg = _ultimaImagenJpeg,
+                    PlantillaSerializada = bytes,
+                    Estado = EstadoEnrollment.PlantillaLista
+                });
+            }
+            else if (_enrollment.TemplateStatus == DPFPTemplateStatusEnum.TemplateStatusCreationFailed)
+            {
+                _enrollment.Clear();
+                NotificarMuestra(new EventoMuestraHuella
+                {
+                    Mensaje = "La plantilla no pudo ser creada",
+                    EstadoPlantilla = estado,
+                    ImagenJpeg = _ultimaImagenJpeg,
+                    Estado = EstadoEnrollment.Fallido
+                });
+            }
         }
-        catch
+        catch (Exception ex)
         {
-            feedback = CaptureFeedback.None;
-            return null;
+            NotificarMensaje($"Error procesando huella ActiveX: {ex.Message}");
         }
     }
 
-    private static byte[]? ConvertirMuestraAJpeg(Sample sample)
+    private void ProcesarVerificacion(object sample)
     {
-        var convertidor = new SampleConversion();
-        Bitmap? bitmap = null;
-        convertidor.ConvertToPicture(sample, ref bitmap);
+        if (_extractor is null)
+        {
+            return;
+        }
 
-        if (bitmap is null)
+        try
+        {
+            var feedback = _extractor.CreateFeatureSet(
+                sample,
+                DPFPDataPurposeEnum.DataPurposeVerification);
+
+            if (feedback != DPFPEngXLib.DPFPCaptureFeedbackEnum.CaptureFeedbackGood)
+            {
+                NotificarMensaje($"Muestra no válida para verificación: {feedback}");
+                return;
+            }
+
+            _ultimaImagenJpeg = CrearIndicadorJpeg(true);
+            NotificarVerificacion(new EventoVerificacionHuella
+            {
+                Mensaje = "Huella dactilar capturada.",
+                ImagenJpeg = _ultimaImagenJpeg,
+                CaracteristicasBiometricas = new CaracteristicasActiveX(_extractor.FeatureSet)
+            });
+        }
+        catch (Exception ex)
+        {
+            NotificarMensaje($"Error preparando verificación ActiveX: {ex.Message}");
+        }
+    }
+
+    private byte[]? ConvertirMuestraAJpeg(object sample)
+    {
+        if (_convertidor is null)
         {
             return null;
         }
 
-        using (bitmap)
+        var picture = _convertidor.ConvertToPicture(sample);
+        using var original = ConversorImagenActiveX.Convertir(picture);
+        using var stream = new MemoryStream();
+        // La web histórica espera JPEG. Conservamos dimensiones y proporción
+        // nativas y usamos calidad alta para no destruir las crestas.
+        var codecJpeg = ImageCodecInfo.GetImageEncoders()
+            .First(codec => codec.FormatID == ImageFormat.Jpeg.Guid);
+        using var parametros = new EncoderParameters(1);
+        parametros.Param[0] = new EncoderParameter(Encoder.Quality, 95L);
+        original.Save(stream, codecJpeg, parametros);
+        return stream.ToArray();
+    }
+
+    private static byte[] CrearIndicadorJpeg(bool capturada)
+    {
+        const int lado = 320;
+        using var imagen = new Bitmap(lado, lado);
+        using var grafico = Graphics.FromImage(imagen);
+        grafico.SmoothingMode = SmoothingMode.AntiAlias;
+        grafico.Clear(Color.White);
+
+        var color = capturada
+            ? Color.FromArgb(22, 163, 154)
+            : Color.FromArgb(220, 53, 69);
+
+        using var fondo = new SolidBrush(color);
+        grafico.FillEllipse(fondo, 30, 30, 260, 260);
+
+        using var trazo = new Pen(Color.White, 28)
         {
-            using var stream = new MemoryStream();
-            bitmap.Save(stream, ImageFormat.Jpeg);
-            return stream.ToArray();
+            StartCap = LineCap.Round,
+            EndCap = LineCap.Round,
+            LineJoin = LineJoin.Round
+        };
+
+        if (capturada)
+        {
+            grafico.DrawLines(trazo,
+            new Point[]
+            {
+                new Point(92, 164),
+                new Point(140, 212),
+                new Point(232, 112)
+            });
+        }
+        else
+        {
+            grafico.DrawLine(trazo, 105, 105, 215, 215);
+            grafico.DrawLine(trazo, 215, 105, 105, 215);
+        }
+
+        using var stream = new MemoryStream();
+        imagen.Save(stream, ImageFormat.Jpeg);
+        return stream.ToArray();
+    }
+
+    private static byte[] ConvertirABytes(object datos)
+    {
+        if (datos is byte[] bytes)
+        {
+            return bytes;
+        }
+
+        if (datos is Array array)
+        {
+            var resultado = new byte[array.Length];
+            for (var i = 0; i < array.Length; i++)
+            {
+                resultado[i] = Convert.ToByte(array.GetValue(i));
+            }
+
+            return resultado;
+        }
+
+        throw new InvalidOperationException("Formato de plantilla ActiveX no soportado.");
+    }
+
+    private static void LiberarCom(object? instancia)
+    {
+        if (instancia is not null && Marshal.IsComObject(instancia))
+        {
+            Marshal.FinalReleaseComObject(instancia);
         }
     }
+
+    private sealed class ConversorImagenActiveX : System.Windows.Forms.AxHost
+    {
+        private ConversorImagenActiveX() : base(string.Empty)
+        {
+        }
+
+        public static Image Convertir(object picture) =>
+            GetPictureFromIPictureDisp(picture);
+    }
+}
+
+internal sealed class CaracteristicasActiveX(object valor)
+{
+    public object Valor { get; } = valor;
 }
 #endif

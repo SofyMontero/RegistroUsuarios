@@ -1,4 +1,4 @@
-#if !TIENE_SDK_DPFP
+#if !TIENE_SDK_DPFP_ACTIVEX
 namespace PluginBiometrico.Infraestructura.Huella;
 
 public sealed partial class MatcherDigitalPersona
