@@ -54,20 +54,28 @@
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script src="js/Utils.js" type="text/javascript"></script>
     <script>
-        if (localStorage.getItem("srnPc")) {
-            window.location = "verificar.php?token=" + encodeURIComponent(localStorage.getItem("srnPc")) + "&sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
-        } else {
-            saveSrnPc();
-            $("#Token").html(localStorage.getItem("srnPc"));
+        (function () {
             var sede = "<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
-            var destino = "verificar.php?token=" + encodeURIComponent(localStorage.getItem("srnPc"));
-            if (sede) {
-                destino += "&sede=" + encodeURIComponent(sede);
+            var token = localStorage.getItem("srnPc");
+            if (!token) {
+                saveSrnPc();
+                token = localStorage.getItem("srnPc");
+                $("#Token").html(token);
+                var destino = "verificar.php?token=" + encodeURIComponent(token);
+                if (sede) {
+                    destino += "&sede=" + encodeURIComponent(sede);
+                }
+                $("#irModulo").attr("href", destino);
+                $("#content").css("display", "block");
+                $("#loadingState").hide();
+                return;
             }
-            $("#irModulo").attr("href", destino);
-            $("#content").css("display", "block");
-            $("#loadingState").hide();
-        }
+            var ir = "verificar.php?token=" + encodeURIComponent(token);
+            if (sede) {
+                ir += "&sede=" + encodeURIComponent(sede);
+            }
+            window.location.replace(ir);
+        })();
     </script>
 </body>
 </html>
