@@ -1,8 +1,15 @@
 <?php
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/inc/token_sesion.php';
+
+use Huella\Core\Database;
+use Huella\Repositories\BiometricRepository;
 
 $fechaactual = date("Y-m-d");
 list($token, $sede) = requerir_token_sesion();
+$biometricRepository = new BiometricRepository(new Database());
+$listaSedes = $biometricRepository->getHeadquartersList();
+$nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -73,7 +80,19 @@ list($token, $sede) = requerir_token_sesion();
                                 <label class="field-label" for="nombre">Nombre completo</label>
                                 <input class="form-control biometric-input" placeholder="Nombre del colaborador" id="nombre" type="text" />
                             </div>
-                            <div class="col-12">
+                            <div class="col-md-6">
+                                <label class="field-label" for="sedeSelect">Sede</label>
+                                <select class="form-control biometric-input" id="sedeSelect" onchange="cambiarSedeSesion(this.value)">
+                                    <option value="">Sin sede</option>
+                                    <?php foreach ($listaSedes as $item) { ?>
+                                        <option value="<?php echo htmlspecialchars($item['id']); ?>" <?php echo (string) $sede === (string) $item['id'] ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($item['nombre']); ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                                <p class="helper-text mt-2">La huella quedara asociada a esta sede<?php echo $nombreSedeActual !== '' ? (': ' . htmlspecialchars($nombreSedeActual)) : ''; ?>.</p>
+                            </div>
+                            <div class="col-md-6">
                                 <input type="hidden" id="tel" />
                                 <label class="field-label" for="foto">Fotografia</label>
                                 <input class="form-control biometric-input biometric-file" id="foto" type="file" accept="image/png,image/jpeg" />

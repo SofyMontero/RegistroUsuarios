@@ -18,6 +18,7 @@ class UserEnrollmentService
         $documento = isset($post['documento']) ? trim($post['documento']) : '';
         $nombre = isset($post['nombre']) ? trim($post['nombre']) : '';
         $token = isset($post['token']) ? trim($post['token']) : '';
+        $sede = isset($post['sede']) ? trim((string) $post['sede']) : '';
 
         if ($documento === '' || $nombre === '' || $token === '') {
             return array('filas' => 0, 'message' => 'Faltan datos obligatorios');
@@ -59,6 +60,14 @@ class UserEnrollmentService
             return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
         }
 
+        if ($sede !== '') {
+            try {
+                $this->repository->updateAdministrativeUserExtras($documento, '', $sede);
+            } catch (\Throwable $e) {
+                // Columna opcional segun esquema
+            }
+        }
+
         $row = $this->repository->createFingerprintTemplate($documento, $token);
         if ($row < 1) {
             return array('filas' => 0, 'message' => 'Se guardaron los datos del usuario, pero no fue posible registrar la plantilla de huella');
@@ -81,6 +90,7 @@ class UserEnrollmentService
         $nombre = isset($data['nombre']) ? trim($data['nombre']) : '';
         $huella = isset($data['huella']) ? trim($data['huella']) : '';
         $imgHuella = isset($data['imgHuella']) ? trim($data['imgHuella']) : '';
+        $sede = isset($data['sede']) ? trim((string) $data['sede']) : '';
 
         if ($documento === '' || $nombre === '' || $huella === '') {
             return array('filas' => 0, 'message' => 'Faltan datos obligatorios (documento, nombre, huella)');
@@ -94,6 +104,14 @@ class UserEnrollmentService
         $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, null, null);
         if ($usuarioCreado < 1) {
             return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
+        }
+
+        if ($sede !== '') {
+            try {
+                $this->repository->updateAdministrativeUserExtras($documento, '', $sede);
+            } catch (\Throwable $e) {
+                // Columna opcional segun esquema
+            }
         }
 
         $row = $this->repository->createFingerprintTemplateDirect(

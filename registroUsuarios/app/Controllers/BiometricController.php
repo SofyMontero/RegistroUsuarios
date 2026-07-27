@@ -29,7 +29,8 @@ class BiometricController
         header('Content-Type: application/json; charset=utf-8');
         $token = isset($request['token']) ? $request['token'] : '';
         $timestamp = isset($request['timestamp']) && $request['timestamp'] !== 'null' ? $request['timestamp'] : 0;
-        echo json_encode($this->biometricService->pollByToken($token, $timestamp, true));
+        $sede = isset($request['sede']) ? trim((string) $request['sede']) : '';
+        echo json_encode($this->biometricService->pollByToken($token, $timestamp, true, $sede));
     }
 
     public function pollEnroll(array $request)
@@ -37,7 +38,8 @@ class BiometricController
         header('Content-Type: application/json; charset=utf-8');
         $token = isset($request['token']) ? $request['token'] : '';
         $timestamp = isset($request['timestamp']) && $request['timestamp'] !== 'null' ? $request['timestamp'] : 0;
-        echo json_encode($this->biometricService->pollByToken($token, $timestamp, false));
+        $sede = isset($request['sede']) ? trim((string) $request['sede']) : '';
+        echo json_encode($this->biometricService->pollByToken($token, $timestamp, false, $sede));
     }
 
     public function createUser(array $post, array $files)
@@ -77,6 +79,7 @@ class BiometricController
         header('Content-Type: application/json; charset=utf-8');
 
         $cedula = isset($request['param1']) ? trim($request['param1']) : '';
+        $sede = isset($request['sede']) ? trim((string) $request['sede']) : '';
         if ($cedula === '') {
             echo json_encode(array(
                 'success' => false,
@@ -93,6 +96,20 @@ class BiometricController
             echo json_encode(array(
                 'success' => false,
                 'message' => 'No se encontro esta cedula, revisa el numero',
+                'documento' => '',
+                'nombre' => '',
+                'foto_usu' => 'mujer.png',
+            ));
+            return;
+        }
+
+        if (!$this->repository->userBelongsToSede($cedula, $sede)) {
+            $nombreSede = $this->repository->getSedeNombreById($sede);
+            echo json_encode(array(
+                'success' => false,
+                'message' => $nombreSede !== ''
+                    ? ('El usuario no pertenece a la sede ' . $nombreSede)
+                    : 'El usuario no pertenece a esta sede',
                 'documento' => '',
                 'nombre' => '',
                 'foto_usu' => 'mujer.png',

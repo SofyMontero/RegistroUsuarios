@@ -11,6 +11,8 @@ use Huella\Repositories\BiometricRepository;
 $con = new bd();
 list($token, $sede) = requerir_token_sesion();
 $biometricRepository = new BiometricRepository(new Database());
+$listaSedes = $biometricRepository->getHeadquartersList();
+$nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
 $fechaDesde = isset($_GET['fecha_desde']) && $_GET['fecha_desde'] !== '' ? $_GET['fecha_desde'] : date('Y-m-d');
 $fechaHasta = isset($_GET['fecha_hasta']) && $_GET['fecha_hasta'] !== '' ? $_GET['fecha_hasta'] : date('Y-m-d');
 $busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -25,6 +27,11 @@ $where = array(
 if ($busqueda !== '') {
     $busquedaSql = addslashes($busqueda);
     $where[] = "(s.seg_iduser LIKE '%{$busquedaSql}%' OR u.usu_nombre LIKE '%{$busquedaSql}%')";
+}
+
+if ($sede !== '') {
+    $sedeSql = addslashes($sede);
+    $where[] = "u.usu_idsede = '{$sedeSql}'";
 }
 
 $sql = "
@@ -71,7 +78,9 @@ $total = count($rows);
                     <div class="col-lg-7">
                         <span class="eyebrow">Reporte biometrico</span>
                         <h1 class="page-title">Historial de ingresos</h1>
-                        
+                        <p class="section-copy mb-0">
+                            <?php echo $nombreSedeActual !== '' ? ('Sede: ' . htmlspecialchars($nombreSedeActual)) : 'Todas las sedes'; ?>
+                        </p>
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
@@ -83,17 +92,27 @@ $total = count($rows);
 
             <div class="glass-card section-card mb-4">
                 <form class="row g-3 align-items-end" method="get">
-                    <input type="hidden" name="sede" value="<?php echo htmlspecialchars($sede); ?>" />
                     <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>" />
                     <div class="col-md-3">
+                        <label class="field-label" for="sede">Sede</label>
+                        <select class="form-control biometric-input" id="sede" name="sede" onchange="guardarSedeSesion(this.value)">
+                            <option value="">Todas</option>
+                            <?php foreach ($listaSedes as $item) { ?>
+                                <option value="<?php echo htmlspecialchars($item['id']); ?>" <?php echo (string) $sede === (string) $item['id'] ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($item['nombre']); ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
                         <label class="field-label" for="fecha_desde">Desde</label>
                         <input class="form-control biometric-input" type="date" id="fecha_desde" name="fecha_desde" value="<?php echo htmlspecialchars($fechaDesde); ?>" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label class="field-label" for="fecha_hasta">Hasta</label>
                         <input class="form-control biometric-input" type="date" id="fecha_hasta" name="fecha_hasta" value="<?php echo htmlspecialchars($fechaHasta); ?>" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label class="field-label" for="q">Buscar</label>
                         <input class="form-control biometric-input" type="text" id="q" name="q" value="<?php echo htmlspecialchars($busqueda); ?>" placeholder="Documento o nombre" />
                     </div>

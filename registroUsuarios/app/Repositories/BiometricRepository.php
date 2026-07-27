@@ -95,9 +95,63 @@ class BiometricRepository
     public function getUserNameByDocument($cedula)
     {
         return $this->db->fetchOne(
-            "SELECT usu_nombre FROM usuarios WHERE usu_identificacion = :cedula",
+            "SELECT usu_nombre, usu_idsede FROM usuarios WHERE usu_identificacion = :cedula",
             array('cedula' => $cedula)
         );
+    }
+
+    /**
+     * True si no hay sede de contexto, o el usuario pertenece a esa sede.
+     * Usuarios sin usu_idsede se permiten (datos legacy).
+     */
+    public function userBelongsToSede($documento, $sedeId)
+    {
+        $sedeId = trim((string) $sedeId);
+        if ($sedeId === '') {
+            return true;
+        }
+
+        $user = $this->db->fetchOne(
+            'SELECT usu_idsede FROM usuarios WHERE usu_identificacion = :documento LIMIT 1',
+            array('documento' => $documento)
+        );
+        if (!$user) {
+            return false;
+        }
+
+        $userSede = isset($user['usu_idsede']) ? trim((string) $user['usu_idsede']) : '';
+        if ($userSede === '') {
+            return true;
+        }
+
+        return $userSede === $sedeId;
+    }
+
+    public function getSedeNombreById($sedeId)
+    {
+        $sedeId = trim((string) $sedeId);
+        if ($sedeId === '') {
+            return '';
+        }
+
+        try {
+            $fila = $this->db->fetchOne('SELECT * FROM sedes WHERE idsedes = :id LIMIT 1', array('id' => $sedeId));
+        } catch (\Throwable $e) {
+            return '';
+        }
+
+        if (!$fila) {
+            return '';
+        }
+
+        $columnasNombre = array('nombre', 'sed_nombre', 'sed_descripcion', 'sed_nom', 'descripcion', 'nom_sede', 'sed_descrip');
+        foreach ($columnasNombre as $columna) {
+            if (isset($fila[$columna]) && trim((string) $fila[$columna]) !== '') {
+                return trim((string) $fila[$columna]);
+            }
+        }
+
+        return 'Sede ' . $sedeId;
     }
 
     public function markUserHasFingerprint($documento)
@@ -273,5 +327,61 @@ class BiometricRepository
         $sql = 'UPDATE usuarios SET ' . implode(', ', $sets) . ' WHERE usu_identificacion = :documento';
 
         return $this->db->execute($sql, $params);
+    }
+
+    public function countUsersBySede($sedeId)
+    {
+        $row = $this->db->fetchOne(
+            'SELECT COUNT(*) AS total FROM usuarios WHERE usu_idsede = :sede',
+            array('sede' => $sedeId)
+        );
+
+        return $row && isset($row['total']) ? (int) $row['total'] : 0;
+    }
+
+    public function createHeadquarters($nombre)
+    {
+        $nombre = trim((string) $nombre);
+        if ($nombre === '') {
+            return false;
+        }
+
+        $intentos = array(
+            'INSERT INTO sedes (nombre, sed_estactual) VALUES (:nombre, 1)',
+            'INSERT INTO sedes (sed_nombre, sed_estactual) VALUES (:nombre, 1)',
+            'INSERT INTO sedes (sed_descripcion, sed_estactual) VALUES (:nombre, 1)',
+            'INSERT INTO sedes (descripcion, sed_estactual) VALUES (:nombre, 1)',
+            'INSERT INTO sedes (nombre) VALUES (:nombre)',
+        );
+
+        foreach ($intentos as $sql) {
+            try {
+                $this->db->execute($sql, array('nombre' => $nombre));
+                return true;
+            } catch (\Throwable $e) {
+                continue;
+            }
+        }
+
+        return false;
+    }
+
+    public function deleteHeadquarters($sedeId)
+    {
+        $sedeId = trim((string) $sedeId);
+        if ($sedeId === '') {
+            return false;
+        }
+
+        if ($this->countUsersBySede($sedeId) > 0) {
+            return false;
+        }
+
+        try {
+            $this->db->execute('DELETE FROM sedes WHERE idsedes = :id', array('id' => $sedeId));
+            return true;
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 }

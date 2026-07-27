@@ -55,7 +55,11 @@
     <script src="js/Utils.js" type="text/javascript"></script>
     <script>
         (function () {
-            var sede = "<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
+            var sedeUrl = "<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
+            var sede = (sedeUrl || localStorage.getItem("srnSede") || "").replace(/^\s+|\s+$/g, "");
+            if (sede) {
+                localStorage.setItem("srnSede", sede);
+            }
             var token = localStorage.getItem("srnPc");
             if (!token) {
                 saveSrnPc();

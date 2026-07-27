@@ -239,7 +239,8 @@ $sedes = $repository->getHeadquartersList();
             $("#documento").val("");
             $("#nombre").val("");
             $("#telefono").val("");
-            $("#sede").val("");
+            var sedeActual = typeof obtenerSedeSesion === "function" ? obtenerSedeSesion() : "";
+            $("#sede").val(sedeActual || "");
             $("#documento").focus();
         }
 

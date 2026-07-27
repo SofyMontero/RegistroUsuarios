@@ -116,6 +116,14 @@ function addUser(srn) {
     data.append("token", srn);
     data.append("documento", $("#documento").val());
     data.append("nombre", $("#nombre").val());
+    var sedeValor = $("#sedeSelect").length ? $("#sedeSelect").val() : "";
+    if (!sedeValor && typeof obtenerSedeSesion === "function") {
+        sedeValor = obtenerSedeSesion();
+    }
+    if (!sedeValor) {
+        sedeValor = getParameterByName("sede") || "";
+    }
+    data.append("sede", sedeValor);
     // data.append("telefono", $("#tel").val());
     $.ajax({
         async: true,
@@ -166,6 +174,10 @@ var sed = sede;
     
 
 var token = obtenerTokenSesion();
+    if (sede === undefined || sede === null) {
+        sede = typeof obtenerSedeSesion === "function" ? obtenerSedeSesion() : (getParameterByName("sede") || "");
+    }
+    sede = String(sede);
     $.ajax({
         async: true,
         type: "POST",
@@ -190,14 +202,17 @@ var token = obtenerTokenSesion();
                     
                     // Verificar si usuario fue encontrado
                     var usuarioEncontrado = json["nombre"] && json["nombre"] !== "------" && json["documento"];
+                    var sedeOk = json["sede_ok"] !== false;
                     
-                    if (usuarioEncontrado) {
+                    if (usuarioEncontrado && sedeOk) {
                         showMessageBox("Bienvenido: " + json["nombre"], "success");
                         var sound = new Howl({
                             src: ['sound/bermu.mp3'],
                             volume: 1.0
                         });
                         sound.play();
+                    } else if (!sedeOk) {
+                        showMessageBox(json["texto"] || "Usuario no pertenece a esta sede", "warning");
                     } else {
                         showMessageBox("No existe un usuario registrado con esta huella", "warning");
                     }

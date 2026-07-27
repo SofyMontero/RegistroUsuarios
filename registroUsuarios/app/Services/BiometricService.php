@@ -15,10 +15,11 @@ class BiometricService
         $this->attendanceService = $attendanceService;
     }
 
-    public function pollByToken($token, $timestamp, $shouldRegisterAttendance)
+    public function pollByToken($token, $timestamp, $shouldRegisterAttendance, $sede = '')
     {
         $currentTimestamp = (int) $timestamp;
         $dbTimestamp = 0;
+        $sede = trim((string) $sede);
 
         while ($dbTimestamp <= $currentTimestamp) {
             $lastUpdate = $this->repository->getLatestUpdateTimeByToken($token);
@@ -44,28 +45,41 @@ class BiometricService
                 'imgHuella' => null,
                 'tipo' => '',
                 'foto_usu' => 'mujer.png',
+                'sede_ok' => true,
             );
         }
 
-        if ($shouldRegisterAttendance && !empty($temp['documento'])) {
-            $this->attendanceService->registerEvent($temp['documento'], date('Y-m-d'), date('H:i:s'));
+        $documento = isset($temp['documento']) ? $temp['documento'] : '';
+        $sedeOk = true;
+        $nombre = !empty($temp['nombre']) ? $temp['nombre'] : '------';
+        $texto = $temp['texto'];
+
+        if ($shouldRegisterAttendance && $documento !== '') {
+            $sedeOk = $this->repository->userBelongsToSede($documento, $sede);
+            if ($sedeOk) {
+                $this->attendanceService->registerEvent($documento, date('Y-m-d'), date('H:i:s'));
+            } else {
+                $nombreSede = $this->repository->getSedeNombreById($sede);
+                $texto = $nombreSede !== ''
+                    ? ('Usuario no pertenece a la sede ' . $nombreSede)
+                    : 'Usuario no pertenece a esta sede';
+                $nombre = '------';
+            }
         }
 
-        $imagenUsuario = $this->repository->getFingerprintImageByDocument($temp['documento']);
-
-        // Si el nombre está vacío, significa que no hay usuario asociado a esta huella
-        $nombre = !empty($temp['nombre']) ? $temp['nombre'] : '------';
+        $imagenUsuario = $this->repository->getFingerprintImageByDocument($documento);
 
         return array(
             'id' => $temp['pc_serial'],
             'timestamp' => strtotime($temp['update_time']),
-            'texto' => $temp['texto'],
-            'statusPlantilla' => $temp['statusPlantilla'],
+            'texto' => $texto,
+            'statusPlantilla' => $sedeOk ? $temp['statusPlantilla'] : 'Sede no coincide',
             'nombre' => $nombre,
-            'documento' => $temp['documento'],
+            'documento' => $sedeOk ? $documento : '',
             'imgHuella' => $temp['imgHuella'],
             'tipo' => $temp['opc'],
             'foto_usu' => ($imagenUsuario && !empty($imagenUsuario['ext'])) ? $imagenUsuario['ext'] : 'mujer.png',
+            'sede_ok' => $sedeOk,
         );
     }
 }

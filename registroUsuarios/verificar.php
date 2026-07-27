@@ -1,8 +1,12 @@
 <?php
 require_once 'Model/bd.php';
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/inc/token_sesion.php';
 set_time_limit(0);
 date_default_timezone_set("America/Bogota");
+
+use Huella\Core\Database;
+use Huella\Repositories\BiometricRepository;
 
 $con = new bd();
 list($token, $sede) = requerir_token_sesion();
@@ -15,9 +19,13 @@ $con->exec(
     . "values ('" . $tokenSql . "', 'El sensor de huella dactilar esta activado','leer')"
 );
 
+$biometricRepository = new BiometricRepository(new Database());
+$listaSedes = $biometricRepository->getHeadquartersList();
+$nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
+
 $estadoActual = "";
 if ($sede !== "") {
-    $sql1 = "SELECT sed_estactual FROM sedes where idsedes = '" . $sede . "'";
+    $sql1 = "SELECT sed_estactual FROM sedes where idsedes = '" . addslashes($sede) . "'";
     $rows1 = $con->findAll($sql1);
     if (count($rows1) > 0) {
         $sql2 = "SELECT estado_nombre FROM estados where estado_id = '" . $rows1[0]['sed_estactual'] . "'";
@@ -73,7 +81,8 @@ if ($sede !== "") {
 
         function regced() {
             var cedula = document.getElementById("cedula").value;
-            var ruta = "param1=" + cedula;
+            var sedeActual = getParameterByName("sede") || "";
+            var ruta = "param1=" + encodeURIComponent(cedula) + "&sede=" + encodeURIComponent(sedeActual);
             $.ajax({
                 url: 'ingresoconcedula.php',
                 type: 'get',
@@ -135,6 +144,17 @@ if ($sede !== "") {
 
             <div class="glass-card toolbar-card mb-4">
                 <div class="toolbar-inline">
+                    <div class="input-group input-group-lg" style="max-width: 280px;">
+                        <span class="input-group-text rounded-start-4 border-0 bg-white text-secondary">Sede</span>
+                        <select class="form-control biometric-input rounded-end-4 border-start-0" id="filtroSede" onchange="cambiarSedeSesion(this.value)">
+                            <option value="">Todas</option>
+                            <?php foreach ($listaSedes as $item) { ?>
+                                <option value="<?php echo htmlspecialchars($item['id']); ?>" <?php echo (string) $sede === (string) $item['id'] ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($item['nombre']); ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
                     <div class="input-group input-group-lg">
                         <span class="input-group-text rounded-start-4 border-0 bg-white text-secondary">Cedula</span>
                         <input class="form-control biometric-input rounded-end-4 border-start-0" name="cedula" id="cedula" placeholder="Ingresa documento manualmente" />
@@ -162,7 +182,7 @@ if ($sede !== "") {
                         </div>
                         <div class="metric-card">
                             <p class="metric-label">Sede</p>
-                            <p class="metric-value"><?php echo $sede !== "" ? htmlspecialchars($sede) : "No definida"; ?></p>
+                            <p class="metric-value"><?php echo $nombreSedeActual !== "" ? htmlspecialchars($nombreSedeActual) : ($sede !== "" ? htmlspecialchars($sede) : "Todas"); ?></p>
                         </div>
                     </div>
                 </div>
@@ -203,7 +223,7 @@ if ($sede !== "") {
 
     <script src="js/funciones.js" type="text/javascript"></script>
     <script>
-        cargar_push(<?php echo $sede !== "" ? (int) $sede : 0; ?>);
+        cargar_push(<?php echo json_encode($sede); ?>);
 
         var elem = document.getElementById("cedula");
         elem.onkeyup = function (e) {
