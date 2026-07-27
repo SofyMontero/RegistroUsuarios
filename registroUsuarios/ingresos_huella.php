@@ -1,6 +1,7 @@
 <?php
 require_once 'Model/bd.php';
 require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/inc/token_sesion.php';
 set_time_limit(0);
 date_default_timezone_set("America/Bogota");
 
@@ -8,8 +9,8 @@ use Huella\Core\Database;
 use Huella\Repositories\BiometricRepository;
 
 $con = new bd();
+list($token, $sede) = requerir_token_sesion();
 $biometricRepository = new BiometricRepository(new Database());
-$sede = isset($_GET['sede']) ? trim($_GET['sede']) : '';
 $fechaDesde = isset($_GET['fecha_desde']) && $_GET['fecha_desde'] !== '' ? $_GET['fecha_desde'] : date('Y-m-d');
 $fechaHasta = isset($_GET['fecha_hasta']) && $_GET['fecha_hasta'] !== '' ? $_GET['fecha_hasta'] : date('Y-m-d');
 $busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -59,6 +60,8 @@ $total = count($rows);
     <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap5.css" rel="stylesheet" />
     <link href="Css/estilo.css" rel="stylesheet" type="text/css" />
+    <script src="js/Utils.js" type="text/javascript"></script>
+    <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
 <body class="biometric-body">
     <div class="biometric-shell">
@@ -72,7 +75,7 @@ $total = count($rows);
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <a class="btn-soft btn-soft-secondary" href="Model/ActivarSensorReader.php?sede=<?php echo htmlspecialchars($sede); ?>&token=<?php echo isset($_GET['token']) ? htmlspecialchars($_GET['token']) : ''; ?>">Volver</a>
+                            <a class="btn-soft btn-soft-secondary" href="verificar.php?sede=<?php echo urlencode($sede); ?>&token=<?php echo urlencode($token); ?>">Volver</a>
                         </div>
                     </div>
                 </div>
@@ -81,7 +84,7 @@ $total = count($rows);
             <div class="glass-card section-card mb-4">
                 <form class="row g-3 align-items-end" method="get">
                     <input type="hidden" name="sede" value="<?php echo htmlspecialchars($sede); ?>" />
-                    <input type="hidden" name="token" value="<?php echo isset($_GET['token']) ? htmlspecialchars($_GET['token']) : ''; ?>" />
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>" />
                     <div class="col-md-3">
                         <label class="field-label" for="fecha_desde">Desde</label>
                         <input class="form-control biometric-input" type="date" id="fecha_desde" name="fecha_desde" value="<?php echo htmlspecialchars($fechaDesde); ?>" />

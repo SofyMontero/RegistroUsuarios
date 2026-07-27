@@ -55,12 +55,12 @@
     <script src="js/Utils.js" type="text/javascript"></script>
     <script>
         if (localStorage.getItem("srnPc")) {
-            window.location = "Model/ActivarSensorReader.php?token=" + encodeURIComponent(localStorage.getItem("srnPc")) + "&sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
+            window.location = "verificar.php?token=" + encodeURIComponent(localStorage.getItem("srnPc")) + "&sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
         } else {
             saveSrnPc();
             $("#Token").html(localStorage.getItem("srnPc"));
             var sede = "<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
-            var destino = "Model/ActivarSensorReader.php?token=" + encodeURIComponent(localStorage.getItem("srnPc"));
+            var destino = "verificar.php?token=" + encodeURIComponent(localStorage.getItem("srnPc"));
             if (sede) {
                 destino += "&sede=" + encodeURIComponent(sede);
             }

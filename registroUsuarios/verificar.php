@@ -7,6 +7,14 @@ date_default_timezone_set("America/Bogota");
 $con = new bd();
 list($token, $sede) = requerir_token_sesion();
 
+// Activar sensor en modo lectura al entrar a control de asistencia
+$tokenSql = addslashes($token);
+$con->exec("delete from huellas_temp where pc_serial = '" . $tokenSql . "'");
+$con->exec(
+    "insert into huellas_temp (pc_serial, texto, opc) "
+    . "values ('" . $tokenSql . "', 'El sensor de huella dactilar esta activado','leer')"
+);
+
 $estadoActual = "";
 if ($sede !== "") {
     $sql1 = "SELECT sed_estactual FROM sedes where idsedes = '" . $sede . "'";

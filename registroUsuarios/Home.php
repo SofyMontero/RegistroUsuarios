@@ -42,7 +42,7 @@ list($token, $sede) = requerir_token_sesion();
                             <a class="btn-soft btn-soft-secondary" href="registro_usuarios.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">
                                 Registrar usuario
                             </a>
-                            <a class="btn-soft btn-soft-secondary" href="Model/ActivarSensorReader.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">
+                            <a class="btn-soft btn-soft-secondary" href="verificar.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">
                                 Volver
                             </a>
                         </div>
