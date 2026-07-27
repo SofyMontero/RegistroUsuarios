@@ -5,9 +5,7 @@
  */
 package Helper;
 
-import DB.Conexion;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -19,43 +17,6 @@ public class Utils {
     public static String complement = "\\dist";
 
     public Utils() {
-    }
-
-    public static final boolean setKeyConfig(String urlIndexFile, String urlHabSensor, String urlRestApi, String uniqueId, String browser, String action) {
-        boolean response = false;
-        Conexion con = new Conexion();
-        if (action.equals("add")) {
-            con.createTable();
-            response = con.insert(urlHabSensor, urlRestApi, uniqueId, browser);
-        } else {
-            response = con.updateConfig(uniqueId, browser);
-        }
-        con = null;
-        return response;
-    }
-
-    public static final String getKeyConfig(String key) throws FileNotFoundException, IOException {
-        String keyVaue = "";
-        Conexion con = new Conexion();
-        keyVaue = con.select(key);
-        con = null;
-        return keyVaue;
-    }
-
-    public static final boolean isServicesAdd() throws FileNotFoundException, IOException {
-        boolean response = false;
-        Conexion con = new Conexion();
-        response = con.isServices();
-        con = null;
-        return response;
-    }
-
-    public static final boolean addServiceConfig() throws FileNotFoundException, IOException {
-        boolean response = false;
-        Conexion con = new Conexion();
-        response = con.insertService();
-        con = null;
-        return response;
     }
 
     public static void restartApplication() {

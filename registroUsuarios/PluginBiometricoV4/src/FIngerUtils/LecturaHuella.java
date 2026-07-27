@@ -5,7 +5,10 @@
  */
 package FIngerUtils;
 
-import Helper.Utils;
+import Config.AlmacenConfiguracionJson;
+import Logging.RegistroArchivo;
+import Servicios.VigilanteSensor;
+import WebSocket.ServidorWebSocketLocal;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
 import com.digitalpersona.onetouch.DPFPGlobal;
@@ -34,16 +37,13 @@ import com.google.gson.JsonSyntaxException;
 import java.awt.AWTException;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JRootPane;
@@ -73,21 +73,16 @@ public final class LecturaHuella extends javax.swing.JFrame {
     private String nombre;
     private String dedo;
     private String mensaje = "";
+    private String documentoObjetivo = "";
     public static boolean listenersAdd = false;
+    private final VigilanteSensor vigilante = new VigilanteSensor("Verificación", this::reiniciarSesion);
+    private boolean vigilanteActivo;
 
     public LecturaHuella() throws AWTException {
 
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Fingerprint.png")).getImage());
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-        Robot r = new Robot();
-        int tamX = getWidth();
-        int tamY = getHeight();
-        int maxX = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        int maxY = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        r.mouseMove(maxX + 250 - tamX, maxY - tamY + 10);
-        r.mousePress(InputEvent.BUTTON1_MASK);
-        r.mouseRelease(InputEvent.BUTTON1_MASK);
 
     }
 
@@ -233,6 +228,34 @@ public final class LecturaHuella extends javax.swing.JFrame {
         lector.stopCapture();
     }
 
+    @Override
+    public void dispose() {
+        vigilante.detener();
+        vigilanteActivo = false;
+        super.dispose();
+    }
+
+    private void reiniciarSesion() {
+        stop();
+        start();
+    }
+
+    /**
+     * Filtro 1:1 (verificación por documento conocido); AlmacenConfiguracionJson
+     * no participa aquí porque el documento llega desde HabilitarLector, que ya
+     * lo obtuvo del comando "leer" de HabilitarSensor.php.
+     */
+    public void setDocumentoObjetivo(String documento) {
+        this.documentoObjetivo = documento == null ? "" : documento;
+    }
+
+    private void emitirEvento(String tipo, Object datos) {
+        ServidorWebSocketLocal ws = ServidorWebSocketLocal.obtenerInstanciaActiva();
+        if (ws != null) {
+            ws.emitir(tipo, datos);
+        }
+    }
+
     public void Iniciar() {
 
         if (listenersAdd == false) {
@@ -241,13 +264,15 @@ public final class LecturaHuella extends javax.swing.JFrame {
                 public void dataAcquired(final DPFPDataEvent e) {
                     SwingUtilities.invokeLater(() -> {
                         try {
+                            vigilante.marcarActividad();
                             setTexto("Huella dactilar capturada.!");
                             ProcesarCaptura(e.getSample());
                             identificarHuella();
                             reclutador.clear();
                         } catch (IOException ex) {
+                            RegistroArchivo.error("Error de E/S procesando muestra de verificación", ex);
                         } catch (Exception ex) {
-                            Logger.getLogger(LecturaHuella.class.getName()).log(Level.SEVERE, null, ex);
+                            RegistroArchivo.error("Error inesperado procesando muestra de verificación", ex);
                         }
                     });
                 }
@@ -334,18 +359,17 @@ public final class LecturaHuella extends javax.swing.JFrame {
                 Image image = CrearImagenHuella(sample);
                 setImageHuella(image);
             } catch (DPFPImageQualityException e) {
-                System.out.println("Error: " + e.getMessage());
+                RegistroArchivo.error("Error procesando captura de verificación", e);
             } finally {
                 switch (reclutador.getTemplateStatus()) {
                     case TEMPLATE_STATUS_READY:
-                        System.out.println("Plantilla ok");
                         break;
                     case TEMPLATE_STATUS_FAILED:
                         reclutador.clear();
                         stop();
                         setStatusCapture();
                         setTemplate(null);
-                        System.out.println("La plantilla no pudo ser creada");
+                        RegistroArchivo.warn("La plantilla de verificación no pudo ser creada, reiniciando lectura");
                         start();
                         break;
                 }
@@ -357,41 +381,41 @@ public final class LecturaHuella extends javax.swing.JFrame {
     private void identificarHuella() {
         try {
             mensaje = "El usuario no existe";
-            getFingerTemp();           
-            boolean flag = false;
-            int desde = 0;
-            int hasta = 200;
-            int iteracciones = 3;
-            for (int i = 0; i < iteracciones; i++) {
-                String rs = fingerTemp.listaHuellas(Utils.getKeyConfig("uniqueId"), desde, hasta);
-                JsonParser parser = new JsonParser();
-                JsonArray list = parser.parse(rs).getAsJsonArray();
-                for (JsonElement jsonElement : list) {
-                    JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    iteracciones = (int) Math.round(jsonObject.get("count").getAsDouble() / 10); // Si la iteracciones no aumentan poner aqui  + 1
-                    System.out.println("iteracciones: " + iteracciones);
-                    DPFPTemplate referenceTemplate = DPFPGlobal.getTemplateFactory().createTemplate();
-                    byte[] templateBuffer = Base64.getDecoder().decode(jsonObject.get("huella").getAsString());
-                    referenceTemplate.deserialize(templateBuffer);
-                    DPFPVerificationResult resultado = verificador.verify(featuresVerification, referenceTemplate);
-                    if (resultado.isVerified()) {
-                        mensaje = "Usuario Verificado";
-                        documento = jsonObject.get("documento").getAsString();
-                        nombre = jsonObject.get("nombre_completo").getAsString();
-                        dedo = jsonObject.get("nombre_dedo").getAsString();
-                        flag = true;
+            documento = null;
+            nombre = null;
+            dedo = null;
+            getFingerTemp();
+            String idUnicoPc = AlmacenConfiguracionJson.cargarOCrearPorDefecto().getIdUnicoPc();
+            boolean modoUno = documentoObjetivo != null && !documentoObjetivo.isEmpty();
+            boolean encontrado;
+
+            if (modoUno) {
+                String rs = fingerTemp.listaHuellas(idUnicoPc, 0, 0, documentoObjetivo);
+                encontrado = buscarCoincidencia(rs);
+            } else {
+                encontrado = false;
+                int desde = 0;
+                int hasta = 200;
+                int iteraciones = 1;
+                for (int i = 0; i < iteraciones && !encontrado; i++) {
+                    String rs = fingerTemp.listaHuellas(idUnicoPc, desde, hasta, null);
+                    JsonArray lista = new JsonParser().parse(rs).getAsJsonArray();
+                    if (lista.size() == 0) {
                         break;
                     }
+                    if (i == 0) {
+                        double total = lista.get(0).getAsJsonObject().get("count").getAsDouble();
+                        iteraciones = Math.max(1, (int) Math.round(total / 10.0));
+                    }
+                    encontrado = buscarCoincidenciaEnLista(lista);
+                    desde += 10;
+                    hasta += 10;
                 }
-                if (flag) {
-                    break;
-                }
-                desde += 10;
-                hasta += 10;
             }
+
             setFingerTemp(null);
             getFingerTemp();
-            fingerTemp.setSerial(Utils.getKeyConfig("uniqueId"));
+            fingerTemp.setSerial(idUnicoPc);
             fingerTemp.setImageHuella(getEncodeImage(getImageHuella()));
             fingerTemp.setTexto(getTexto());
             fingerTemp.setStatusPlantilla(mensaje);
@@ -410,9 +434,37 @@ public final class LecturaHuella extends javax.swing.JFrame {
             fingerTemp.actualizarHuella(object);
             fingerTemp = null;
 
+            Map<String, Object> resultado = new HashMap<>();
+            resultado.put("mensaje", mensaje);
+            resultado.put("documento", documento);
+            resultado.put("nombre", nombre);
+            emitirEvento("verificacion", resultado);
+
         } catch (JsonSyntaxException | IOException | IllegalArgumentException e) {
-            System.out.println("error " + e);
+            RegistroArchivo.error("Error identificando huella", e);
         }
+    }
+
+    private boolean buscarCoincidencia(String respuestaJson) {
+        return buscarCoincidenciaEnLista(new JsonParser().parse(respuestaJson).getAsJsonArray());
+    }
+
+    private boolean buscarCoincidenciaEnLista(JsonArray lista) {
+        for (JsonElement jsonElement : lista) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            DPFPTemplate referenceTemplate = DPFPGlobal.getTemplateFactory().createTemplate();
+            byte[] templateBuffer = Base64.getDecoder().decode(jsonObject.get("huella").getAsString());
+            referenceTemplate.deserialize(templateBuffer);
+            DPFPVerificationResult resultado = verificador.verify(featuresVerification, referenceTemplate);
+            if (resultado.isVerified()) {
+                mensaje = "Usuario Verificado";
+                documento = jsonObject.get("documento").getAsString();
+                nombre = jsonObject.get("nombre_completo").getAsString();
+                dedo = jsonObject.get("nombre_dedo").getAsString();
+                return true;
+            }
+        }
+        return false;
     }
 
     private DPFPFeatureSet extraerCaracteristicasHuella(DPFPSample sample, DPFPDataPurpose dpfpDataPurpose) {
@@ -420,7 +472,7 @@ public final class LecturaHuella extends javax.swing.JFrame {
         try {
             return extractor.createFeatureSet(sample, dpfpDataPurpose);
         } catch (DPFPImageQualityException e) {
-            System.out.println("error generando caracteristicas: " + e.getMessage());
+            RegistroArchivo.warn("Error generando características de huella: " + e.getMessage());
             return null;
         }
     }
@@ -456,7 +508,7 @@ public final class LecturaHuella extends javax.swing.JFrame {
             baos.flush();
             imageInByte = baos.toByteArray();
         } catch (IOException e) {
-            System.out.println("error al crear la imagen " + e.getMessage());
+            RegistroArchivo.error("Error al crear la imagen de huella", e);
         }
         return Base64.getEncoder().encodeToString(imageInByte);
     }
@@ -488,6 +540,12 @@ public final class LecturaHuella extends javax.swing.JFrame {
         Notifiacion.setText("");
         lector.startCapture();
         setTexto("Utilizando el lector de huella dactilar");
+        if (!vigilanteActivo) {
+            vigilante.iniciar();
+            vigilanteActivo = true;
+            boolean modoUno = documentoObjetivo != null && !documentoObjetivo.isEmpty();
+            emitirEvento("lectura_iniciada", modoUno ? "1:1" : "1:N");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,7 +5,8 @@
  */
 package FIngerUtils;
 
-import Helper.Utils;
+import Config.AlmacenConfiguracionJson;
+import Logging.RegistroArchivo;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,11 +37,7 @@ public class finger_temp {
     private static String SERVER_PATH;
 
     public finger_temp() {
-        try {
-            SERVER_PATH = Utils.getKeyConfig("urlRestApi");
-        } catch (IOException e) {
-            System.out.println("error " + e);
-        }
+        SERVER_PATH = AlmacenConfiguracionJson.cargarOCrearPorDefecto().getUrlApiRest();
     }
 
     public String getSerial() {
@@ -141,7 +138,7 @@ public class finger_temp {
 
             r = true;
         } catch (IOException e) {
-            System.out.println("Error guardando Huella " + e.getMessage());
+            RegistroArchivo.error("Error guardando huella (POST)", e);
         }
         return r;
     }
@@ -174,23 +171,37 @@ public class finger_temp {
 
             respuesta = true;
         } catch (IOException e) {
-            System.out.println("Error " + e.getMessage());
+            RegistroArchivo.error("Error actualizando huella (PUT)", e);
         }
         return respuesta;
     }
 
     public String listaHuellas(String serial, int desde, int hasta) throws UnsupportedEncodingException, MalformedURLException, IOException {
+        return listaHuellas(serial, desde, hasta, null);
+    }
+
+    /**
+     * Sobrecarga para verificación 1:1: si documento no es nulo/vacío, el
+     * servidor filtra las plantillas de ese único usuario (compatible con
+     * UsuarioRestApi.php ?token=&amp;documento=).
+     */
+    public String listaHuellas(String serial, int desde, int hasta, String documento) throws UnsupportedEncodingException, MalformedURLException, IOException {
         StringBuilder stb = new StringBuilder(SERVER_PATH);
         stb.append("?token=");
         stb.append(URLEncoder.encode(serial, "UTF-8"));
-        stb.append("&desde=");
-        stb.append(desde);
-        stb.append("&hasta=");
-        stb.append(hasta);
+        if (documento != null && !documento.isEmpty()) {
+            stb.append("&documento=");
+            stb.append(URLEncoder.encode(documento, "UTF-8"));
+        } else {
+            stb.append("&desde=");
+            stb.append(desde);
+            stb.append("&hasta=");
+            stb.append(hasta);
+        }
         stb.append("&_=");
         stb.append(System.currentTimeMillis());
 
-        System.out.println("stb.toString() " + stb.toString());
+        RegistroArchivo.info("Consultando plantillas: " + stb.toString());
 
         URL url = new URL(stb.toString());
 
@@ -200,9 +211,6 @@ public class finger_temp {
         httpCon.setRequestProperty("Acept-Charset", "UTF-8");
         httpCon.setRequestProperty("Cache-Control", "no-cache");
         httpCon.setRequestMethod("GET");
-
-        System.out.println("Response Code: " + httpCon.getResponseCode());
-//        System.out.print("Response Code: " + httpCon.getResponseMessage());
 
         StringBuilder respuesta;
 
@@ -216,7 +224,6 @@ public class finger_temp {
         }
 
         httpCon.disconnect();
-//        System.exit(0);
         return respuesta.toString();
 
     }

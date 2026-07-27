@@ -5,7 +5,10 @@
  */
 package FIngerUtils;
 
-import Helper.Utils;
+import Config.AlmacenConfiguracionJson;
+import Logging.RegistroArchivo;
+import Servicios.VigilanteSensor;
+import WebSocket.ServidorWebSocketLocal;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
 import com.digitalpersona.onetouch.DPFPGlobal;
@@ -27,15 +30,10 @@ import com.google.gson.Gson;
 import java.awt.AWTException;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JRootPane;
@@ -56,22 +54,15 @@ public final class CapturarHuella extends javax.swing.JFrame {
     public DPFPFeatureSet featuresInscription;
     private finger_temp fingerTemp;
     private Image imageHuella;
-    private Utils u;
     private String texto;
     private String statusCapture;
+    private final VigilanteSensor vigilante = new VigilanteSensor("Enrollment", this::reiniciarSesion);
+    private boolean vigilanteActivo;
 
     public CapturarHuella() throws AWTException {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Fingerprint.png")).getImage());
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-        Robot r = new Robot();
-        int tamX = getWidth();
-        int tamY = getHeight();
-        int maxX = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        int maxY = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        r.mouseMove(maxX + 250 - tamX, maxY - tamY + 10);
-        r.mousePress(InputEvent.BUTTON1_MASK);
-        r.mouseRelease(InputEvent.BUTTON1_MASK);
     }
 
     /**
@@ -214,17 +205,31 @@ public final class CapturarHuella extends javax.swing.JFrame {
         lector.stopCapture();
     }
 
+    @Override
+    public void dispose() {
+        vigilante.detener();
+        vigilanteActivo = false;
+        super.dispose();
+    }
+
+    private void reiniciarSesion() {
+        stop();
+        start();
+    }
+
     public void Iniciar() {
         lector.addDataListener(new DPFPDataAdapter() {
             @Override
             public void dataAcquired(final DPFPDataEvent e) {
                 SwingUtilities.invokeLater(() -> {
                     try {
+                        vigilante.marcarActividad();
                         setTexto("Huella dactilar capturada.!");
                         ProcesarCaptura(e.getSample());
                     } catch (IOException ex) {
+                        RegistroArchivo.error("Error de E/S procesando muestra de enrollment", ex);
                     } catch (Exception ex) {
-                        Logger.getLogger(CapturarHuella.class.getName()).log(Level.SEVERE, null, ex);
+                        RegistroArchivo.error("Error inesperado procesando muestra de enrollment", ex);
                     }
                 });
             }
@@ -304,21 +309,17 @@ public final class CapturarHuella extends javax.swing.JFrame {
         featuresInscription = extraerCaracteristicasHuella(sample, DPFPDataPurpose.DATA_PURPOSE_ENROLLMENT);
         if (featuresInscription != null) {
             try {
-                System.out.println("estoy en TRY");
                 reclutador.addFeatures(featuresInscription);
                 Image image = CrearImagenHuella(sample);
                 setImageHuella(image);
                 setStatusCapture();
                 updateFingerWS();
             } catch (DPFPImageQualityException | IOException e) {
-                System.out.println("Error: " + e.getMessage());
+                RegistroArchivo.error("Error procesando captura de enrollment", e);
             } finally {
-                System.out.println("estoy en finally");
                 setStatusCapture();
-                System.out.println("estado = " + getStatusCapture());
                 switch (reclutador.getTemplateStatus()) {
                     case TEMPLATE_STATUS_READY:
-                        System.out.println("TEMPLATE_STATUS_READY");
                         stop();
                         setTemplate(reclutador.getTemplate());
                         setTexto("La plantilla ha sido creada ya puede identificarla");
@@ -326,12 +327,11 @@ public final class CapturarHuella extends javax.swing.JFrame {
                         guardarHuella();
                         break;
                     case TEMPLATE_STATUS_FAILED:
-                        System.out.println("TEMPLATE_STATUS_FAILED");
                         reclutador.clear();
                         stop();
                         setStatusCapture();
                         setTemplate(null);
-                        System.out.println("La plantilla no pudo ser creada");
+                        RegistroArchivo.warn("La plantilla no pudo ser creada, reiniciando enrollment");
                         start();
                         break;
                 }
@@ -344,7 +344,7 @@ public final class CapturarHuella extends javax.swing.JFrame {
         try {
             return extractor.createFeatureSet(sample, dpfpDataPurpose);
         } catch (DPFPImageQualityException e) {
-            System.out.println("error generando caracteristicas: " + e.getMessage());
+            RegistroArchivo.warn("Error generando características de huella: " + e.getMessage());
             return null;
         }
     }
@@ -358,18 +358,16 @@ public final class CapturarHuella extends javax.swing.JFrame {
     }
 
     private void updateFingerWS() throws IOException, Exception {
-//        System.out.println("por aqui actualizando "+Base64.getEncoder().encodeToString(getU().getUniqueId().getBytes()));
-
         getFingerTemp();
-        fingerTemp.setSerial(Utils.getKeyConfig("uniqueId"));
+        fingerTemp.setSerial(AlmacenConfiguracionJson.cargarOCrearPorDefecto().getIdUnicoPc());
         fingerTemp.setImageHuella(getEncodeImage(getImageHuella()));
         fingerTemp.setTexto(getTexto());
         fingerTemp.setStatusPlantilla(getStatusCapture());
         fingerTemp.setOption("actualizar");
         String object = new Gson().toJson(fingerTemp);
-//        System.out.println(object);
         fingerTemp.actualizarHuella(object);
         fingerTemp = null;
+        emitirEvento("captura_progreso", getStatusCapture());
     }
 
     private finger_temp getFingerTemp() {
@@ -391,7 +389,7 @@ public final class CapturarHuella extends javax.swing.JFrame {
             baos.flush();
             imageInByte = baos.toByteArray();
         } catch (IOException e) {
-            System.out.println("error al crear la imagen " + e.getMessage());
+            RegistroArchivo.error("Error al crear la imagen de huella", e);
         }
         return Base64.getEncoder().encodeToString(imageInByte);
     }
@@ -419,10 +417,9 @@ public final class CapturarHuella extends javax.swing.JFrame {
     }
 
     private void guardarHuella() throws IOException, Exception {
-//        System.out.println("guardando");
         getFingerTemp();
         String encodeString = Base64.getEncoder().encodeToString(template.serialize());
-        fingerTemp.setSerial(Utils.getKeyConfig("uniqueId"));
+        fingerTemp.setSerial(AlmacenConfiguracionJson.cargarOCrearPorDefecto().getIdUnicoPc());
         fingerTemp.setHuella(encodeString);
         fingerTemp.setImageHuella(getEncodeImage(getImageHuella()));
         fingerTemp.setTexto(getTexto());
@@ -430,15 +427,27 @@ public final class CapturarHuella extends javax.swing.JFrame {
         String object = new Gson().toJson(fingerTemp);
         fingerTemp.asociarHuella(object);
         fingerTemp = null;
-        stop();     
+        emitirEvento("captura_completada", getStatusCapture());
+        stop();
         GetCapturarHuella.setCapturarHuella();
-//        this.dispose();
-        System.out.println("cerrando form");
+        RegistroArchivo.info("Enrollment completado, cerrando ventana de captura");
     }
 
     public void start() {
         lector.startCapture();
         setTexto("Utilizando el lector de huella dactilar");
+        if (!vigilanteActivo) {
+            vigilante.iniciar();
+            vigilanteActivo = true;
+            emitirEvento("captura_iniciada", null);
+        }
+    }
+
+    private void emitirEvento(String tipo, Object datos) {
+        ServidorWebSocketLocal ws = ServidorWebSocketLocal.obtenerInstanciaActiva();
+        if (ws != null) {
+            ws.emitir(tipo, datos);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
