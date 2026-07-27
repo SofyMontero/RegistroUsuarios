@@ -116,8 +116,8 @@ if ($sede !== "") {
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <a class="btn-soft btn-soft-secondary" href="ingresos_huella.php?sede=<?php echo $sede; ?>&token=<?php echo $token; ?>">Ver ingresos</a>
-                            <a class="btn-soft btn-soft-secondary" href="Home.php?token=<?php echo $token; ?>&sede=<?php echo $sede; ?>">Regresar</a>
+                            <a class="btn-soft btn-soft-primary" href="Home.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Módulo biométrico</a>
+                            <a class="btn-soft btn-soft-secondary" href="ingresos_huella.php?sede=<?php echo urlencode($sede); ?>&token=<?php echo urlencode($token); ?>">Ingresos</a>
                             <span class="status-pill"><?php echo $estadoActual !== "" ? htmlspecialchars($estadoActual) : "Sensor activo"; ?></span>
                         </div>
                     </div>

@@ -72,7 +72,7 @@ $total = count($rows);
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <a class="btn-soft btn-soft-secondary" href="verificar.php?sede=<?php echo htmlspecialchars($sede); ?>&token=<?php echo isset($_GET['token']) ? htmlspecialchars($_GET['token']) : ''; ?>">Volver a ingreso</a>
+                            <a class="btn-soft btn-soft-secondary" href="Model/ActivarSensorReader.php?sede=<?php echo htmlspecialchars($sede); ?>&token=<?php echo isset($_GET['token']) ? htmlspecialchars($_GET['token']) : ''; ?>">Volver</a>
                         </div>
                     </div>
                 </div>

@@ -47,7 +47,7 @@ $sedes = $repository->getHeadquartersList();
                             <button class="btn-soft btn-soft-primary" type="button" data-bs-toggle="modal" data-bs-target="#sedesModal">
                                 Administrar sedes
                             </button>
-                            <a class="btn-soft btn-soft-secondary" href="Home.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Regresar</a>
+                            <a class="btn-soft btn-soft-secondary" href="Model/ActivarSensorReader.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Volver</a>
                             <span class="status-pill">Sin huella</span>
                         </div>
                     </div>

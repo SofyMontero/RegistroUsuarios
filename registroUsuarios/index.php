@@ -36,14 +36,14 @@
                             </ol>
 
                             <div class="d-flex flex-column flex-md-row gap-3">
-                                <a class="btn-soft btn-soft-primary" id="irModulo" href="#">Ir al módulo principal</a>
+                                <a class="btn-soft btn-soft-primary" id="irModulo" href="#">Ir a control de asistencia</a>
                                 <a class="btn-soft btn-soft-secondary" href="index.php?sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>">Refrescar</a>
                                 <a class="btn-soft btn-soft-secondary" href="javascript:void(0)">Descargar plugin</a>
                             </div>
                         </div>
 
                         <div id="loadingState" class="empty-placeholder">
-                            Verificando el token local del navegador y preparando la redirección al módulo principal.
+                            Verificando el token local del navegador y preparando la redirección a control de asistencia.
                         </div>
                     </div>
                 </div>
@@ -55,12 +55,12 @@
     <script src="js/Utils.js" type="text/javascript"></script>
     <script>
         if (localStorage.getItem("srnPc")) {
-            window.location = "Home.php?token=" + localStorage.getItem("srnPc") + "&sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
+            window.location = "Model/ActivarSensorReader.php?token=" + encodeURIComponent(localStorage.getItem("srnPc")) + "&sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
         } else {
             saveSrnPc();
             $("#Token").html(localStorage.getItem("srnPc"));
             var sede = "<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>";
-            var destino = "Home.php?token=" + encodeURIComponent(localStorage.getItem("srnPc"));
+            var destino = "Model/ActivarSensorReader.php?token=" + encodeURIComponent(localStorage.getItem("srnPc"));
             if (sede) {
                 destino += "&sede=" + encodeURIComponent(sede);
             }
