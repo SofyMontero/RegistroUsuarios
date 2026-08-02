@@ -7,5 +7,7 @@ declare namespace WebSdk {
 }
 
 declare const WebSdk: {
+  __isStub?: boolean;
   WebChannel: new (options?: WebSdk.WebChannelOptions) => unknown;
+  WebChannelClient: new (channelName?: string, options?: unknown) => unknown;
 };
