@@ -3,12 +3,12 @@
     --carbon: #2B2F33;
     --teal: #5D8F8A;
     --arena: #E7E6E2;
-    --blanco: #FFFFFF;
+    --blanco: #FAFAF9;
     --gris: #9AA1A6;
 
-    --bg: #FFFFFF;
-    --surface: #FFFFFF;
-    --surface-strong: #FFFFFF;
+    --bg: var(--blanco);
+    --surface: var(--blanco);
+    --surface-strong: var(--blanco);
     --text: var(--carbon);
     --muted: var(--gris);
     --primary: var(--carbon);
@@ -28,7 +28,7 @@ body.biometric-body {
     margin: 0;
     color: var(--text);
     font-family: "Mulish", "Segoe UI", sans-serif;
-    background: #FFFFFF;
+    background: var(--blanco);
 }
 
 .biometric-shell {
@@ -38,7 +38,7 @@ body.biometric-body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background: #FFFFFF;
+    background: var(--blanco);
 }
 
 .page-wrap {
