@@ -3,12 +3,12 @@
     --carbon: #2B2F33;
     --teal: #5D8F8A;
     --arena: #E7E6E2;
-    --blanco: #FAFAF9;
+    --blanco: #FFFFFF;
     --gris: #9AA1A6;
 
-    --bg: var(--blanco);
-    --surface: var(--blanco);
-    --surface-strong: var(--blanco);
+    --bg: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-strong: #FFFFFF;
     --text: var(--carbon);
     --muted: var(--gris);
     --primary: var(--carbon);
@@ -23,12 +23,13 @@
     box-sizing: border-box;
 }
 
+html,
 body.biometric-body {
     min-height: 100vh;
     margin: 0;
     color: var(--text);
     font-family: "Mulish", "Segoe UI", sans-serif;
-    background: var(--blanco);
+    background: #FFFFFF;
 }
 
 .biometric-shell {
@@ -38,7 +39,7 @@ body.biometric-body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background: var(--blanco);
+    background: #FFFFFF;
 }
 
 .page-wrap {
@@ -103,22 +104,27 @@ body.biometric-body {
 .brand-footer {
     position: relative;
     z-index: 1;
+    width: 100%;
     margin-top: auto;
-    padding: 28px 16px 8px;
+    padding: 28px 16px 12px;
+    text-align: center;
+    background: #FFFFFF;
 }
 
 .brand-footer-inner {
+    width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     padding: 16px 20px;
     border-top: 1px solid rgba(43, 47, 51, 0.08);
+    text-align: center;
 }
 
 .brand-footer-copy {
-    margin: 0;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
     font-size: 0.78rem;
     font-weight: 400;
     color: var(--gris);
@@ -148,6 +154,16 @@ body.biometric-body {
     letter-spacing: -0.02em;
     max-width: 14ch;
     color: var(--carbon);
+    font-family: "Mulish", "Segoe UI", sans-serif;
+}
+
+.page-title-compact {
+    margin: 8px 0 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+    max-width: none;
 }
 
 .page-subtitle {

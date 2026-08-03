@@ -20,7 +20,6 @@ $con->exec(
 );
 
 $biometricRepository = new BiometricRepository(new Database());
-$listaSedes = $biometricRepository->getHeadquartersList();
 $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
 
 $estadoActual = "";
@@ -127,7 +126,7 @@ if ($sede !== "") {
                     <div class="col-lg-7">
                         <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Control de asistencia</span>
-                        <h1 class="page-title">Ingreso de usuarios</h1>
+                        <h1 class="page-title page-title-compact">Ingreso de usuarios</h1>
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
@@ -141,17 +140,6 @@ if ($sede !== "") {
 
             <div class="glass-card toolbar-card mb-4">
                 <div class="toolbar-inline">
-                    <div class="input-group input-group-lg" style="max-width: 280px;">
-                        <span class="input-group-text rounded-start-4 border-0 bg-white text-secondary">Sede</span>
-                        <select class="form-control biometric-input rounded-end-4 border-start-0" id="filtroSede" onchange="cambiarSedeSesion(this.value)">
-                            <option value="">Todas</option>
-                            <?php foreach ($listaSedes as $item) { ?>
-                                <option value="<?php echo htmlspecialchars($item['id']); ?>" <?php echo (string) $sede === (string) $item['id'] ? 'selected' : ''; ?>>
-                                    <?php echo htmlspecialchars($item['nombre']); ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                    </div>
                     <div class="input-group input-group-lg">
                         <span class="input-group-text rounded-start-4 border-0 bg-white text-secondary">Cedula</span>
                         <input class="form-control biometric-input rounded-end-4 border-start-0" name="cedula" id="cedula" placeholder="Ingresa documento manualmente" />
