@@ -105,8 +105,12 @@ body.biometric-body {
     position: relative;
     z-index: 1;
     width: 100%;
+    align-self: stretch;
     margin-top: auto;
-    padding: 28px 16px 12px;
+    padding: 32px 24px 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     background: #FFFFFF;
 }
@@ -115,14 +119,17 @@ body.biometric-body {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    display: block;
-    padding: 16px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 24px;
     border-top: 1px solid rgba(43, 47, 51, 0.08);
     text-align: center;
 }
 
 .brand-footer-copy {
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
     display: block;
     width: 100%;
     font-size: 0.78rem;
@@ -274,9 +281,7 @@ body.biometric-body {
     justify-content: center;
     text-align: center;
     min-height: 100%;
-    background:
-        radial-gradient(circle at top, rgba(93, 143, 138, 0.12), transparent 55%),
-        linear-gradient(180deg, var(--blanco) 0%, var(--arena) 100%);
+    background: #FFFFFF;
 }
 
 .scanner-frame {
@@ -326,9 +331,7 @@ body.biometric-body {
     align-items: center;
     justify-content: center;
     min-height: 100%;
-    background:
-        radial-gradient(circle at top, rgba(93, 143, 138, 0.1), transparent 58%),
-        linear-gradient(180deg, var(--blanco) 0%, var(--arena) 100%);
+    background: #FFFFFF;
 }
 
 .user-photo-frame {

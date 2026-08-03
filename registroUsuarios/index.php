@@ -10,7 +10,7 @@
     <link href="Css/estilo.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="biometric-body">
-    <div class="biometric-shell d-flex align-items-center">
+    <div class="biometric-shell">
         <div class="container page-wrap">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-9 col-xl-7">
