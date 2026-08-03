@@ -126,7 +126,7 @@ body.biometric-body {
     flex: 0 0 auto;
     margin-top: auto;
     padding: 28px 0 8px;
-    background: #FFFFFF;
+    background: transparent;
     text-align: center !important;
 }
 
@@ -134,7 +134,7 @@ body.biometric-body {
     width: 100%;
     margin: 0 auto;
     padding: 20px 16px 24px;
-    border-top: 1px solid rgba(43, 47, 51, 0.08);
+    border-top: 1px solid #FFFFFF;
     text-align: center !important;
 }
 
@@ -147,7 +147,7 @@ body.biometric-body {
     font-size: 0.78rem;
     font-weight: 400;
     line-height: 1.5;
-    color: var(--gris);
+    color: #FFFFFF !important;
     letter-spacing: 0.02em;
     text-align: center !important;
 }
