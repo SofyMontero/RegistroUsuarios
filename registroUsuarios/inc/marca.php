@@ -29,17 +29,15 @@ function marca_product_badge($producto = 'Ingreso Usuarios')
 }
 
 /**
- * Pie de página con atribución de marca.
+ * Pie de página: solo copyright.
  */
 function marca_footer()
 {
+    $anio = date('Y');
     ?>
     <footer class="brand-footer">
         <div class="brand-footer-inner">
-            <div>
-                <p class="brand-footer-title">Producto <strong>Monteblanco</strong></p>
-                <p class="brand-footer-tag">Tecnología que hace crecer tu negocio.</p>
-            </div>
+            <p class="brand-footer-copy">&copy; <?php echo $anio; ?> Monteblanco. Todos los derechos reservados.</p>
         </div>
     </footer>
     <?php
