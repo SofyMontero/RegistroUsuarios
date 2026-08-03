@@ -126,7 +126,7 @@ body.biometric-body {
     flex: 0 0 auto;
     margin-top: auto;
     padding: 28px 0 8px;
-    background: transparent;
+    background: #FFFFFF;
     text-align: center !important;
 }
 
