@@ -14,16 +14,15 @@ function marca_head_assets()
 }
 
 /**
- * Marca compacta para el topbar (producto + autor).
+ * Solo isotipo + copy de marca (sin textos de producto arriba).
  */
 function marca_product_badge($producto = 'Ingreso Usuarios')
 {
     ?>
     <div class="brand-lockup">
-        <img class="brand-isotipo" src="imagenes/marca/isotipo.svg" width="44" height="26" alt="Monteblanco" />
+        <img class="brand-isotipo" src="imagenes/marca/isotipo.svg" width="48" height="28" alt="Monteblanco" />
         <div class="brand-lockup-text">
-            <span class="brand-product"><?php echo htmlspecialchars($producto); ?></span>
-            <span class="brand-by">por <strong>Monteblanco</strong></span>
+            <p class="brand-copy">Tecnología que hace crecer tu negocio.</p>
         </div>
     </div>
     <?php
@@ -37,7 +36,6 @@ function marca_footer()
     ?>
     <footer class="brand-footer">
         <div class="brand-footer-inner">
-            <img src="imagenes/marca/isotipo.svg" width="36" height="22" alt="" />
             <div>
                 <p class="brand-footer-title">Producto <strong>Monteblanco</strong></p>
                 <p class="brand-footer-tag">Tecnología que hace crecer tu negocio.</p>

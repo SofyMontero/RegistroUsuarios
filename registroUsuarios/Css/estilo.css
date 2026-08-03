@@ -28,10 +28,7 @@ body.biometric-body {
     margin: 0;
     color: var(--text);
     font-family: "Mulish", "Segoe UI", sans-serif;
-    background:
-        radial-gradient(circle at top left, rgba(93, 143, 138, 0.12), transparent 32%),
-        radial-gradient(circle at top right, rgba(43, 47, 51, 0.06), transparent 28%),
-        linear-gradient(180deg, var(--blanco) 0%, var(--arena) 100%);
+    background: var(--arena);
 }
 
 .biometric-shell {
@@ -43,32 +40,6 @@ body.biometric-body {
     flex-direction: column;
 }
 
-.biometric-shell::before,
-.biometric-shell::after {
-    content: "";
-    position: absolute;
-    border-radius: 999px;
-    filter: blur(6px);
-    opacity: 0.7;
-    pointer-events: none;
-}
-
-.biometric-shell::before {
-    width: 280px;
-    height: 280px;
-    top: -100px;
-    right: -80px;
-    background: linear-gradient(135deg, rgba(93, 143, 138, 0.2), rgba(250, 250, 249, 0));
-}
-
-.biometric-shell::after {
-    width: 220px;
-    height: 220px;
-    bottom: -80px;
-    left: -80px;
-    background: linear-gradient(135deg, rgba(43, 47, 51, 0.08), rgba(250, 250, 249, 0));
-}
-
 .page-wrap {
     position: relative;
     z-index: 1;
@@ -77,10 +48,9 @@ body.biometric-body {
 }
 
 .glass-card {
-    background: var(--surface);
+    background: var(--blanco);
     border: 1px solid var(--border);
     box-shadow: var(--shadow);
-    backdrop-filter: blur(12px);
     border-radius: 22px;
 }
 
@@ -88,27 +58,13 @@ body.biometric-body {
     position: relative;
     overflow: hidden;
     padding: 24px 28px;
-    background:
-        radial-gradient(circle at top right, rgba(93, 143, 138, 0.12), transparent 34%),
-        linear-gradient(135deg, rgba(250, 250, 249, 0.98), rgba(231, 230, 226, 0.55));
-}
-
-.topbar-card::after {
-    content: "";
-    position: absolute;
-    right: -90px;
-    bottom: -180px;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(43, 47, 51, 0.05), rgba(93, 143, 138, 0.08));
-    pointer-events: none;
+    background: var(--blanco);
 }
 
 .brand-lockup {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     margin-bottom: 14px;
 }
 
@@ -120,27 +76,27 @@ body.biometric-body {
 .brand-lockup-text {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
     min-width: 0;
 }
 
-.brand-product {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--carbon);
-}
-
-.brand-by {
-    font-size: 0.78rem;
+.brand-copy {
+    margin: 0;
+    font-size: 0.82rem;
     font-weight: 400;
     color: var(--gris);
+    letter-spacing: 0.01em;
 }
 
-.brand-by strong {
-    font-weight: 600;
-    color: var(--teal);
+.brand-copy::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 2px;
+    margin-right: 8px;
+    vertical-align: middle;
+    background: var(--teal);
+    border-radius: 2px;
 }
 
 .brand-footer {
