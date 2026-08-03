@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260803b" rel="stylesheet" type="text/css" />
 </head>
 <body class="biometric-body">
     <div class="biometric-shell">
@@ -47,8 +47,8 @@
                     </div>
                 </div>
             </div>
+            <?php marca_footer(); ?>
         </div>
-        <?php marca_footer(); ?>
     </div>
 
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
@@ -66,18 +66,12 @@
                 token = localStorage.getItem("srnPc");
                 $("#Token").html(token);
                 var destino = "verificar.php?token=" + encodeURIComponent(token);
-                if (sede) {
-                    destino += "&sede=" + encodeURIComponent(sede);
-                }
                 $("#irModulo").attr("href", destino);
                 $("#content").css("display", "block");
                 $("#loadingState").hide();
                 return;
             }
             var ir = "verificar.php?token=" + encodeURIComponent(token);
-            if (sede) {
-                ir += "&sede=" + encodeURIComponent(sede);
-            }
             window.location.replace(ir);
         })();
     </script>

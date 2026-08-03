@@ -37,7 +37,7 @@ function marca_footer()
     ?>
     <footer class="brand-footer">
         <div class="brand-footer-inner">
-            <p class="brand-footer-copy">&copy; <?php echo $anio; ?> Monteblanco. Todos los derechos reservados.</p>
+            <p class="brand-footer-copy text-center mb-0">&copy; <?php echo $anio; ?> Monteblanco. Todos los derechos reservados.</p>
         </div>
     </footer>
     <?php

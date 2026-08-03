@@ -106,6 +106,55 @@ function asegurarTokenSesion() {
     location.replace(inicio);
 }
 
+/**
+ * Ingreso de usuarios: solo token. No reinyecta ni envia sede
+ * (cualquiera puede marcar asistencia sin filtro de sede).
+ */
+function asegurarTokenSesionIngreso() {
+    var token = getParameterByName("token").replace(/^\s+|\s+$/g, "");
+    var tokenAlmacenado = localStorage.getItem("srnPc");
+    if (tokenAlmacenado) {
+        tokenAlmacenado = tokenAlmacenado.replace(/^\s+|\s+$/g, "");
+    }
+
+    var pagina = location.pathname.split("/").pop() || "verificar.php";
+    var raw = location.search.replace(/^\?/, "");
+    var paramsExtra = [];
+    if (raw) {
+        raw.split("&").forEach(function (par) {
+            if (par && par.indexOf("token=") !== 0 && par.indexOf("sede=") !== 0) {
+                paramsExtra.push(par);
+            }
+        });
+    }
+
+    function urlSoloToken(tok) {
+        var u = pagina + "?token=" + encodeURIComponent(tok);
+        if (paramsExtra.length) {
+            u += "&" + paramsExtra.join("&");
+        }
+        return u + location.hash;
+    }
+
+    if (token) {
+        if (token !== tokenAlmacenado) {
+            localStorage.setItem("srnPc", token);
+        }
+        // Quitar sede de la URL si vino en el link.
+        if (location.search.indexOf("sede=") !== -1) {
+            location.replace(urlSoloToken(token));
+        }
+        return;
+    }
+
+    if (tokenAlmacenado) {
+        location.replace(urlSoloToken(tokenAlmacenado));
+        return;
+    }
+
+    location.replace("index.php");
+}
+
 /** Cambia la sede en la URL actual y recarga (mantiene token y demas params). */
 function cambiarSedeSesion(nuevaSede) {
     guardarSedeSesion(nuevaSede);

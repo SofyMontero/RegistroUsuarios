@@ -29,7 +29,8 @@ body.biometric-body {
     margin: 0;
     color: var(--text);
     font-family: "Mulish", "Segoe UI", sans-serif;
-    background: #FFFFFF;
+    background: linear-gradient(165deg, #FAFAF9 0%, #C5D9D7 48%, #5D8F8A 100%) !important;
+    background-attachment: fixed !important;
 }
 
 .biometric-shell {
@@ -39,14 +40,29 @@ body.biometric-body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background: #FFFFFF;
+    background: transparent !important;
+    background-image: none !important;
+}
+
+/* Anula circulos / blobs decorativos de versiones anteriores */
+.biometric-shell::before,
+.biometric-shell::after,
+.topbar-card::before,
+.topbar-card::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    background-image: none !important;
 }
 
 .page-wrap {
     position: relative;
     z-index: 1;
     max-width: 1440px;
+    width: 100%;
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .glass-card {
@@ -60,7 +76,8 @@ body.biometric-body {
     position: relative;
     overflow: hidden;
     padding: 24px 28px;
-    background: var(--blanco);
+    background: #FFFFFF !important;
+    background-image: none !important;
 }
 
 .brand-lockup {
@@ -106,37 +123,33 @@ body.biometric-body {
     z-index: 1;
     width: 100%;
     align-self: stretch;
+    flex: 0 0 auto;
     margin-top: auto;
-    padding: 32px 24px 28px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: #FFFFFF;
+    padding: 28px 0 8px;
+    background: transparent;
+    text-align: center !important;
 }
 
 .brand-footer-inner {
     width: 100%;
-    max-width: 1440px;
     margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 24px;
+    padding: 20px 16px 24px;
     border-top: 1px solid rgba(43, 47, 51, 0.08);
-    text-align: center;
+    text-align: center !important;
 }
 
 .brand-footer-copy {
-    margin: 0;
+    margin: 0 auto !important;
     padding: 0;
     display: block;
     width: 100%;
+    max-width: 100%;
     font-size: 0.78rem;
     font-weight: 400;
+    line-height: 1.5;
     color: var(--gris);
     letter-spacing: 0.02em;
-    text-align: center;
+    text-align: center !important;
 }
 
 .eyebrow {

@@ -64,7 +64,7 @@ $total = count($rows);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap5.css" rel="stylesheet" />
-    <link href="Css/estilo.css" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260803b" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -169,8 +169,8 @@ $total = count($rows);
                     </table>
                 </div>
             </div>
+            <?php marca_footer(); ?>
         </div>
-        <?php marca_footer(); ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>

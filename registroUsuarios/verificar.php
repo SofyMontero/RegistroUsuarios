@@ -5,11 +5,10 @@ require_once __DIR__ . '/inc/token_sesion.php';
 set_time_limit(0);
 date_default_timezone_set("America/Bogota");
 
-use Huella\Core\Database;
-use Huella\Repositories\BiometricRepository;
-
 $con = new bd();
-list($token, $sede) = requerir_token_sesion();
+list($token) = requerir_token_sesion();
+// Ingreso: no se usa sede para filtrar (cualquiera puede registrar).
+$sede = '';
 
 // Activar sensor en modo lectura al entrar a control de asistencia
 $tokenSql = addslashes($token);
@@ -18,22 +17,6 @@ $con->exec(
     "insert into huellas_temp (pc_serial, texto, opc) "
     . "values ('" . $tokenSql . "', 'El sensor de huella dactilar esta activado','leer')"
 );
-
-$biometricRepository = new BiometricRepository(new Database());
-$nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
-
-$estadoActual = "";
-if ($sede !== "") {
-    $sql1 = "SELECT sed_estactual FROM sedes where idsedes = '" . addslashes($sede) . "'";
-    $rows1 = $con->findAll($sql1);
-    if (count($rows1) > 0) {
-        $sql2 = "SELECT estado_nombre FROM estados where estado_id = '" . $rows1[0]['sed_estactual'] . "'";
-        $rows2 = $con->findAll($sql2);
-        if (count($rows2) > 0) {
-            $estadoActual = $rows2[0]['estado_nombre'];
-        }
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -45,13 +28,13 @@ if ($sede !== "") {
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260803b" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
-    <script type="text/javascript">asegurarTokenSesion();</script>
+    <script type="text/javascript">asegurarTokenSesionIngreso();</script>
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
     <script type="text/javascript">
-        function enviar(valor, sede) {
+        function enviar(valor) {
             var cambio = "nada";
             if (valor == 1) {
                 cambio = "INGRESO";
@@ -63,7 +46,7 @@ if ($sede !== "") {
                 cambio = "SALIDA";
             }
 
-            var ruta = "param1=" + valor + "&sede=" + sede;
+            var ruta = "param1=" + valor;
             $.ajax({
                 url: 'cambioEstado.php',
                 type: 'get',
@@ -78,8 +61,7 @@ if ($sede !== "") {
 
         function regced() {
             var cedula = document.getElementById("cedula").value;
-            var sedeActual = getParameterByName("sede") || "";
-            var ruta = "param1=" + encodeURIComponent(cedula) + "&sede=" + encodeURIComponent(sedeActual);
+            var ruta = "param1=" + encodeURIComponent(cedula);
             $.ajax({
                 url: 'ingresoconcedula.php',
                 type: 'get',
@@ -130,9 +112,9 @@ if ($sede !== "") {
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <a class="btn-soft btn-soft-secondary" href="asociar_huellas.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Asociar huellas</a>
-                            <a class="btn-soft btn-soft-secondary" href="ingresos_huella.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Ver ingresos</a>
-                            <span class="status-pill"><?php echo $estadoActual !== "" ? htmlspecialchars($estadoActual) : "Sensor activo"; ?></span>
+                            <a class="btn-soft btn-soft-secondary" href="asociar_huellas.php?token=<?php echo urlencode($token); ?>">Asociar huellas</a>
+                            <a class="btn-soft btn-soft-secondary" href="ingresos_huella.php?token=<?php echo urlencode($token); ?>">Ver ingresos</a>
+                            <span class="status-pill">Sensor activo</span>
                         </div>
                     </div>
                 </div>
@@ -165,10 +147,6 @@ if ($sede !== "") {
                             <p class="metric-label">Token</p>
                             <p class="metric-value"><?php echo htmlspecialchars($token); ?></p>
                         </div>
-                        <div class="metric-card">
-                            <p class="metric-label">Sede</p>
-                            <p class="metric-value"><?php echo $nombreSedeActual !== "" ? htmlspecialchars($nombreSedeActual) : ($sede !== "" ? htmlspecialchars($sede) : "Todas"); ?></p>
-                        </div>
                     </div>
                 </div>
 
@@ -196,20 +174,20 @@ if ($sede !== "") {
                         <textarea id="<?php echo $token . "_texto"; ?>" readonly>---</textarea>
                     </div>
                     <div class="d-flex gap-2 flex-wrap justify-content-center">
-                        <span class="status-pill"><?php echo $estadoActual !== "" ? htmlspecialchars($estadoActual) : "Escuchando"; ?></span>
+                        <span class="status-pill">Escuchando</span>
                         <span class="eyebrow">Modo escritorio</span>
                     </div>
                 </div>
             </div>
+            <?php marca_footer(); ?>
         </div>
 
         <div id="resultado" style="display:none;"></div>
-        <?php marca_footer(); ?>
     </div>
 
     <script src="js/funciones.js" type="text/javascript"></script>
     <script>
-        cargar_push(<?php echo json_encode($sede); ?>);
+        cargar_push("");
 
         var elem = document.getElementById("cedula");
         elem.onkeyup = function (e) {
