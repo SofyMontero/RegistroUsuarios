@@ -14,11 +14,9 @@ $sedes = $repository->getHeadquartersList();
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro de Usuarios </title>
-    <link rel="shortcut icon" href="imagenes/finger.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <title>Registro de usuarios | Monteblanco</title>
+    <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
+    <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/estilo.css" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
@@ -38,6 +36,7 @@ $sedes = $repository->getHeadquartersList();
             <div class="glass-card topbar-card mb-4">
                 <div class="row g-4 align-items-center">
                     <div class="col-lg-7">
+                        <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Modulo administrativo</span>
                         <h1 class="page-title">Registro de usuarios</h1>
                         <p class="section-copy mb-0">Esta vista crea el usuario base en el sistema sin asociar huellas ni tocar el flujo biometrico existente.</p>
@@ -47,7 +46,7 @@ $sedes = $repository->getHeadquartersList();
                             <button class="btn-soft btn-soft-primary" type="button" data-bs-toggle="modal" data-bs-target="#sedesModal">
                                 Administrar sedes
                             </button>
-                            <a class="btn-soft btn-soft-secondary" href="verificar.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Volver</a>
+                            <a class="btn-soft btn-soft-secondary" href="verificar.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Volver a ingreso</a>
                             <span class="status-pill">Sin huella</span>
                         </div>
                     </div>
@@ -130,6 +129,7 @@ $sedes = $repository->getHeadquartersList();
                 </div>
             </div>
         </div>
+        <?php marca_footer(); ?>
     </div>
 
     <div class="modal fade" id="sedesModal" tabindex="-1" aria-hidden="true">

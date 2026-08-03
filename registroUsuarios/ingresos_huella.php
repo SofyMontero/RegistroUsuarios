@@ -58,11 +58,9 @@ $total = count($rows);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ingresos por Huella | Ingreso Usuarios</title>
-    <link rel="shortcut icon" href="imagenes/finger.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <title>Historial de ingresos | Monteblanco</title>
+    <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
+    <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap5.css" rel="stylesheet" />
@@ -76,6 +74,7 @@ $total = count($rows);
             <div class="glass-card topbar-card mb-4">
                 <div class="row g-4 align-items-center">
                     <div class="col-lg-7">
+                        <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Reporte biometrico</span>
                         <h1 class="page-title">Historial de ingresos</h1>
                         <p class="section-copy mb-0">
@@ -84,7 +83,7 @@ $total = count($rows);
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <a class="btn-soft btn-soft-secondary" href="verificar.php?sede=<?php echo urlencode($sede); ?>&token=<?php echo urlencode($token); ?>">Volver</a>
+                            <a class="btn-soft btn-soft-primary" href="verificar.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Volver a ingreso</a>
                         </div>
                     </div>
                 </div>
@@ -171,6 +170,7 @@ $total = count($rows);
                 </div>
             </div>
         </div>
+        <?php marca_footer(); ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>

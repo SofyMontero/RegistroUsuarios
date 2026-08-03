@@ -42,11 +42,9 @@ if ($sede !== "") {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="refresh" content="600" />
-    <title>Ingreso por Huella | Ingreso Usuarios</title>
-    <link rel="shortcut icon" href="imagenes/finger.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <title>Ingreso de usuarios | Monteblanco</title>
+    <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
+    <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/estilo.css" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
@@ -127,15 +125,14 @@ if ($sede !== "") {
             <div class="glass-card topbar-card mb-4">
                 <div class="row g-4 align-items-center">
                     <div class="col-lg-7">
+                        <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Control de asistencia</span>
-                        <h1 class="page-title">Ingreso </h1>
-
+                        <h1 class="page-title">Ingreso de usuarios</h1>
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <a class="btn-soft btn-soft-primary" href="asociar_huellas.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Módulo biométrico</a>
                             <a class="btn-soft btn-soft-secondary" href="asociar_huellas.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Asociar huellas</a>
-                            <a class="btn-soft btn-soft-secondary" href="ingresos_huella.php?sede=<?php echo urlencode($sede); ?>&token=<?php echo urlencode($token); ?>">Ingresos</a>
+                            <a class="btn-soft btn-soft-secondary" href="ingresos_huella.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Ver ingresos</a>
                             <span class="status-pill"><?php echo $estadoActual !== "" ? htmlspecialchars($estadoActual) : "Sensor activo"; ?></span>
                         </div>
                     </div>
@@ -219,6 +216,7 @@ if ($sede !== "") {
         </div>
 
         <div id="resultado" style="display:none;"></div>
+        <?php marca_footer(); ?>
     </div>
 
     <script src="js/funciones.js" type="text/javascript"></script>

@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Biométrico | Ingreso Usuarios</title>
-    <link rel="shortcut icon" href="imagenes/finger.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <title>Token biométrico | Monteblanco</title>
+    <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
+    <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/estilo.css" rel="stylesheet" type="text/css" />
 </head>
@@ -17,6 +15,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-9 col-xl-7">
                     <div class="glass-card section-card p-4 p-md-5">
+                        <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Preparacion del lector</span>
                         <h1 class="page-title mt-3">Configura el token de este navegador</h1>
                         <p class="page-subtitle mb-4">
@@ -49,6 +48,7 @@
                 </div>
             </div>
         </div>
+        <?php marca_footer(); ?>
     </div>
 
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
