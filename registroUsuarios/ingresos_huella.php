@@ -38,6 +38,15 @@ if ($sede !== '') {
     $where[] = "u.usu_idsede = '{$sedeSql}'";
 }
 
+$where[] = "(
+    s.seg_horaingreso > '00:00:00'
+    OR s.seg_ingresoAlmuerzo > '00:00:00'
+    OR s.seg_salioAlmuerzo > '00:00:00'
+    OR IFNULL(s.seg_ingresoBreak, '00:00:00') > '00:00:00'
+    OR IFNULL(s.seg_salioBreak, '00:00:00') > '00:00:00'
+    OR s.seg_horaSalida > '00:00:00'
+)";
+
 $sql = "
     SELECT
         s.seg_iduser AS documento,
@@ -69,7 +78,7 @@ $total = count($rows);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap5.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260822a" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260822b" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -177,14 +186,14 @@ $total = count($rows);
                                 ?>
                                 <tr>
                                     <td><strong><?php echo htmlspecialchars($row['nombre']); ?></strong></td>
-                                    <td><?php echo htmlspecialchars($row['documento']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['seg_fechaingreso']); ?></td>
-                                    <td><?php echo htmlspecialchars(formatear_hora_asistencia($row['seg_horaingreso'])); ?></td>
-                                    <td><?php echo htmlspecialchars(formatear_hora_asistencia($saleAlmuerzo)); ?></td>
-                                    <td class="<?php echo htmlspecialchars($claseAlmuerzo); ?>"><?php echo htmlspecialchars(formatear_hora_asistencia($regresaAlmuerzo)); ?></td>
-                                    <td><?php echo htmlspecialchars(formatear_hora_asistencia($saleBreak)); ?></td>
-                                    <td class="<?php echo htmlspecialchars($claseBreak); ?>"><?php echo htmlspecialchars(formatear_hora_asistencia($regresaBreak)); ?></td>
-                                    <td><?php echo htmlspecialchars(formatear_hora_asistencia($row['seg_horaSalida'])); ?></td>
+                                    <td class="celda-fija"><?php echo htmlspecialchars($row['documento']); ?></td>
+                                    <td class="celda-fija"><?php echo htmlspecialchars(formatear_fecha_asistencia($row['seg_fechaingreso'])); ?></td>
+                                    <td class="celda-fija"><?php echo htmlspecialchars(formatear_hora_asistencia($row['seg_horaingreso'])); ?></td>
+                                    <td class="celda-fija"><?php echo htmlspecialchars(formatear_hora_asistencia($saleAlmuerzo)); ?></td>
+                                    <td class="celda-fija <?php echo htmlspecialchars($claseAlmuerzo); ?>"><?php echo htmlspecialchars(formatear_hora_asistencia($regresaAlmuerzo)); ?></td>
+                                    <td class="celda-fija"><?php echo htmlspecialchars(formatear_hora_asistencia($saleBreak)); ?></td>
+                                    <td class="celda-fija <?php echo htmlspecialchars($claseBreak); ?>"><?php echo htmlspecialchars(formatear_hora_asistencia($regresaBreak)); ?></td>
+                                    <td class="celda-fija"><?php echo htmlspecialchars(formatear_hora_asistencia($row['seg_horaSalida'])); ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>

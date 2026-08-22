@@ -51,5 +51,29 @@ function clase_celda_tiempo_excedido($inicio, $fin, $minutosPermitidos)
 
 function formatear_hora_asistencia($hora)
 {
-    return hora_asistencia_vacia($hora) ? '—' : $hora;
+    if (hora_asistencia_vacia($hora)) {
+        return '—';
+    }
+
+    $hora = trim((string) $hora);
+    if (preg_match('/^(\d{2}:\d{2}:\d{2})/', $hora, $partes)) {
+        return $partes[1];
+    }
+
+    return $hora;
+}
+
+function formatear_fecha_asistencia($fecha)
+{
+    $fecha = trim((string) $fecha);
+    if ($fecha === '' || strpos($fecha, '0000-00-00') === 0) {
+        return '—';
+    }
+
+    $ts = strtotime($fecha);
+    if ($ts === false) {
+        return $fecha;
+    }
+
+    return date('Y-m-d', $ts);
 }

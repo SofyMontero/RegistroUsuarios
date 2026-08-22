@@ -616,6 +616,12 @@ body.biometric-body {
     vertical-align: middle;
 }
 
+.report-table td.celda-fija {
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+}
+
 .report-table th {
     font-size: 0.8rem;
     text-transform: uppercase;
