@@ -14,8 +14,10 @@ list($token, $sede) = requerir_token_sesion();
 $biometricRepository = new BiometricRepository(new Database());
 $listaSedes = $biometricRepository->getHeadquartersList();
 $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
-$fechaDesde = isset($_GET['fecha_desde']) && $_GET['fecha_desde'] !== '' ? $_GET['fecha_desde'] : date('Y-m-d');
-$fechaHasta = isset($_GET['fecha_hasta']) && $_GET['fecha_hasta'] !== '' ? $_GET['fecha_hasta'] : date('Y-m-d');
+$primerDiaMes = date('Y-m-01');
+$ultimoDiaMes = date('Y-m-t');
+$fechaDesde = isset($_GET['fecha_desde']) && $_GET['fecha_desde'] !== '' ? $_GET['fecha_desde'] : $primerDiaMes;
+$fechaHasta = isset($_GET['fecha_hasta']) && $_GET['fecha_hasta'] !== '' ? $_GET['fecha_hasta'] : $ultimoDiaMes;
 $busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
 
 $biometricRepository->ensureBreakColumns();
@@ -51,7 +53,6 @@ $sql = "
     LEFT JOIN usuarios u ON u.usu_identificacion = s.seg_iduser
     WHERE " . implode(' AND ', $where) . "
     ORDER BY s.seg_fechaingreso DESC, s.seg_horaingreso DESC
-    LIMIT 300
 ";
 
 $rows = $con->findAll($sql);
@@ -129,7 +130,7 @@ $total = count($rows);
                 <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
                     <div>
                         <h2 class="section-title">Resultados</h2>
-                        <p class="section-copy">Mostrando <?php echo $total; ?> registros dentro del rango seleccionado.</p>
+                        <p class="section-copy">Mostrando <?php echo $total; ?> registros (<?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>). La descarga incluye todo ese rango.</p>
                         <div class="tiempo-leyenda mt-2">
                             <span class="tiempo-leyenda-item">
                                 <span></span>
@@ -206,15 +207,22 @@ $total = count($rows);
                 pageLength: 30,
                 lengthMenu: [[30, 50, 100, -1], [30, 50, 100, 'Todos']],
                 order: [[2, 'desc'], [3, 'desc']],
+                deferRender: true,
                 layout: {
                     topStart: {
                         buttons: [
                             {
                                 extend: 'excelHtml5',
                                 text: 'Excel',
-                                title: 'Ingresos_Huella_' + new Date().toISOString().slice(0, 10),
+                                title: 'Ingresos_Huella_<?php echo date('Y-m', strtotime($fechaDesde)); ?>',
+                                filename: 'Ingresos_Huella_<?php echo date('Y-m', strtotime($fechaDesde)); ?>',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    modifier: {
+                                        page: 'all',
+                                        search: 'none',
+                                        order: 'applied'
+                                    }
                                 },
                                 className: 'd-none',
                                 attr: {
