@@ -15,7 +15,7 @@ if (!defined('HORA_CERO_ASISTENCIA')) {
 function hora_asistencia_vacia($hora)
 {
     $hora = trim((string) $hora);
-    if ($hora === '') {
+    if ($hora === '' || $hora === '—' || $hora === '-' || $hora === '--' || $hora === '---') {
         return true;
     }
 
@@ -51,14 +51,14 @@ function clase_celda_tiempo_excedido($inicio, $fin, $minutosPermitidos)
 
 function formatear_hora_asistencia($hora)
 {
-    if (hora_asistencia_vacia($hora)) {
-        return HORA_CERO_ASISTENCIA;
+    if (hora_asistencia_vacia($hora) || $hora === null) {
+        return '00:00:00';
     }
 
     $hora = trim((string) $hora);
     $ts = strtotime($hora);
     if ($ts === false) {
-        return $hora;
+        return '00:00:00';
     }
 
     return date('g:i:s A', $ts);
@@ -68,7 +68,7 @@ function formatear_fecha_asistencia($fecha)
 {
     $fecha = trim((string) $fecha);
     if ($fecha === '' || strpos($fecha, '0000-00-00') === 0) {
-        return '—';
+        return '';
     }
 
     $ts = strtotime($fecha);
