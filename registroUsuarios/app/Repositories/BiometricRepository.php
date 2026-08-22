@@ -61,10 +61,30 @@ class BiometricRepository
         );
     }
 
+    public function ensureBreakColumns()
+    {
+        $ingreso = $this->db->fetchAll("SHOW COLUMNS FROM seguimientousers LIKE 'seg_ingresoBreak'");
+        if (!$ingreso) {
+            $this->db->execute(
+                "ALTER TABLE seguimientousers ADD COLUMN seg_ingresoBreak TIME NOT NULL DEFAULT '00:00:00'"
+            );
+        }
+
+        $salida = $this->db->fetchAll("SHOW COLUMNS FROM seguimientousers LIKE 'seg_salioBreak'");
+        if (!$salida) {
+            $this->db->execute(
+                "ALTER TABLE seguimientousers ADD COLUMN seg_salioBreak TIME NOT NULL DEFAULT '00:00:00'"
+            );
+        }
+    }
+
     public function getAttendanceRow($documento, $fechaActual)
     {
+        $this->ensureBreakColumns();
+
         return $this->db->fetchOne(
-            "SELECT seg_iduser, seg_horaingreso, seg_ingresoAlmuerzo, seg_salioAlmuerzo, seg_horaSalida
+            "SELECT seg_iduser, seg_horaingreso, seg_ingresoAlmuerzo, seg_salioAlmuerzo,
+                    seg_ingresoBreak, seg_salioBreak, seg_horaSalida
              FROM seguimientousers
              WHERE seg_iduser = :documento AND seg_fechaingreso = :fecha",
             array('documento' => $documento, 'fecha' => $fechaActual)
@@ -73,7 +93,14 @@ class BiometricRepository
 
     public function updateAttendanceField($documento, $fechaActual, $campo, $horaActual)
     {
-        $allowed = array('seg_horaingreso', 'seg_ingresoAlmuerzo', 'seg_salioAlmuerzo', 'seg_horaSalida');
+        $allowed = array(
+            'seg_horaingreso',
+            'seg_ingresoAlmuerzo',
+            'seg_salioAlmuerzo',
+            'seg_ingresoBreak',
+            'seg_salioBreak',
+            'seg_horaSalida',
+        );
         if (!in_array($campo, $allowed, true)) {
             return 0;
         }
@@ -205,6 +232,8 @@ class BiometricRepository
 
     public function ensureTodayAttendanceRowsForActiveUsers($fechaActual)
     {
+        $this->ensureBreakColumns();
+
         return $this->db->execute(
             "INSERT INTO seguimientousers (
                 seg_iduser,
@@ -212,11 +241,15 @@ class BiometricRepository
                 seg_horaingreso,
                 seg_ingresoAlmuerzo,
                 seg_salioAlmuerzo,
+                seg_ingresoBreak,
+                seg_salioBreak,
                 seg_horaSalida
             )
             SELECT
                 u.usu_identificacion,
                 :fecha,
+                '00:00:00',
+                '00:00:00',
                 '00:00:00',
                 '00:00:00',
                 '00:00:00',

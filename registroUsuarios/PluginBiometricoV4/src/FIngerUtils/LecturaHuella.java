@@ -74,7 +74,7 @@ public final class LecturaHuella extends javax.swing.JFrame {
     private String dedo;
     private String mensaje = "";
     private String documentoObjetivo = "";
-    public static boolean listenersAdd = false;
+    private boolean listenersAdd = false;
     private final VigilanteSensor vigilante = new VigilanteSensor("Verificación", this::reiniciarSesion);
     private boolean vigilanteActivo;
 
@@ -232,6 +232,12 @@ public final class LecturaHuella extends javax.swing.JFrame {
     public void dispose() {
         vigilante.detener();
         vigilanteActivo = false;
+        listenersAdd = false;
+        try {
+            stop();
+        } catch (Exception ex) {
+            RegistroArchivo.warn("Error deteniendo lector al cerrar lectura: " + ex.getMessage());
+        }
         super.dispose();
     }
 

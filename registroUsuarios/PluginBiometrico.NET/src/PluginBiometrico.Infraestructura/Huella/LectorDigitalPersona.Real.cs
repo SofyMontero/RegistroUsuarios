@@ -81,9 +81,28 @@ public sealed partial class LectorDigitalPersona
 
     partial void DetenerCapturaReal()
     {
+        if (_capturador is null)
+        {
+            return;
+        }
+
         try
         {
-            _capturador?.StopCapture();
+            _capturador.OnReaderConnect -= OnReaderConnect;
+            _capturador.OnReaderDisconnect -= OnReaderDisconnect;
+            _capturador.OnFingerTouch -= OnFingerTouch;
+            _capturador.OnFingerGone -= OnFingerGone;
+            _capturador.OnSampleQuality -= OnSampleQuality;
+            _capturador.OnComplete -= OnComplete;
+        }
+        catch
+        {
+            // El control COM puede estar a medias de soltar el lector.
+        }
+
+        try
+        {
+            _capturador.StopCapture();
         }
         catch
         {

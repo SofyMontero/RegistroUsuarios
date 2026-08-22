@@ -40,8 +40,10 @@ public class GetCapturarHuella {
     }
 
     public static void setCapturarHuella() {
-        ch.dispose();
-        ch = null;
+        if (ch != null) {
+            ch.dispose();
+            ch = null;
+        }
     }
 
 }

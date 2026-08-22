@@ -92,6 +92,8 @@ public sealed class ServicioVerificacion
         }
         finally
         {
+            _lector.VerificacionCapturada -= OnVerificacionCapturada;
+            _lector.MensajeEstado -= OnMensajeEstado;
             _lector.DetenerCaptura();
 
             if (_presentador is not null)

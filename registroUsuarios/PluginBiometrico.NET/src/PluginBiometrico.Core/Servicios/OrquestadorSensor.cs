@@ -20,6 +20,7 @@ public sealed class OrquestadorSensor
     private CancellationTokenSource? _cancelacionOperacion;
     private Task? _operacionActiva;
     private string? _tipoOperacionActiva;
+    private string? _ultimaOperacionQueUsoLector;
 
     public OrquestadorSensor(
         IClienteApiBiometrica api,
@@ -188,10 +189,19 @@ public sealed class OrquestadorSensor
             return false;
         }
 
+        var operacionAnterior = _tipoOperacionActiva ?? _ultimaOperacionQueUsoLector;
+
         CancelarOperacionActiva();
         if (_operacionActiva is not null)
         {
             await _operacionActiva;
+        }
+
+        // Tras enrolar, el ActiveX tarda en soltar el U.are.U. Si arrancamos
+        // lectura enseguida el ingreso no reconoce al usuario hasta reiniciar.
+        if (operacionAnterior is "capturar" or "leer")
+        {
+            await Task.Delay(500, cancellationToken);
         }
 
         _cancelacionOperacion?.Dispose();
@@ -218,6 +228,13 @@ public sealed class OrquestadorSensor
         {
             _registro.Error($"Error durante la operación biométrica {tipo}.", ex);
             _eventosLocal?.Emitir("error", new { mensaje = ex.Message });
+        }
+        finally
+        {
+            if (tipo is "capturar" or "leer")
+            {
+                _ultimaOperacionQueUsoLector = tipo;
+            }
         }
     }
 

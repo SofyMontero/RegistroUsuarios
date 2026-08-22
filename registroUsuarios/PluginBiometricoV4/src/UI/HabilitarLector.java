@@ -90,6 +90,7 @@ public class HabilitarLector {
                 case "leer":
                     detenerCapturaSiActiva();
                     if (GetLecturaHuella.lh == null) {
+                        esperarLiberacionLector();
                         LecturaHuella lh = GetLecturaHuella.getLecturarHuella();
                         lh.setDocumentoObjetivo(ultimoDocumento);
                         lh.Iniciar();
@@ -131,6 +132,19 @@ public class HabilitarLector {
         if (GetCapturarHuella.ch != null) {
             GetCapturarHuella.ch.stop();
             GetCapturarHuella.setCapturarHuella();
+        }
+    }
+
+    /**
+     * Tras el enrolamiento el SDK sigue soltando el U.are.U unos cientos de ms.
+     * Arrancar LecturaHuella de inmediato deja el ingreso sordo hasta reiniciar
+     * el plugin.
+     */
+    private void esperarLiberacionLector() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
         }
     }
 

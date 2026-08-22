@@ -209,6 +209,11 @@ public final class CapturarHuella extends javax.swing.JFrame {
     public void dispose() {
         vigilante.detener();
         vigilanteActivo = false;
+        try {
+            stop();
+        } catch (Exception ex) {
+            RegistroArchivo.warn("Error deteniendo lector al cerrar captura: " + ex.getMessage());
+        }
         super.dispose();
     }
 
@@ -426,11 +431,17 @@ public final class CapturarHuella extends javax.swing.JFrame {
         fingerTemp.setStatusPlantilla(getStatusCapture());
         String object = new Gson().toJson(fingerTemp);
         fingerTemp.asociarHuella(object);
+        // El POST deja opc='capturar'. Sin este PUT el orquestador vuelve a
+        // abrir el enrolamiento y el lector queda ocupado al pasar a ingreso.
+        fingerTemp.setOption("stop");
+        fingerTemp.actualizarHuella(new Gson().toJson(fingerTemp));
         fingerTemp = null;
         emitirEvento("captura_completada", getStatusCapture());
         stop();
-        GetCapturarHuella.setCapturarHuella();
-        RegistroArchivo.info("Enrollment completado, cerrando ventana de captura");
+        SwingUtilities.invokeLater(() -> {
+            GetCapturarHuella.setCapturarHuella();
+            RegistroArchivo.info("Enrollment completado, lector liberado para ingreso");
+        });
     }
 
     public void start() {

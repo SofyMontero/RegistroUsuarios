@@ -117,16 +117,26 @@ class BiometricController
             return;
         }
 
-        $this->attendanceService->registerEvent($cedula, date('Y-m-d'), date('H:i:s'));
+        $marcacion = $this->attendanceService->registerEvent($cedula, date('Y-m-d'), date('H:i:s'));
         $user = $this->repository->getUserNameByDocument($cedula);
         $imagenUsuario = $this->repository->getFingerprintImageByDocument($cedula);
+        $nombre = $user && !empty($user['usu_nombre']) ? $user['usu_nombre'] : '';
+        $excedido = !empty($marcacion['excedido']);
+        $mensaje = !empty($marcacion['mensaje']) ? $marcacion['mensaje'] : 'Registro ingresado correctamente';
+        if ($nombre !== '' && !$excedido) {
+            $mensaje = $mensaje . ' — ' . $nombre;
+        }
 
         echo json_encode(array(
             'success' => true,
-            'message' => 'Registro ingresado correctamente',
+            'message' => $mensaje,
             'documento' => $cedula,
-            'nombre' => $user && !empty($user['usu_nombre']) ? $user['usu_nombre'] : '',
+            'nombre' => $nombre,
             'foto_usu' => $imagenUsuario && !empty($imagenUsuario['ext']) ? $imagenUsuario['ext'] : 'mujer.png',
+            'evento' => $marcacion['evento'],
+            'excedido' => $excedido,
+            'minutos' => $marcacion['minutos'],
+            'permitidos' => $marcacion['permitidos'],
         ));
     }
 }

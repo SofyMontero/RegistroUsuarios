@@ -2,6 +2,7 @@
 require_once 'Model/bd.php';
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/inc/token_sesion.php';
+require_once __DIR__ . '/inc/tiempo_asistencia.php';
 set_time_limit(0);
 date_default_timezone_set("America/Bogota");
 
@@ -17,6 +18,7 @@ $fechaDesde = isset($_GET['fecha_desde']) && $_GET['fecha_desde'] !== '' ? $_GET
 $fechaHasta = isset($_GET['fecha_hasta']) && $_GET['fecha_hasta'] !== '' ? $_GET['fecha_hasta'] : date('Y-m-d');
 $busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
 
+$biometricRepository->ensureBreakColumns();
 $biometricRepository->ensureTodayAttendanceRowsForActiveUsers(date('Y-m-d'));
 
 $where = array(
@@ -42,6 +44,8 @@ $sql = "
         s.seg_horaingreso,
         s.seg_ingresoAlmuerzo,
         s.seg_salioAlmuerzo,
+        s.seg_ingresoBreak,
+        s.seg_salioBreak,
         s.seg_horaSalida
     FROM seguimientousers s
     LEFT JOIN usuarios u ON u.usu_identificacion = s.seg_iduser
@@ -64,7 +68,7 @@ $total = count($rows);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap5.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260803b" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260822a" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -126,6 +130,12 @@ $total = count($rows);
                     <div>
                         <h2 class="section-title">Resultados</h2>
                         <p class="section-copy">Mostrando <?php echo $total; ?> registros dentro del rango seleccionado.</p>
+                        <div class="tiempo-leyenda mt-2">
+                            <span class="tiempo-leyenda-item">
+                                <span></span>
+                                Rojo: almuerzo &gt; <?php echo (int) MINUTOS_ALMUERZO; ?> min o break &gt; <?php echo (int) MINUTOS_BREAK; ?> min
+                            </span>
+                        </div>
                     </div>
                     <div class="d-flex flex-wrap gap-2 align-items-center">
                         <div class="status-pill"><?php echo $fechaDesde; ?> a <?php echo $fechaHasta; ?></div>
@@ -143,26 +153,37 @@ $total = count($rows);
                                 <th>Ingreso</th>
                                 <th>Sale almuerzo</th>
                                 <th>Regresa almuerzo</th>
+                                <th>Sale break</th>
+                                <th>Regresa break</th>
                                 <th>Salida</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if ($total === 0) { ?>
                                 <tr>
-                                    <td colspan="7">
+                                    <td colspan="9">
                                         <div class="empty-placeholder">No hay ingresos por huella para los filtros seleccionados.</div>
                                     </td>
                                 </tr>
                             <?php } ?>
-                            <?php foreach ($rows as $row) { ?>
+                            <?php foreach ($rows as $row) {
+                                $saleAlmuerzo = isset($row['seg_ingresoAlmuerzo']) ? $row['seg_ingresoAlmuerzo'] : '';
+                                $regresaAlmuerzo = isset($row['seg_salioAlmuerzo']) ? $row['seg_salioAlmuerzo'] : '';
+                                $saleBreak = isset($row['seg_ingresoBreak']) ? $row['seg_ingresoBreak'] : '';
+                                $regresaBreak = isset($row['seg_salioBreak']) ? $row['seg_salioBreak'] : '';
+                                $claseAlmuerzo = clase_celda_tiempo_excedido($saleAlmuerzo, $regresaAlmuerzo, MINUTOS_ALMUERZO);
+                                $claseBreak = clase_celda_tiempo_excedido($saleBreak, $regresaBreak, MINUTOS_BREAK);
+                                ?>
                                 <tr>
                                     <td><strong><?php echo htmlspecialchars($row['nombre']); ?></strong></td>
                                     <td><?php echo htmlspecialchars($row['documento']); ?></td>
                                     <td><?php echo htmlspecialchars($row['seg_fechaingreso']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['seg_horaingreso']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['seg_salioAlmuerzo']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['seg_ingresoAlmuerzo']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['seg_horaSalida']); ?></td>
+                                    <td><?php echo htmlspecialchars(formatear_hora_asistencia($row['seg_horaingreso'])); ?></td>
+                                    <td><?php echo htmlspecialchars(formatear_hora_asistencia($saleAlmuerzo)); ?></td>
+                                    <td class="<?php echo htmlspecialchars($claseAlmuerzo); ?>"><?php echo htmlspecialchars(formatear_hora_asistencia($regresaAlmuerzo)); ?></td>
+                                    <td><?php echo htmlspecialchars(formatear_hora_asistencia($saleBreak)); ?></td>
+                                    <td class="<?php echo htmlspecialchars($claseBreak); ?>"><?php echo htmlspecialchars(formatear_hora_asistencia($regresaBreak)); ?></td>
+                                    <td><?php echo htmlspecialchars(formatear_hora_asistencia($row['seg_horaSalida'])); ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>

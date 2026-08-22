@@ -72,13 +72,15 @@ $con->exec(
                     $('#documento').text(res.documento);
                     $('#nombre').text(res.nombre);
                     $('#imageUser').attr('src', 'imagenes/' + res.foto_usu);
-                    showMessageBox(res.message + (res.nombre ? ' ' + res.nombre : ''), 'success');
+                    showMessageBox(res.message + (res.nombre && res.message.indexOf(res.nombre) < 0 ? ' ' + res.nombre : ''), res.excedido ? 'danger' : 'success');
 
-                    var sound = new Howl({
-                        src: ['sound/bermu.mp3'],
-                        volume: 1.0
-                    });
-                    sound.play();
+                    if (!res.excedido) {
+                        var sound = new Howl({
+                            src: ['sound/bermu.mp3'],
+                            volume: 1.0
+                        });
+                        sound.play();
+                    }
                 } else {
                     $('#documento').text('');
                     $('#nombre').text('');

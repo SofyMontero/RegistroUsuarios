@@ -92,6 +92,8 @@ public sealed class ServicioCaptura
         }
         finally
         {
+            _lector.MuestraProcesada -= OnMuestraProcesada;
+            _lector.MensajeEstado -= OnMensajeEstado;
             _lector.DetenerCaptura();
 
             if (_presentador is not null)

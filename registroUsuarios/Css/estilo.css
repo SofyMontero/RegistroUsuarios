@@ -605,7 +605,7 @@ body.biometric-body {
 .report-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 980px;
+    min-width: 1180px;
 }
 
 .report-table th,
@@ -626,6 +626,36 @@ body.biometric-body {
 
 .report-table tbody tr:hover {
     background: rgba(220, 238, 255, 0.22);
+}
+
+.report-table td.tiempo-excedido {
+    background: #fdeeee;
+    color: #b42318;
+    font-weight: 700;
+}
+
+.tiempo-leyenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+}
+
+.tiempo-leyenda-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.tiempo-leyenda-item span {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: #fdeeee;
+    border: 1px solid #ef7d7a;
 }
 
 .report-user {

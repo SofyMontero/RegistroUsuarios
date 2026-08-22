@@ -46,6 +46,11 @@ class BiometricService
                 'tipo' => '',
                 'foto_usu' => 'mujer.png',
                 'sede_ok' => true,
+                'evento' => '',
+                'excedido' => false,
+                'minutos' => null,
+                'permitidos' => null,
+                'mensaje_marcacion' => '',
             );
         }
 
@@ -53,11 +58,21 @@ class BiometricService
         $sedeOk = true;
         $nombre = !empty($temp['nombre']) ? $temp['nombre'] : '------';
         $texto = $temp['texto'];
+        $marcacion = array(
+            'evento' => '',
+            'excedido' => false,
+            'minutos' => null,
+            'permitidos' => null,
+            'mensaje' => '',
+        );
 
         if ($shouldRegisterAttendance && $documento !== '') {
             $sedeOk = $this->repository->userBelongsToSede($documento, $sede);
             if ($sedeOk) {
-                $this->attendanceService->registerEvent($documento, date('Y-m-d'), date('H:i:s'));
+                $marcacion = $this->attendanceService->registerEvent($documento, date('Y-m-d'), date('H:i:s'));
+                if (!empty($marcacion['mensaje'])) {
+                    $texto = $marcacion['mensaje'];
+                }
             } else {
                 $nombreSede = $this->repository->getSedeNombreById($sede);
                 $texto = $nombreSede !== ''
@@ -80,6 +95,11 @@ class BiometricService
             'tipo' => $temp['opc'],
             'foto_usu' => ($imagenUsuario && !empty($imagenUsuario['ext'])) ? $imagenUsuario['ext'] : 'mujer.png',
             'sede_ok' => $sedeOk,
+            'evento' => $marcacion['evento'],
+            'excedido' => !empty($marcacion['excedido']),
+            'minutos' => $marcacion['minutos'],
+            'permitidos' => $marcacion['permitidos'],
+            'mensaje_marcacion' => $marcacion['mensaje'],
         );
     }
 }

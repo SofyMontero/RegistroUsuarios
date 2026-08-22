@@ -205,12 +205,18 @@ var token = obtenerTokenSesion();
                     var sedeOk = json["sede_ok"] !== false;
                     
                     if (usuarioEncontrado && sedeOk) {
-                        showMessageBox("Bienvenido: " + json["nombre"], "success");
-                        var sound = new Howl({
-                            src: ['sound/bermu.mp3'],
-                            volume: 1.0
-                        });
-                        sound.play();
+                        var excedido = json["excedido"] === true || json["excedido"] === 1 || json["excedido"] === "1";
+                        var mensajeMarcacion = json["mensaje_marcacion"] || json["texto"] || ("Bienvenido: " + json["nombre"]);
+                        if (excedido) {
+                            showMessageBox(mensajeMarcacion, "danger");
+                        } else {
+                            showMessageBox(mensajeMarcacion + (mensajeMarcacion.indexOf(json["nombre"]) >= 0 ? "" : (" — " + json["nombre"])), "success");
+                            var sound = new Howl({
+                                src: ['sound/bermu.mp3'],
+                                volume: 1.0
+                            });
+                            sound.play();
+                        }
                     } else if (!sedeOk) {
                         showMessageBox(json["texto"] || "Usuario no pertenece a esta sede", "warning");
                     } else {
