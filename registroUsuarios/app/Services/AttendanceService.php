@@ -17,7 +17,9 @@ class AttendanceService
 
     /**
      * Marca el siguiente evento del día.
-     * Orden: ingreso → sale almuerzo → regresa almuerzo → sale break → regresa break → salida.
+     * Orden: ingreso → sale almuerzo → regresa almuerzo → (break 15 min, opcional) → salida.
+     * El break solo se marca si ocurre después del almuerzo y dentro de 3 horas
+     * del regreso; si marcan más tarde, se registra la salida.
      *
      * @return array{evento:string,excedido:bool,minutos:?int,permitidos:?int,mensaje:string}
      */
@@ -45,6 +47,9 @@ class AttendanceService
 
         $horacero = HORA_CERO_ASISTENCIA;
         $minutosEntreMarcas = 10;
+        // El break va después del almuerzo. Si ya pasaron más de 3 horas
+        // desde el regreso, la siguiente marca es salida (no se come el break).
+        $minutosVentanaBreak = 180;
         $horaIngreso = isset($attendance['seg_horaingreso']) ? $attendance['seg_horaingreso'] : $horacero;
         $horaSaleAlmuerzo = isset($attendance['seg_ingresoAlmuerzo']) ? $attendance['seg_ingresoAlmuerzo'] : $horacero;
         $horaRegresaAlmuerzo = isset($attendance['seg_salioAlmuerzo']) ? $attendance['seg_salioAlmuerzo'] : $horacero;
@@ -84,6 +89,7 @@ class AttendanceService
         if (hora_asistencia_vacia($horaSaleBreak)
             && !hora_asistencia_vacia($horaRegresaAlmuerzo)
             && $horaActual > $this->sumMinutes($horaRegresaAlmuerzo, $minutosEntreMarcas)
+            && $horaActual <= $this->sumMinutes($horaRegresaAlmuerzo, $minutosVentanaBreak)
         ) {
             $this->repository->updateAttendanceField($documento, $fechaActual, 'seg_ingresoBreak', $horaActual);
             return $this->resultadoEvento('break_sale', false, null, null, 'Salida a break (15 min)');
@@ -108,9 +114,13 @@ class AttendanceService
             );
         }
 
+        $horaReferenciaSalida = !hora_asistencia_vacia($horaRegresaBreak)
+            ? $horaRegresaBreak
+            : $horaRegresaAlmuerzo;
+
         if (hora_asistencia_vacia($horaSalida)
-            && !hora_asistencia_vacia($horaRegresaBreak)
-            && $horaActual > $this->sumMinutes($horaRegresaBreak, $minutosEntreMarcas)
+            && !hora_asistencia_vacia($horaReferenciaSalida)
+            && $horaActual > $this->sumMinutes($horaReferenciaSalida, $minutosEntreMarcas)
         ) {
             $this->repository->updateAttendanceField($documento, $fechaActual, 'seg_horaSalida', $horaActual);
             return $this->resultadoEvento('salida', false, null, null, 'Salida registrada');
