@@ -79,23 +79,37 @@ function formatear_fecha_asistencia($fecha)
     return date('Y-m-d', $ts);
 }
 
-function hora_para_input($hora)
+function hora_cruda_asistencia($hora)
 {
     if (hora_asistencia_vacia($hora)) {
-        return '';
+        return HORA_CERO_ASISTENCIA;
     }
 
     $hora = trim((string) $hora);
-    if (preg_match('/^(\d{2}):(\d{2})(?::(\d{2}))?/', $hora, $partes)) {
-        return $partes[1] . ':' . $partes[2];
+    if (preg_match('/^(\d{2}):(\d{2}):(\d{2})/', $hora, $partes)) {
+        return $partes[1] . ':' . $partes[2] . ':' . $partes[3];
     }
 
     $ts = strtotime($hora);
     if ($ts === false) {
-        return '';
+        return HORA_CERO_ASISTENCIA;
     }
 
-    return date('H:i', $ts);
+    return date('H:i:s', $ts);
+}
+
+function html_celda_hora($hora, $campo, $etiqueta, $claseExtra = '')
+{
+    $cruda = hora_cruda_asistencia($hora);
+    $texto = formatear_hora_asistencia($hora);
+    $clase = trim('celda-fija celda-hora-edit ' . $claseExtra);
+    $html = '<td class="' . htmlspecialchars($clase) . '" data-campo="' . htmlspecialchars($campo) . '" data-hora="' . htmlspecialchars($cruda) . '">';
+    $html .= '<div class="hora-celda">';
+    $html .= '<span class="hora-celda-valor">' . htmlspecialchars($texto) . '</span>';
+    $html .= '<button class="hora-edit-btn js-editar-hora" type="button" data-campo="' . htmlspecialchars($campo) . '" data-label="' . htmlspecialchars($etiqueta) . '" aria-label="Editar ' . htmlspecialchars($etiqueta) . '">';
+    $html .= '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+    $html .= '</button></div></td>';
+    return $html;
 }
 
 function normalizar_hora_asistencia($hora)

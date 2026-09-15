@@ -17,9 +17,6 @@ if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? '')) !== 'POST') {
     exit;
 }
 
-$documento = isset($_POST['documento']) ? trim((string) $_POST['documento']) : '';
-$fecha = isset($_POST['fecha']) ? trim((string) $_POST['fecha']) : '';
-
 $campos = array(
     'seg_horaingreso' => 'Ingreso',
     'seg_ingresoAlmuerzo' => 'Sale almuerzo',
@@ -28,6 +25,11 @@ $campos = array(
     'seg_salioBreak' => 'Regresa break',
     'seg_horaSalida' => 'Salida',
 );
+
+$documento = isset($_POST['documento']) ? trim((string) $_POST['documento']) : '';
+$fecha = isset($_POST['fecha']) ? trim((string) $_POST['fecha']) : '';
+$campo = isset($_POST['campo']) ? trim((string) $_POST['campo']) : '';
+$hora = normalizar_hora_asistencia(isset($_POST['hora']) ? $_POST['hora'] : '');
 
 if ($documento === '' || $fecha === '') {
     echo json_encode(array('success' => false, 'message' => 'Documento y fecha son obligatorios'));
@@ -39,17 +41,14 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha)) {
     exit;
 }
 
-$horas = array();
-foreach ($campos as $campo => $etiqueta) {
-    $normalizada = normalizar_hora_asistencia(isset($_POST[$campo]) ? $_POST[$campo] : '');
-    if ($normalizada === null) {
-        echo json_encode(array(
-            'success' => false,
-            'message' => 'La hora de ' . $etiqueta . ' no es válida',
-        ));
-        exit;
-    }
-    $horas[$campo] = $normalizada;
+if (!isset($campos[$campo])) {
+    echo json_encode(array('success' => false, 'message' => 'El campo de hora no es válido'));
+    exit;
+}
+
+if ($hora === null) {
+    echo json_encode(array('success' => false, 'message' => 'Use el formato 00:00:00'));
+    exit;
 }
 
 $repository = new BiometricRepository(new Database());
@@ -59,18 +58,20 @@ if (!$repository->getAttendanceRow($documento, $fecha)) {
 }
 
 try {
-    $filas = $repository->updateAttendanceHours($documento, $fecha, $horas);
+    $filas = $repository->updateAttendanceField($documento, $fecha, $campo, $hora);
 } catch (\Throwable $exception) {
     http_response_code(500);
     echo json_encode(array(
         'success' => false,
-        'message' => 'No fue posible guardar las horas',
+        'message' => 'No fue posible guardar la hora',
     ));
     exit;
 }
 
 echo json_encode(array(
     'success' => $filas >= 0,
-    'message' => 'Horas actualizadas',
-    'horas' => $horas,
+    'message' => 'Hora actualizada',
+    'campo' => $campo,
+    'hora' => $hora,
+    'hora_texto' => formatear_hora_asistencia($hora),
 ));

@@ -664,16 +664,83 @@ body.biometric-body {
     font-weight: 700;
 }
 
-.report-table td.celda-hora {
-    padding: 8px 10px;
-    white-space: nowrap;
+.hora-celda {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
 }
 
-.hora-input {
-    min-height: 40px;
-    min-width: 118px;
-    padding: 0.35rem 0.5rem;
-    font-size: 0.88rem;
+.hora-celda-valor {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+}
+
+.hora-edit-btn {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid rgba(43, 47, 51, 0.12);
+    border-radius: 9px;
+    background: #fff;
+    color: var(--teal);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hora-edit-btn:hover {
+    background: rgba(93, 143, 138, 0.12);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(93, 143, 138, 0.16);
+}
+
+.hora-edit-btn:focus-visible {
+    outline: 2px solid rgba(93, 143, 138, 0.45);
+    outline-offset: 2px;
+}
+
+.hora-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.hora-modal.is-open {
+    display: flex;
+}
+
+body.hora-modal-open {
+    overflow: hidden;
+}
+
+.hora-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(43, 47, 51, 0.38);
+    backdrop-filter: blur(8px);
+}
+
+.hora-modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 420px);
+    padding: 28px;
+}
+
+.hora-modal-time {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
 }
 
 .dt-container {

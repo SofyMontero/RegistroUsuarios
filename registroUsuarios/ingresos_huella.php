@@ -111,7 +111,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <?php marca_datatable_head(); ?>
-    <link href="Css/estilo.css?v=20260915f" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915g" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -193,7 +193,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                 <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
                     <div>
                         <h2 class="section-title">Resultados</h2>
-                        <p class="section-copy">Mostrando <?php echo $total; ?> registros (<?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>). Puede corregir horas en casos de borde y guardar por fila. La descarga incluye todo ese rango.</p>
+                        <p class="section-copy">Mostrando <?php echo $total; ?> registros (<?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>). Use el lápiz para corregir una hora en casos de borde. La descarga incluye todo ese rango.</p>
                         <div class="tiempo-leyenda mt-2">
                             <span class="tiempo-leyenda-item">
                                 <span></span>
@@ -211,7 +211,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                 </div>
 
                 <div class="report-table-shell">
-                    <table class="report-table" id="tablaIngresosHuella" data-page-length="25" data-order='[[2,"desc"]]' data-paging="full">
+                    <table class="report-table" id="tablaIngresosHuella" data-page-length="25" data-order='[[2,"desc"],[3,"desc"]]' data-paging="full">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -223,7 +223,6 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                                 <th>Sale break</th>
                                 <th>Regresa break</th>
                                 <th>Salida</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -236,31 +235,16 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                                 $claseAlmuerzo = clase_celda_tiempo_excedido($saleAlmuerzo, $regresaAlmuerzo, MINUTOS_ALMUERZO);
                                 $claseBreak = clase_celda_tiempo_excedido($saleBreak, $regresaBreak, MINUTOS_BREAK);
                                 ?>
-                                <tr data-documento="<?php echo htmlspecialchars($row['documento']); ?>" data-fecha="<?php echo htmlspecialchars($fechaIso); ?>">
+                                <tr data-documento="<?php echo htmlspecialchars($row['documento']); ?>" data-fecha="<?php echo htmlspecialchars($fechaIso); ?>" data-nombre="<?php echo htmlspecialchars($row['nombre']); ?>">
                                     <td><strong><?php echo htmlspecialchars($row['nombre']); ?></strong></td>
                                     <td class="celda-fija"><?php echo htmlspecialchars($row['documento']); ?></td>
                                     <td class="celda-fija" data-order="<?php echo htmlspecialchars($fechaIso); ?>"><?php echo htmlspecialchars($fechaIso); ?></td>
-                                    <td class="celda-hora">
-                                        <input class="form-control biometric-input hora-input js-hora-ingreso" type="time" value="<?php echo htmlspecialchars(hora_para_input($row['seg_horaingreso'])); ?>" />
-                                    </td>
-                                    <td class="celda-hora">
-                                        <input class="form-control biometric-input hora-input js-sale-almuerzo" type="time" value="<?php echo htmlspecialchars(hora_para_input($saleAlmuerzo)); ?>" />
-                                    </td>
-                                    <td class="celda-hora js-celda-almuerzo <?php echo htmlspecialchars($claseAlmuerzo); ?>">
-                                        <input class="form-control biometric-input hora-input js-regresa-almuerzo" type="time" value="<?php echo htmlspecialchars(hora_para_input($regresaAlmuerzo)); ?>" />
-                                    </td>
-                                    <td class="celda-hora">
-                                        <input class="form-control biometric-input hora-input js-sale-break" type="time" value="<?php echo htmlspecialchars(hora_para_input($saleBreak)); ?>" />
-                                    </td>
-                                    <td class="celda-hora js-celda-break <?php echo htmlspecialchars($claseBreak); ?>">
-                                        <input class="form-control biometric-input hora-input js-regresa-break" type="time" value="<?php echo htmlspecialchars(hora_para_input($regresaBreak)); ?>" />
-                                    </td>
-                                    <td class="celda-hora">
-                                        <input class="form-control biometric-input hora-input js-hora-salida" type="time" value="<?php echo htmlspecialchars(hora_para_input($row['seg_horaSalida'])); ?>" />
-                                    </td>
-                                    <td class="celda-fija">
-                                        <button class="btn btn-primary rounded-4 px-3 js-guardar-horas" type="button">Guardar</button>
-                                    </td>
+                                    <?php echo html_celda_hora($row['seg_horaingreso'], 'seg_horaingreso', 'Ingreso'); ?>
+                                    <?php echo html_celda_hora($saleAlmuerzo, 'seg_ingresoAlmuerzo', 'Sale almuerzo'); ?>
+                                    <?php echo html_celda_hora($regresaAlmuerzo, 'seg_salioAlmuerzo', 'Regresa almuerzo', 'js-celda-almuerzo ' . $claseAlmuerzo); ?>
+                                    <?php echo html_celda_hora($saleBreak, 'seg_ingresoBreak', 'Sale break'); ?>
+                                    <?php echo html_celda_hora($regresaBreak, 'seg_salioBreak', 'Regresa break', 'js-celda-break ' . $claseBreak); ?>
+                                    <?php echo html_celda_hora($row['seg_horaSalida'], 'seg_horaSalida', 'Salida'); ?>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -270,10 +254,31 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
             <?php marca_footer(); ?>
         </div>
     </div>
+
+    <div class="hora-modal" id="horaModal" aria-hidden="true">
+        <div class="hora-modal-backdrop" data-close-hora-modal></div>
+        <div class="hora-modal-dialog glass-card" role="dialog" aria-modal="true" aria-labelledby="horaModalTitulo">
+            <span class="eyebrow">Corrección</span>
+            <h2 class="section-title mt-2" id="horaModalTitulo">Editar hora</h2>
+            <p class="section-copy" id="horaModalContexto"></p>
+            <form class="form-panel" id="horaModalForm" onsubmit="return false;">
+                <div>
+                    <label class="field-label" for="horaModalInput">Hora</label>
+                    <input class="form-control biometric-input hora-modal-time" id="horaModalInput" name="hora" type="text" inputmode="numeric" maxlength="8" placeholder="00:00:00" autocomplete="off" />
+                    <p class="helper-text mt-2">Use el formato 00:00:00. Ese mismo valor deja la marcación vacía.</p>
+                </div>
+                <div class="d-flex flex-column flex-sm-row gap-3 pt-1">
+                    <button class="btn-soft btn-soft-secondary flex-fill" type="button" data-close-hora-modal>Cancelar</button>
+                    <button class="btn btn-primary btn-lg rounded-4 flex-fill" id="horaModalGuardar" type="submit">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <?php marca_datatable_scripts(); ?>
     <script>
         var MINUTOS_ALMUERZO = <?php echo (int) MINUTOS_ALMUERZO; ?>;
         var MINUTOS_BREAK = <?php echo (int) MINUTOS_BREAK; ?>;
+        var horaEdicion = null;
 
         function showMessageBox(mensaje, type) {
             var clas = "";
@@ -287,8 +292,13 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
             setTimeout(function () { $("#mensaje").fadeOut(); }, 3200);
         }
 
+        function horaVacia(hora) {
+            hora = String(hora || "").replace(/^\s+|\s+$/g, "");
+            return hora === "" || hora.indexOf("00:00:00") === 0;
+        }
+
         function minutosEntre(inicio, fin) {
-            if (!inicio || !fin) {
+            if (horaVacia(inicio) || horaVacia(fin)) {
                 return null;
             }
             var a = String(inicio).split(":");
@@ -300,39 +310,74 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
         }
 
         function marcarExcedidos($fila) {
-            var minAlmuerzo = minutosEntre($fila.find(".js-sale-almuerzo").val(), $fila.find(".js-regresa-almuerzo").val());
-            var minBreak = minutosEntre($fila.find(".js-sale-break").val(), $fila.find(".js-regresa-break").val());
+            var minAlmuerzo = minutosEntre(
+                $fila.find('[data-campo="seg_ingresoAlmuerzo"]').attr("data-hora"),
+                $fila.find('[data-campo="seg_salioAlmuerzo"]').attr("data-hora")
+            );
+            var minBreak = minutosEntre(
+                $fila.find('[data-campo="seg_ingresoBreak"]').attr("data-hora"),
+                $fila.find('[data-campo="seg_salioBreak"]').attr("data-hora")
+            );
             $fila.find(".js-celda-almuerzo").toggleClass("tiempo-excedido", minAlmuerzo !== null && minAlmuerzo > MINUTOS_ALMUERZO);
             $fila.find(".js-celda-break").toggleClass("tiempo-excedido", minBreak !== null && minBreak > MINUTOS_BREAK);
         }
 
-        function guardarHoras($fila) {
-            var boton = $fila.find(".js-guardar-horas");
+        function abrirModalHora($boton) {
+            var $celda = $boton.closest("td");
+            var $fila = $boton.closest("tr");
+            horaEdicion = {
+                $celda: $celda,
+                $fila: $fila,
+                campo: $boton.data("campo"),
+                label: $boton.data("label")
+            };
+            $("#horaModalTitulo").text("Editar " + (horaEdicion.label || "hora"));
+            $("#horaModalContexto").text(
+                ($fila.data("nombre") || "") + " · " + $fila.data("documento") + " · " + $fila.data("fecha")
+            );
+            $("#horaModalInput").val($celda.attr("data-hora") || "00:00:00");
+            $("#horaModal").addClass("is-open").attr("aria-hidden", "false");
+            $("body").addClass("hora-modal-open");
+            setTimeout(function () {
+                $("#horaModalInput").trigger("focus").trigger("select");
+            }, 40);
+        }
+
+        function cerrarModalHora() {
+            horaEdicion = null;
+            $("#horaModal").removeClass("is-open").attr("aria-hidden", "true");
+            $("body").removeClass("hora-modal-open");
+        }
+
+        function guardarHoraModal() {
+            if (!horaEdicion) {
+                return;
+            }
+            var boton = $("#horaModalGuardar");
             boton.prop("disabled", true);
             $.ajax({
                 type: "POST",
                 url: "Model/ActualizarIngreso.php",
                 dataType: "json",
                 data: {
-                    documento: $fila.data("documento"),
-                    fecha: $fila.data("fecha"),
-                    seg_horaingreso: $fila.find(".js-hora-ingreso").val() || "",
-                    seg_ingresoAlmuerzo: $fila.find(".js-sale-almuerzo").val() || "",
-                    seg_salioAlmuerzo: $fila.find(".js-regresa-almuerzo").val() || "",
-                    seg_ingresoBreak: $fila.find(".js-sale-break").val() || "",
-                    seg_salioBreak: $fila.find(".js-regresa-break").val() || "",
-                    seg_horaSalida: $fila.find(".js-hora-salida").val() || ""
+                    documento: horaEdicion.$fila.data("documento"),
+                    fecha: horaEdicion.$fila.data("fecha"),
+                    campo: horaEdicion.campo,
+                    hora: $("#horaModalInput").val()
                 },
                 success: function (data) {
                     if (data.success) {
-                        marcarExcedidos($fila);
-                        showMessageBox(data.message || "Horas actualizadas", "success");
+                        horaEdicion.$celda.attr("data-hora", data.hora);
+                        horaEdicion.$celda.find(".hora-celda-valor").text(data.hora_texto);
+                        marcarExcedidos(horaEdicion.$fila);
+                        cerrarModalHora();
+                        showMessageBox(data.message || "Hora actualizada", "success");
                     } else {
-                        showMessageBox(data.message || "No fue posible guardar las horas", "warning");
+                        showMessageBox(data.message || "No fue posible guardar la hora", "warning");
                     }
                 },
                 error: function (xhr) {
-                    var mensaje = "No fue posible guardar las horas";
+                    var mensaje = "No fue posible guardar la hora";
                     try {
                         var respuesta = JSON.parse(xhr.responseText);
                         if (respuesta.message) {
@@ -348,16 +393,25 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
         }
 
         if (window.MonteblancoTable) {
-            MonteblancoTable.init("#tablaIngresosHuella", {
-                columnDefs: [{ orderable: false, targets: [3, 4, 5, 6, 7, 8, 9] }]
-            });
+            MonteblancoTable.init("#tablaIngresosHuella");
         }
 
-        $(document).on("click", ".js-guardar-horas", function () {
-            guardarHoras($(this).closest("tr"));
+        $(document).on("click", ".js-editar-hora", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            abrirModalHora($(this));
         });
-        $(document).on("change", "#tablaIngresosHuella .hora-input", function () {
-            marcarExcedidos($(this).closest("tr"));
+        $(document).on("click", "[data-close-hora-modal]", function () {
+            cerrarModalHora();
+        });
+        $(document).on("submit", "#horaModalForm", function (event) {
+            event.preventDefault();
+            guardarHoraModal();
+        });
+        $(document).on("keydown", function (event) {
+            if (event.key === "Escape" && $("#horaModal").hasClass("is-open")) {
+                cerrarModalHora();
+            }
         });
     </script>
 </body>
