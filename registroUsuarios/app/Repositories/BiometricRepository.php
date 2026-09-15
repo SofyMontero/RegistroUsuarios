@@ -417,4 +417,63 @@ class BiometricRepository
             return false;
         }
     }
+
+    public function ensureJornadaColumns()
+    {
+        $columnas = array(
+            'usu_hora_inicio' => "ALTER TABLE usuarios ADD COLUMN usu_hora_inicio TIME NULL DEFAULT '07:00:00'",
+            'usu_hora_fin' => "ALTER TABLE usuarios ADD COLUMN usu_hora_fin TIME NULL DEFAULT '15:00:00'",
+            'usu_jornada_diaria_minutos' => 'ALTER TABLE usuarios ADD COLUMN usu_jornada_diaria_minutos INT NULL DEFAULT 420',
+            'usu_jornada_semanal_minutos' => 'ALTER TABLE usuarios ADD COLUMN usu_jornada_semanal_minutos INT NULL DEFAULT 2520',
+            'usu_dia_descanso' => 'ALTER TABLE usuarios ADD COLUMN usu_dia_descanso TINYINT NULL DEFAULT 0',
+        );
+
+        foreach ($columnas as $nombre => $sql) {
+            try {
+                $existe = $this->db->fetchAll("SHOW COLUMNS FROM usuarios LIKE '" . $nombre . "'");
+                if (!$existe) {
+                    $this->db->execute($sql);
+                }
+            } catch (\Throwable $e) {
+                continue;
+            }
+        }
+    }
+
+    public function getSchedulesByDocuments(array $documentos)
+    {
+        $documentos = array_values(array_filter(array_unique($documentos)));
+        if (empty($documentos)) {
+            return array();
+        }
+
+        $this->ensureJornadaColumns();
+
+        $placeholders = array();
+        $params = array();
+        foreach ($documentos as $i => $documento) {
+            $clave = 'd' . $i;
+            $placeholders[] = ':' . $clave;
+            $params[$clave] = $documento;
+        }
+
+        try {
+            $filas = $this->db->fetchAll(
+                'SELECT usu_identificacion, usu_nombre, usu_hora_inicio, usu_hora_fin,
+                        usu_jornada_diaria_minutos, usu_jornada_semanal_minutos, usu_dia_descanso
+                 FROM usuarios
+                 WHERE usu_identificacion IN (' . implode(',', $placeholders) . ')',
+                $params
+            );
+        } catch (\Throwable $e) {
+            return array();
+        }
+
+        $mapa = array();
+        foreach ($filas as $fila) {
+            $mapa[(string) $fila['usu_identificacion']] = $fila;
+        }
+
+        return $mapa;
+    }
 }

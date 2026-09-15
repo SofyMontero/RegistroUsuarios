@@ -8,6 +8,7 @@ date_default_timezone_set("America/Bogota");
 
 use Huella\Core\Database;
 use Huella\Repositories\BiometricRepository;
+use Huella\Services\AttendanceExcelExport;
 
 $con = new bd();
 list($token, $sede) = requerir_token_sesion();
@@ -66,6 +67,18 @@ $sql = "
 
 $rows = $con->findAll($sql);
 $total = count($rows);
+
+if (isset($_GET['export']) && $_GET['export'] === 'xlsx') {
+    $configJornada = require __DIR__ . '/config/jornada_laboral.php';
+    $export = new AttendanceExcelExport($biometricRepository, $configJornada);
+    $export->download($rows, $fechaDesde, $fechaHasta);
+    $con->desconectar();
+    exit;
+}
+
+$queryExport = $_GET;
+$queryExport['export'] = 'xlsx';
+$urlExportExcel = 'ingresos_huella.php?' . http_build_query($queryExport);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -77,7 +90,6 @@ $total = count($rows);
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap5.css" rel="stylesheet" />
     <link href="Css/estilo.css?v=20260822b" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
@@ -149,7 +161,7 @@ $total = count($rows);
                     </div>
                     <div class="d-flex flex-wrap gap-2 align-items-center">
                         <div class="status-pill"><?php echo $fechaDesde; ?> a <?php echo $fechaHasta; ?></div>
-                        <button class="btn btn-success rounded-4 px-4" id="btnExportarExcel" type="button">Descargar Excel</button>
+                        <a class="btn btn-success rounded-4 px-4" id="btnExportarExcel" href="<?php echo htmlspecialchars($urlExportExcel); ?>">Descargar Excel</a>
                     </div>
                 </div>
 
@@ -206,10 +218,6 @@ $total = count($rows);
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.bootstrap5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
     <script>
         $(function () {
             var tabla = new DataTable('#tablaIngresosHuella', {
@@ -217,30 +225,6 @@ $total = count($rows);
                 lengthMenu: [[30, 50, 100, -1], [30, 50, 100, 'Todos']],
                 order: [[2, 'desc'], [3, 'desc']],
                 deferRender: true,
-                layout: {
-                    topStart: {
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: 'Excel',
-                                title: 'Ingresos_Huella_<?php echo date('Y-m', strtotime($fechaDesde)); ?>',
-                                filename: 'Ingresos_Huella_<?php echo date('Y-m', strtotime($fechaDesde)); ?>',
-                                exportOptions: {
-                                    columns: ':visible',
-                                    modifier: {
-                                        page: 'all',
-                                        search: 'none',
-                                        order: 'applied'
-                                    }
-                                },
-                                className: 'd-none',
-                                attr: {
-                                    id: 'excelHiddenTrigger'
-                                }
-                            }
-                        ]
-                    }
-                },
                 language: {
                     search: 'Buscar en tabla:',
                     lengthMenu: 'Mostrar _MENU_ registros',
@@ -256,10 +240,6 @@ $total = count($rows);
                         previous: '<span aria-hidden="true">&lsaquo;</span>'
                     }
                 }
-            });
-
-            $('#btnExportarExcel').on('click', function () {
-                $('#excelHiddenTrigger').trigger('click');
             });
         });
     </script>
