@@ -204,6 +204,27 @@ function enlaceRefrescarIndex() {
     });
 }
 
+function instalarRedireccionLogin401() {
+    if (typeof jQuery === "undefined") {
+        return;
+    }
+    var paginasAdmin = ["ingresos_huella.php", "asociar_huellas.php", "registro_usuarios.php"];
+    jQuery(document).ajaxError(function (event, xhr) {
+        if (!xhr || xhr.status !== 401) {
+            return;
+        }
+        var pagina = location.pathname.split("/").pop() || "";
+        if (paginasAdmin.indexOf(pagina) === -1) {
+            return;
+        }
+        location.replace("login.php?next=" + encodeURIComponent(pagina + location.search));
+    });
+}
+
+if (typeof document !== "undefined") {
+    document.addEventListener("DOMContentLoaded", instalarRedireccionLogin401);
+}
+
 function saveToken() {
     var data = new FormData();
     data.append("token", localStorage.getItem("srnPc"));

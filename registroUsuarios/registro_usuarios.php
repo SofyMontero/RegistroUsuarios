@@ -1,10 +1,12 @@
 <?php
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/inc/token_sesion.php';
+require_once __DIR__ . '/inc/auth.php';
 
 use Huella\Core\Database;
 use Huella\Repositories\BiometricRepository;
 
+requerir_admin();
 list($token, $sede) = requerir_token_sesion();
 $repository = new BiometricRepository(new Database());
 $sedes = $repository->getHeadquartersList();
@@ -18,8 +20,8 @@ $sedes = $repository->getHeadquartersList();
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260803b" rel="stylesheet" type="text/css" />
-    <script src="js/Utils.js" type="text/javascript"></script>
+    <link href="Css/estilo.css?v=20260915e" rel="stylesheet" type="text/css" />
+    <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 </head>
@@ -42,13 +44,15 @@ $sedes = $repository->getHeadquartersList();
                         <p class="section-copy mb-0">Esta vista crea el usuario base en el sistema sin asociar huellas ni tocar el flujo biometrico existente.</p>
                     </div>
                     <div class="col-lg-5">
-                        <div class="action-stack">
-                            <button class="btn-soft btn-soft-primary" type="button" data-bs-toggle="modal" data-bs-target="#sedesModal">
-                                Administrar sedes
-                            </button>
-                            <a class="btn-soft btn-soft-secondary" href="verificar.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">Volver a ingreso</a>
-                            <span class="status-pill">Sin huella</span>
-                        </div>
+                        <?php
+                        auth_render_nav('registro', $token, $sede, array(
+                            array(
+                                'button' => true,
+                                'label' => 'Administrar sedes',
+                                'attrs' => 'data-bs-toggle="modal" data-bs-target="#sedesModal"',
+                            ),
+                        ));
+                        ?>
                     </div>
                 </div>
             </div>

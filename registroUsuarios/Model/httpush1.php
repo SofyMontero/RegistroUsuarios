@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Polling de enrollment (Home.php). Usa bd.php directamente para compatibilidad en Hostinger.
+ * Polling de enrollment (captura de huella). Sin login: el sensor es publico.
  */
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');

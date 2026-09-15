@@ -7,6 +7,7 @@ date_default_timezone_set("America/Bogota");
 
 $con = new bd();
 list($token) = requerir_token_sesion();
+$hrefAdministracion = 'login.php?next=' . rawurlencode('ingresos_huella.php?token=' . rawurlencode($token));
 // Ingreso: no se usa sede para filtrar (cualquiera puede registrar).
 $sede = '';
 
@@ -29,7 +30,7 @@ $con->exec(
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/estilo.css?v=20260915e" rel="stylesheet" type="text/css" />
-    <script src="js/Utils.js" type="text/javascript"></script>
+    <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesionIngreso();</script>
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
@@ -114,7 +115,7 @@ $con->exec(
                     </div>
                     <div class="col-lg-5">
                         <div class="action-stack">
-                            <?php marca_admin_menu($token, $sede); ?>
+                            <a class="btn-soft btn-soft-primary" href="<?php echo htmlspecialchars($hrefAdministracion); ?>">Administración</a>
                             <span class="status-pill">Sensor activo</span>
                         </div>
                     </div>
@@ -186,7 +187,6 @@ $con->exec(
         <div id="resultado" style="display:none;"></div>
     </div>
 
-    <?php marca_bootstrap_scripts(); ?>
     <script src="js/funciones.js" type="text/javascript"></script>
     <script>
         cargar_push("");

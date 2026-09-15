@@ -1,9 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../app/bootstrap.php';
-
-use Huella\Controllers\BiometricController;
-
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -11,6 +7,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
     exit;
 }
+
+require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../inc/auth.php';
+
+use Huella\Controllers\BiometricController;
+
+requerir_admin_api();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Content-Type: application/json; charset=utf-8');

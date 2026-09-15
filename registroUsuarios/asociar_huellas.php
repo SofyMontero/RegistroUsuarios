@@ -1,11 +1,13 @@
 <?php
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/inc/token_sesion.php';
+require_once __DIR__ . '/inc/auth.php';
 
 use Huella\Core\Database;
 use Huella\Repositories\BiometricRepository;
 
 $fechaactual = date("Y-m-d");
+requerir_admin();
 list($token, $sede) = requerir_token_sesion();
 $biometricRepository = new BiometricRepository(new Database());
 $listaSedes = $biometricRepository->getHeadquartersList();
@@ -21,9 +23,9 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260803b" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915e" rel="stylesheet" type="text/css" />
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="js/Utils.js" type="text/javascript"></script>
+    <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
 <body class="biometric-body">
@@ -44,14 +46,14 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
                         <h1 class="page-title">Asociar huellas</h1>
                     </div>
                     <div class="col-lg-5">
-                        <div class="action-stack">
-                            <a class="btn-soft btn-soft-secondary" href="registro_usuarios.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">
-                                Registrar usuario
-                            </a>
-                            <a class="btn-soft btn-soft-primary" href="verificar.php?token=<?php echo urlencode($token); ?>&sede=<?php echo urlencode($sede); ?>">
-                                Volver a ingreso
-                            </a>
-                        </div>
+                        <?php
+                        auth_render_nav('asociar', $token, $sede, array(
+                            array(
+                                'href' => 'registro_usuarios.php?token=' . rawurlencode($token) . '&sede=' . rawurlencode($sede),
+                                'label' => 'Registrar usuario',
+                            ),
+                        ));
+                        ?>
                     </div>
                 </div>
             </div>

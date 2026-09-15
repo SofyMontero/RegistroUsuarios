@@ -1,9 +1,12 @@
 <?php
 
 require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../inc/auth.php';
 
 use Huella\Core\Database;
 use Huella\Repositories\BiometricRepository;
+
+requerir_admin_api();
 
 header('Content-Type: application/json; charset=utf-8');
 
