@@ -214,7 +214,8 @@ function instalarRedireccionLogin401() {
         "registro_usuarios.php",
         "horarios_trabajadores.php",
         "colaboradores.php",
-        "sedes.php"
+        "sedes.php",
+        "manual.php"
     ];
     jQuery(document).ajaxError(function (event, xhr) {
         if (!xhr || xhr.status !== 401) {

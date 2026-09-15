@@ -33,9 +33,9 @@ $horaFinDefault = substr($configJornada['hora_fin'], 0, 5);
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260915k" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915p" rel="stylesheet" type="text/css" />
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
+    <script src="js/Utils.js?v=20260915p" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
 <body class="biometric-body">
@@ -66,7 +66,7 @@ $horaFinDefault = substr($configJornada['hora_fin'], 0, 5);
                     <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
                         <div>
                             <h2 class="section-title">Datos del colaborador</h2>
-                            <p class="section-copy">Registre al usuario y asocie su huella en un solo proceso: complete los datos, capture la huella y guarde.</p>
+                            <p class="section-copy">Registre al usuario y asocie su huella en un solo proceso: complete los datos, capture la huella y guarde. Después cierre el plugin y vuélvalo a abrir para que esa persona pueda marcar ingreso.</p>
                         </div>
                         <div class="token-box">
                             <div class="metric-label mb-1">Token de sesion</div>
@@ -135,6 +135,11 @@ $horaFinDefault = substr($configJornada['hora_fin'], 0, 5);
                             </div>
                         </div>
 
+                        <div class="manual-callout mt-4">
+                            <strong>Después de guardar</strong>
+                            Cierre el plugin biométrico y vuélvalo a abrir. Sin ese paso, el usuario creado en este momento no podrá marcar ingreso.
+                        </div>
+
                         <div class="d-flex flex-column flex-md-row gap-3 pt-2">
                             <button class="btn btn-lg btn-primary flex-fill rounded-4" id="activeSensorLocal" onclick="activarSensor('<?php echo $token; ?>'); return false;" type="button">
                                 Capturar huella
@@ -173,7 +178,7 @@ $horaFinDefault = substr($configJornada['hora_fin'], 0, 5);
                     <span class="guide-summary-icon" aria-hidden="true">+</span>
                 </summary>
                 <div class="guide-content">
-                    <p class="section-copy mb-4">La ayuda queda al final y oculta por defecto para mantener la pantalla principal enfocada en el trabajo operativo.</p>
+                    <p class="section-copy mb-4">La ayuda queda al final y oculta por defecto para mantener la pantalla principal enfocada en el trabajo operativo. El detalle de toda la aplicación está en el <a href="manual.php?token=<?php echo rawurlencode($token); ?><?php echo $sede !== '' ? '&amp;sede=' . rawurlencode($sede) : ''; ?>">manual de usuario</a>.</p>
                     <div class="metric-grid">
                         <div class="metric-card">
                             <p class="metric-label">Paso 1</p>
@@ -188,8 +193,8 @@ $horaFinDefault = substr($configJornada['hora_fin'], 0, 5);
                             <p class="metric-value">Cuando la captura termine, guarda usuario y huella.</p>
                         </div>
                         <div class="metric-card">
-                            <p class="metric-label">Resultado</p>
-                            <p class="metric-value">El colaborador queda registrado y listo para ingresar.</p>
+                            <p class="metric-label">Paso 4</p>
+                            <p class="metric-value">Cierre el plugin y vuélvalo a abrir para dar ingreso al usuario creado.</p>
                         </div>
                     </div>
                 </div>
@@ -199,7 +204,7 @@ $horaFinDefault = substr($configJornada['hora_fin'], 0, 5);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/funciones.js?v=20260915o" type="text/javascript"></script>
+    <script src="js/funciones.js?v=20260915p" type="text/javascript"></script>
     <script src="js/plugin-ws.js" type="text/javascript"></script>
     <script>
         (function () {

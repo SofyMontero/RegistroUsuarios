@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260803b" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915p" rel="stylesheet" type="text/css" />
 </head>
 <body class="biometric-body">
     <div class="biometric-shell">
@@ -37,6 +37,7 @@
                             <div class="d-flex flex-column flex-md-row gap-3">
                                 <a class="btn-soft btn-soft-primary" id="irModulo" href="#">Ingreso</a>
                                 <a class="btn-soft btn-soft-secondary" id="irAdmin" href="login.php?next=ingresos_huella.php">Administración</a>
+                                <a class="btn-soft btn-soft-secondary" id="irManual" href="manual.php">Manual</a>
                                 <a class="btn-soft btn-soft-secondary" href="index.php?sede=<?php echo isset($_GET['sede']) ? $_GET['sede'] : ''; ?>">Refrescar</a>
                                 <a class="btn-soft btn-soft-secondary" href="javascript:void(0)">Descargar plugin</a>
                             </div>
@@ -69,6 +70,7 @@
                 var destino = "verificar.php?token=" + encodeURIComponent(token);
                 $("#irModulo").attr("href", destino);
                 $("#irAdmin").attr("href", "login.php?next=" + encodeURIComponent("ingresos_huella.php?token=" + encodeURIComponent(token)));
+                $("#irManual").attr("href", "manual.php?token=" + encodeURIComponent(token));
                 $("#content").css("display", "block");
                 $("#loadingState").hide();
                 return;

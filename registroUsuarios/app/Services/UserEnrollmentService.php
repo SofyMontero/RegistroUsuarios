@@ -64,7 +64,9 @@ class UserEnrollmentService
 
         return array(
             'filas' => $row,
-            'message' => $row > 0 ? 'Usuario y huella guardados' : 'No fue posible crear el usuario',
+            'message' => $row > 0
+                ? 'Usuario y huella guardados. Cierre el plugin biométrico y vuélvalo a abrir para dar ingreso al usuario creado en este momento.'
+                : 'No fue posible crear el usuario',
         );
     }
 
@@ -110,7 +112,7 @@ class UserEnrollmentService
 
         return array(
             'filas' => $row,
-            'message' => 'Usuario registrado via WebSDK',
+            'message' => 'Usuario registrado via WebSDK. Cierre el plugin biométrico y vuélvalo a abrir para dar ingreso al usuario creado en este momento.',
         );
     }
 

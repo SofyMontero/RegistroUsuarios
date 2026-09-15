@@ -29,8 +29,8 @@ $con->exec(
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260915i" rel="stylesheet" type="text/css" />
-    <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
+    <link href="Css/estilo.css?v=20260915p" rel="stylesheet" type="text/css" />
+    <script src="js/Utils.js?v=20260915p" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesionIngreso();</script>
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
@@ -116,6 +116,7 @@ $con->exec(
                     <div class="col-lg-5">
                         <div class="action-stack">
                             <a class="btn-soft btn-soft-primary" href="<?php echo htmlspecialchars($hrefAdministracion); ?>">Administración</a>
+                            <a class="btn-soft btn-soft-secondary" href="manual.php?token=<?php echo rawurlencode($token); ?>">Manual</a>
                             <span class="status-pill">Sensor activo</span>
                         </div>
                     </div>
@@ -187,7 +188,7 @@ $con->exec(
         <div id="resultado" style="display:none;"></div>
     </div>
 
-    <script src="js/funciones.js?v=20260915i" type="text/javascript"></script>
+    <script src="js/funciones.js?v=20260915p" type="text/javascript"></script>
     <script>
         cargar_push("");
 

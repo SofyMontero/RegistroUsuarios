@@ -217,7 +217,11 @@ function addUser(srn) {
                 if ($("#diaDescanso").length && $("#diaDescanso").data("default") !== undefined) {
                     $("#diaDescanso").val($("#diaDescanso").data("default"));
                 }
-                showMessageBox(json["message"] || "Usuario y huella guardados", "success");
+                showMessageBox(
+                    json["message"] || "Usuario y huella guardados. Cierre el plugin biométrico y vuélvalo a abrir para dar ingreso al usuario creado.",
+                    "success",
+                    9000
+                );
             } else {
                 showMessageBox(json["message"] || "No fue posible guardar el usuario", "warning");
             }
@@ -423,14 +427,13 @@ function getParameterByName(name) {
 }
 
 
-function showMessageBox(mensaje, type) {
+function showMessageBox(mensaje, type, duracion) {
     var clas = "";
     var icono = "";
     switch (type) {
         case "success":
             clas = "mensaje_success";
             icono = "imagenes/success_16.png";
-            // alert("Huella detectada Bienvenido");
             break;
         case "warning":
             clas = "mensaje_warning";
@@ -442,14 +445,14 @@ function showMessageBox(mensaje, type) {
             break;
     }
 
-    $("#mensaje").addClass(clas);
+    $("#mensaje").removeClass("mensaje_success mensaje_danger mensaje_warning").addClass(clas);
     $("#txtMensaje").html(mensaje);
     $("#imageMenssage").attr("src", icono);
     $("#mensaje").fadeIn(5);
+    var tiempo = typeof duracion === "number" ? duracion : 3000;
     setTimeout(function () {
         $("#mensaje").fadeOut(1500);
-    }, 3000);
-
+    }, tiempo);
 }
 
 

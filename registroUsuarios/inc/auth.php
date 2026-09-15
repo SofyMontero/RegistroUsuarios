@@ -19,6 +19,7 @@ function auth_paginas_permitidas()
         'horarios_trabajadores.php',
         'colaboradores.php',
         'sedes.php',
+        'manual.php',
     );
 }
 
@@ -290,6 +291,7 @@ function auth_render_nav($paginaActiva, $token, $sede = '', $extras = array())
         'asociar' => array('href' => 'asociar_huellas.php?' . $q, 'label' => 'Asociar huella'),
         'colaboradores' => array('href' => 'colaboradores.php?' . $q, 'label' => 'Colaboradores'),
         'sedes' => array('href' => 'sedes.php?' . $q, 'label' => 'Sedes'),
+        'manual' => array('href' => 'manual.php?' . $q, 'label' => 'Manual'),
     );
 
     echo '<div class="action-stack">';
