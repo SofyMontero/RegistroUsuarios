@@ -124,7 +124,7 @@ function addUser(srn) {
         sedeValor = getParameterByName("sede") || "";
     }
     data.append("sede", sedeValor);
-    // data.append("telefono", $("#tel").val());
+    data.append("telefono", $("#telefono").length ? $("#telefono").val() : ($("#tel").val() || ""));
     $.ajax({
         async: true,
         type: "POST",
@@ -142,7 +142,11 @@ function addUser(srn) {
                 $(selectorPorToken(srn + "_texto")).val("El sensor esta activado");
                 $("#fingerPrint").css("display", "none");
                 stopEnrollPolling();
-                showMessageBox(json["message"] || "Usuario creado con exito", "success");
+                $("#documento").val("");
+                $("#nombre").val("");
+                $("#telefono").val("");
+                $("#foto").val("");
+                showMessageBox(json["message"] || "Usuario y huella guardados", "success");
             } else {
                 showMessageBox(json["message"] || "No fue posible guardar el usuario", "warning");
             }

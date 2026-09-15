@@ -373,6 +373,22 @@ class BiometricRepository
     }
 
     /**
+     * Crea el colaborador en usuarios si no existe y actualiza telefono/sede.
+     */
+    public function ensureCollaborator($documento, $nombre, $telefono = '', $sedeId = '')
+    {
+        if (!$this->getUserRowByIdentification($documento)) {
+            $this->createAdministrativeUser($documento, $nombre);
+        }
+
+        try {
+            $this->updateAdministrativeUserExtras($documento, $telefono, $sedeId);
+        } catch (\Throwable $exception) {
+            // Telefono o sede: columnas opcionales segun esquema.
+        }
+    }
+
+    /**
      * Actualiza telefono y/o sede si las columnas existen en la BD (fallos se ignoran en el llamador).
      */
     public function updateAdministrativeUserExtras($documento, $telefono, $sedeId)

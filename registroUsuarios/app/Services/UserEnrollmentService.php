@@ -19,6 +19,7 @@ class UserEnrollmentService
         $nombre = isset($post['nombre']) ? trim($post['nombre']) : '';
         $token = isset($post['token']) ? trim($post['token']) : '';
         $sede = isset($post['sede']) ? trim((string) $post['sede']) : '';
+        $telefono = isset($post['telefono']) ? trim((string) $post['telefono']) : '';
 
         if ($documento === '' || $nombre === '' || $token === '') {
             return array('filas' => 0, 'message' => 'Faltan datos obligatorios');
@@ -54,18 +55,11 @@ class UserEnrollmentService
             }
         }
 
+        $this->repository->ensureCollaborator($documento, $nombre, $telefono, $sede);
         $this->repository->markUserHasFingerprint($documento);
         $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, $fotoBinaria, $imagen);
         if ($usuarioCreado < 1) {
             return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
-        }
-
-        if ($sede !== '') {
-            try {
-                $this->repository->updateAdministrativeUserExtras($documento, '', $sede);
-            } catch (\Throwable $e) {
-                // Columna opcional segun esquema
-            }
         }
 
         $row = $this->repository->createFingerprintTemplate($documento, $token);
@@ -77,7 +71,7 @@ class UserEnrollmentService
 
         return array(
             'filas' => $row,
-            'message' => $row > 0 ? 'Usuario creado con exito' : 'No fue posible crear el usuario',
+            'message' => $row > 0 ? 'Usuario y huella guardados' : 'No fue posible crear el usuario',
         );
     }
 
@@ -100,18 +94,11 @@ class UserEnrollmentService
             return array('filas' => 0, 'message' => 'El usuario ya tiene huella registrada');
         }
 
+        $this->repository->ensureCollaborator($documento, $nombre, '', $sede);
         $this->repository->markUserHasFingerprint($documento);
         $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, null, null);
         if ($usuarioCreado < 1) {
             return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
-        }
-
-        if ($sede !== '') {
-            try {
-                $this->repository->updateAdministrativeUserExtras($documento, '', $sede);
-            } catch (\Throwable $e) {
-                // Columna opcional segun esquema
-            }
         }
 
         $row = $this->repository->createFingerprintTemplateDirect(
