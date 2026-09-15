@@ -16,6 +16,8 @@ function auth_paginas_permitidas()
         'ingresos_huella.php',
         'asociar_huellas.php',
         'registro_usuarios.php',
+        'horarios_trabajadores.php',
+        'sedes.php',
     );
 }
 
@@ -285,6 +287,8 @@ function auth_render_nav($paginaActiva, $token, $sede = '', $extras = array())
     $items = array(
         'ingresos' => array('href' => 'ingresos_huella.php?' . $q, 'label' => 'Ver ingresos'),
         'asociar' => array('href' => 'asociar_huellas.php?' . $q, 'label' => 'Asociar huella'),
+        'horarios' => array('href' => 'horarios_trabajadores.php?' . $q, 'label' => 'Horarios'),
+        'sedes' => array('href' => 'sedes.php?' . $q, 'label' => 'Sedes'),
     );
 
     echo '<div class="action-stack">';

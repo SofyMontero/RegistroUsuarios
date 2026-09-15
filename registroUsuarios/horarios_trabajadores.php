@@ -58,7 +58,7 @@ function horario_horas_desde_minutos($minutos, $fallbackHoras)
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <?php marca_datatable_head(); ?>
-    <link href="Css/estilo.css?v=20260915f" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915k" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -74,7 +74,7 @@ function horario_horas_desde_minutos($minutos, $fallbackHoras)
         <div class="container page-wrap">
             <div class="glass-card topbar-card mb-4">
                 <div class="row g-4 align-items-center">
-                    <div class="col-lg-7">
+                    <div class="col-12 col-xl-5">
                         <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Módulo administrativo</span>
                         <h1 class="page-title">Horarios de trabajadores</h1>
@@ -82,7 +82,7 @@ function horario_horas_desde_minutos($minutos, $fallbackHoras)
                             Ajuste hora de ingreso, salida, jornada y día de descanso. Estas horas se usan en las estadísticas y en el Excel.
                         </p>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-12 col-xl-7">
                         <?php auth_render_nav('horarios', $token, $sede); ?>
                     </div>
                 </div>

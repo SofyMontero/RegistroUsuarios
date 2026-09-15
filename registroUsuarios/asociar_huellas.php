@@ -21,7 +21,7 @@ $listaSedes = $biometricRepository->getHeadquartersList();
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260915i" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915k" rel="stylesheet" type="text/css" />
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
@@ -38,21 +38,13 @@ $listaSedes = $biometricRepository->getHeadquartersList();
         <div class="container page-wrap">
             <div class="glass-card topbar-card mb-4">
                 <div class="row g-4 align-items-center">
-                    <div class="col-lg-7">
+                    <div class="col-12 col-xl-5">
                         <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Modulo biometrico</span>
                         <h1 class="page-title">Asociar huellas</h1>
                     </div>
-                    <div class="col-lg-5">
-                        <?php
-                        auth_render_nav('asociar', $token, $sede, array(
-                            array(
-                                'button' => true,
-                                'label' => 'Administrar sedes',
-                                'attrs' => 'data-bs-toggle="modal" data-bs-target="#sedesModal"',
-                            ),
-                        ));
-                        ?>
+                    <div class="col-12 col-xl-7">
+                        <?php auth_render_nav('asociar', $token, $sede); ?>
                     </div>
                 </div>
             </div>
@@ -168,35 +160,6 @@ $listaSedes = $biometricRepository->getHeadquartersList();
         </div>
     </div>
 
-    <div class="modal fade" id="sedesModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4">
-                <div class="modal-header border-0 pb-0">
-                    <div>
-                        <h2 class="section-title mb-1">Administrar sedes</h2>
-                        <p class="section-copy mb-0">Agrega sedes nuevas o elimina sedes que no tengan usuarios asignados.</p>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body pt-3">
-                    <div class="row g-3 align-items-end mb-4">
-                        <div class="col-12">
-                            <label class="field-label" for="nuevaSede">Nueva sede</label>
-                            <input class="form-control biometric-input" id="nuevaSede" type="text" placeholder="Nombre de la sede" />
-                        </div>
-                        <div class="col-12 d-grid">
-                            <button class="btn btn-primary rounded-4" id="agregarSede" type="button">Agregar sede</button>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="field-label mb-3">Sedes registradas</label>
-                        <div id="sedesLista" class="d-grid gap-2"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/funciones.js?v=20260915j" type="text/javascript"></script>
     <script src="js/plugin-ws.js" type="text/javascript"></script>
@@ -217,25 +180,15 @@ $listaSedes = $biometricRepository->getHeadquartersList();
         function renderSedes(sedes) {
             var sedeActual = String($("#sedeSelect").data("selected") || $("#sedeSelect").val() || "");
             var opciones = ['<option value="">Sin sede</option>'];
-            var lista = [];
 
-            if (!sedes || !sedes.length) {
-                lista.push('<div class="empty-placeholder">No hay sedes registradas.</div>');
-            } else {
+            if (sedes && sedes.length) {
                 $.each(sedes, function (_, sedeItem) {
                     var selected = sedeActual === String(sedeItem.id) ? " selected" : "";
                     opciones.push('<option value="' + escapeHtml(sedeItem.id) + '"' + selected + '>' + escapeHtml(sedeItem.nombre) + '</option>');
-                    lista.push(
-                        '<div class="d-flex justify-content-between align-items-center gap-3 border rounded-4 px-3 py-2">' +
-                            '<span>' + escapeHtml(sedeItem.nombre) + '</span>' +
-                            '<button class="btn btn-sm btn-outline-danger rounded-4 btn-eliminar-sede" type="button" data-id="' + escapeHtml(sedeItem.id) + '" data-nombre="' + escapeHtml(sedeItem.nombre) + '">Borrar</button>' +
-                        '</div>'
-                    );
                 });
             }
 
             $("#sedeSelect").html(opciones.join(""));
-            $("#sedesLista").html(lista.join(""));
         }
 
         function cargarSedes() {
@@ -251,51 +204,6 @@ $listaSedes = $biometricRepository->getHeadquartersList();
                 }
             });
         }
-
-        $("#agregarSede").on("click", function () {
-            $.ajax({
-                type: "POST",
-                url: "Model/SedesAdmin.php",
-                dataType: "json",
-                data: { action: "create", nombre: $("#nuevaSede").val() },
-                success: function (data) {
-                    if (data.success) {
-                        $("#nuevaSede").val("");
-                        renderSedes(data.sedes || []);
-                        showMessageBox(data.message || "Sede creada con exito", "success");
-                    } else {
-                        showMessageBox(data.message || "No fue posible crear la sede", "warning");
-                    }
-                },
-                error: function () {
-                    showMessageBox("No fue posible crear la sede", "danger");
-                }
-            });
-        });
-
-        $(document).on("click", ".btn-eliminar-sede", function () {
-            var sedeNombre = $(this).data("nombre");
-            if (!confirm('Vas a borrar la sede "' + sedeNombre + '".')) {
-                return;
-            }
-            $.ajax({
-                type: "POST",
-                url: "Model/SedesAdmin.php",
-                dataType: "json",
-                data: { action: "delete", sede: $(this).data("id") },
-                success: function (data) {
-                    if (data.success) {
-                        renderSedes(data.sedes || []);
-                        showMessageBox(data.message || "Sede eliminada con exito", "success");
-                    } else {
-                        showMessageBox(data.message || "No fue posible eliminar la sede", "warning");
-                    }
-                },
-                error: function () {
-                    showMessageBox("No fue posible eliminar la sede", "danger");
-                }
-            });
-        });
 
         $("#sedeSelect").data("selected", $("#sedeSelect").val());
         cargarSedes();

@@ -208,7 +208,13 @@ function instalarRedireccionLogin401() {
     if (typeof jQuery === "undefined") {
         return;
     }
-    var paginasAdmin = ["ingresos_huella.php", "asociar_huellas.php", "registro_usuarios.php"];
+    var paginasAdmin = [
+        "ingresos_huella.php",
+        "asociar_huellas.php",
+        "registro_usuarios.php",
+        "horarios_trabajadores.php",
+        "sedes.php"
+    ];
     jQuery(document).ajaxError(function (event, xhr) {
         if (!xhr || xhr.status !== 401) {
             return;

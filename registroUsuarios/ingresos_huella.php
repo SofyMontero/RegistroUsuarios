@@ -111,7 +111,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <?php marca_datatable_head(); ?>
-    <link href="Css/estilo.css?v=20260915h" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915k" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -127,7 +127,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
         <div class="container page-wrap">
             <div class="glass-card topbar-card mb-4">
                 <div class="row g-4 align-items-center">
-                    <div class="col-lg-7">
+                    <div class="col-12 col-xl-5">
                         <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Reporte biometrico</span>
                         <h1 class="page-title">Historial de ingresos</h1>
@@ -135,7 +135,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                             <?php echo $nombreSedeActual !== '' ? ('Sede: ' . htmlspecialchars($nombreSedeActual)) : 'Todas las sedes'; ?>
                         </p>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-12 col-xl-7">
                         <?php auth_render_nav('ingresos', $token, $sede); ?>
                     </div>
                 </div>
