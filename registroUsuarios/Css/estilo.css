@@ -616,14 +616,14 @@ body.biometric-body {
 
 .report-table {
     width: 100%;
-    min-width: 960px;
+    min-width: 820px;
     border-collapse: separate;
     border-spacing: 0;
 }
 
 .report-table th,
 .report-table td {
-    padding: 14px 16px;
+    padding: 10px 14px;
     border-bottom: 1px solid rgba(43, 47, 51, 0.08);
     text-align: left;
     vertical-align: middle;
@@ -633,6 +633,24 @@ body.biometric-body {
     white-space: nowrap;
     word-break: keep-all;
     overflow-wrap: normal;
+}
+
+.celda-persona {
+    min-width: 148px;
+    line-height: 1.2;
+}
+
+.celda-persona-nombre {
+    display: block;
+}
+
+.celda-persona-cc {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.02em;
 }
 
 .report-table thead th {

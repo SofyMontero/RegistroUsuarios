@@ -111,7 +111,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <?php marca_datatable_head(); ?>
-    <link href="Css/estilo.css?v=20260915k" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915n" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -211,11 +211,10 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                 </div>
 
                 <div class="report-table-shell">
-                    <table class="report-table" id="tablaIngresosHuella" data-page-length="25" data-order='[[2,"desc"],[3,"desc"]]' data-paging="full">
+                    <table class="report-table" id="tablaIngresosHuella" data-page-length="25" data-order='[[1,"desc"],[2,"desc"]]' data-paging="full">
                         <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Documento</th>
+                                <th>Colaborador</th>
                                 <th>Fecha</th>
                                 <th>Ingreso</th>
                                 <th>Sale almuerzo</th>
@@ -237,8 +236,10 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                                 $claseBreak = clase_celda_tiempo_excedido($saleBreak, $regresaBreak, MINUTOS_BREAK);
                                 ?>
                                 <tr data-documento="<?php echo htmlspecialchars($row['documento']); ?>" data-fecha="<?php echo htmlspecialchars($fechaIso); ?>" data-nombre="<?php echo htmlspecialchars($row['nombre']); ?>">
-                                    <td><strong><?php echo htmlspecialchars($row['nombre']); ?></strong></td>
-                                    <td class="celda-fija"><?php echo htmlspecialchars($row['documento']); ?></td>
+                                    <td class="celda-persona" data-order="<?php echo htmlspecialchars($row['nombre']); ?>">
+                                        <strong class="celda-persona-nombre"><?php echo htmlspecialchars($row['nombre']); ?></strong>
+                                        <span class="celda-persona-cc">CC <?php echo htmlspecialchars($row['documento']); ?></span>
+                                    </td>
                                     <td class="celda-fija" data-order="<?php echo htmlspecialchars($fechaIso); ?>"><?php echo htmlspecialchars($fechaIso); ?></td>
                                     <?php echo html_celda_hora($row['seg_horaingreso'], 'seg_horaingreso'); ?>
                                     <?php echo html_celda_hora($saleAlmuerzo, 'seg_ingresoAlmuerzo'); ?>
@@ -430,7 +431,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
 
         if (window.MonteblancoTable) {
             MonteblancoTable.init("#tablaIngresosHuella", {
-                columnDefs: [{ orderable: false, targets: [9] }]
+                columnDefs: [{ orderable: false, targets: [8] }]
             });
         }
 
