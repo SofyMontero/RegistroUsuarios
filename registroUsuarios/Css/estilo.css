@@ -74,7 +74,7 @@ body.biometric-body {
 
 .topbar-card {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     padding: 24px 28px;
     background: #FFFFFF !important;
     background-image: none !important;
@@ -235,6 +235,33 @@ body.biometric-body {
     background: linear-gradient(135deg, #2B2F33, #3d444a);
     color: #fff;
     box-shadow: 0 12px 24px rgba(43, 47, 51, 0.18);
+}
+
+.admin-menu .dropdown-toggle::after {
+    margin-left: 8px;
+    vertical-align: 0.15em;
+}
+
+.admin-menu-list {
+    min-width: 220px;
+    padding: 8px;
+    margin-top: 8px !important;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.admin-menu-list .dropdown-item {
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 600;
+    color: var(--carbon);
+}
+
+.admin-menu-list .dropdown-item:hover,
+.admin-menu-list .dropdown-item:focus {
+    background: var(--accent-soft);
+    color: var(--carbon);
 }
 
 .section-card {
@@ -1078,6 +1105,11 @@ body.biometric-body {
     }
 
     .btn-soft {
+        width: 100%;
+    }
+
+    .admin-menu,
+    .admin-menu .dropdown-menu {
         width: 100%;
     }
 

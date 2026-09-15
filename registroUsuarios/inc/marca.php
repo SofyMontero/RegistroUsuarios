@@ -30,6 +30,39 @@ function marca_datatable_scripts()
     <?php
 }
 
+function marca_bootstrap_scripts()
+{
+    ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <?php
+}
+
+/**
+ * Menu de administracion: asociar huella y ver ingresos.
+ */
+function marca_admin_menu($token, $sede = '')
+{
+    $qs = 'token=' . urlencode($token);
+    if ($sede !== '') {
+        $qs .= '&sede=' . urlencode($sede);
+    }
+    ?>
+    <div class="dropdown admin-menu">
+        <button class="btn-soft btn-soft-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+            Administración
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end admin-menu-list">
+            <li>
+                <a class="dropdown-item" href="asociar_huellas.php?<?php echo $qs; ?>">Asociar huella</a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="ingresos_huella.php?<?php echo $qs; ?>">Ver ingresos</a>
+            </li>
+        </ul>
+    </div>
+    <?php
+}
+
 /**
  * Solo isotipo + copy de marca (sin textos de producto arriba).
  */
