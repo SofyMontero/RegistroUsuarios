@@ -148,35 +148,21 @@ class AttendanceExcelExport
 
     private function filasConsolidado(array $resumen)
     {
-        $ordinarias = 0;
-        $nocturnas = 0;
-        $extraDiurnas = 0;
-        $extraNocturnas = 0;
-        $dominicalesFestivas = 0;
-
-        foreach ($resumen as $fila) {
-            $ordinarias += (int) $fila['ordinaria_diurna'];
-            $nocturnas += (int) $fila['ordinaria_nocturna'];
-            $extraDiurnas += (int) $fila['extra_diurna_laboral'];
-            $extraNocturnas += (int) $fila['extra_nocturna_laboral'];
-            $dominicalesFestivas += (int) $fila['dominical_descanso'] + (int) $fila['festiva'];
-        }
-
-        $totalPagadas = $ordinarias + $nocturnas + $extraDiurnas + $extraNocturnas + $dominicalesFestivas;
+        $totales = (new LaborHoursStats())->totalsFromSummary($resumen);
 
         return array(
             array('Concepto', 'Horas'),
-            array('Total de horas ordinarias', $this->minutosAHoras($ordinarias)),
-            array('Total de horas nocturnas', $this->minutosAHoras($nocturnas)),
-            array('Total de horas extra diurnas', $this->minutosAHoras($extraDiurnas)),
-            array('Total de horas extra nocturnas', $this->minutosAHoras($extraNocturnas)),
-            array('Total de horas dominicales/festivas', $this->minutosAHoras($dominicalesFestivas)),
-            array('Total general de horas pagadas', $this->minutosAHoras($totalPagadas)),
+            array('Total de horas ordinarias', $totales['ordinarias']),
+            array('Total de horas nocturnas', $totales['nocturnas']),
+            array('Total de horas extra diurnas', $totales['extra_diurnas']),
+            array('Total de horas extra nocturnas', $totales['extra_nocturnas']),
+            array('Total de horas dominicales/festivas', $totales['dominicales_festivas']),
+            array('Total general de horas pagadas', $totales['total']),
         );
     }
 
     private function minutosAHoras($minutos)
     {
-        return round(((int) $minutos) / 60, 2);
+        return (new LaborHoursStats())->minutosAHoras($minutos);
     }
 }

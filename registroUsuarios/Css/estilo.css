@@ -807,3 +807,113 @@ body.biometric-body {
     --bs-btn-active-border-color: #456e6a;
     font-weight: 600;
 }
+
+.btn-outline-primary {
+    --bs-btn-color: #5D8F8A;
+    --bs-btn-border-color: #5D8F8A;
+    --bs-btn-hover-bg: #5D8F8A;
+    --bs-btn-hover-border-color: #5D8F8A;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-bg: #4f7c78;
+    --bs-btn-active-border-color: #4f7c78;
+    font-weight: 600;
+}
+
+.btn-outline-secondary {
+    --bs-btn-color: #2B2F33;
+    --bs-btn-border-color: rgba(43, 47, 51, 0.22);
+    --bs-btn-hover-bg: #2B2F33;
+    --bs-btn-hover-border-color: #2B2F33;
+    --bs-btn-hover-color: #fff;
+    font-weight: 600;
+}
+
+.stats-kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.stats-kpi-value {
+    font-size: 1.45rem;
+    letter-spacing: -0.03em;
+}
+
+.stats-kpi-total {
+    background: linear-gradient(180deg, rgba(93, 143, 138, 0.14), rgba(231, 230, 226, 0.4));
+}
+
+.stats-delta {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.stats-delta.is-up {
+    color: #3f6864;
+}
+
+.stats-delta.is-down {
+    color: #9a4a3c;
+}
+
+.stats-delta.is-flat {
+    color: var(--gris);
+}
+
+.stats-subtitle {
+    margin: 0 0 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.stats-chart-card,
+.stats-extra-grid .metric-card,
+.stats-compare {
+    min-width: 0;
+}
+
+.stats-chart-card {
+    height: 100%;
+    padding: 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(43, 47, 51, 0.08);
+    background: linear-gradient(180deg, rgba(250, 250, 249, 0.96), rgba(231, 230, 226, 0.35));
+}
+
+.stats-chart-wrap {
+    position: relative;
+    max-width: 380px;
+    margin: 0 auto;
+}
+
+.stats-extra-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.stats-relacion {
+    grid-column: 1 / -1;
+}
+
+.stats-compare-table th,
+.stats-compare-table td {
+    white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+    .stats-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .stats-kpi-grid,
+    .stats-extra-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-relacion {
+        grid-column: auto;
+    }
+}
