@@ -5,7 +5,7 @@ namespace Huella\Services;
 use Huella\Repositories\BiometricRepository;
 
 /**
- * Totales generales de horas (sin desglose por trabajador).
+ * Totales generales de horas del período (sin desglose por trabajador).
  */
 class LaborHoursStats
 {
@@ -59,41 +59,17 @@ class LaborHoursStats
         $total = (float) $horas['total'];
         $extraTotal = (float) $horas['extra_diurnas'] + (float) $horas['extra_nocturnas'];
         $conRecargo = (float) $horas['nocturnas'] + $extraTotal + (float) $horas['dominicales_festivas'];
-        $ordinarias = (float) $horas['ordinarias'];
-
-        if ($ordinarias <= 0 && $conRecargo <= 0) {
-            $relacion = '—';
-        } elseif ($ordinarias <= 0) {
-            $relacion = '0 : 1';
-        } else {
-            $relacion = '1 : ' . number_format($conRecargo / $ordinarias, 2, ',', '.');
-        }
 
         return array(
             'horas' => $horas,
             'extra_total' => round($extraTotal, 2),
             'con_recargo' => round($conRecargo, 2),
-            'pct_ordinarias' => $this->porcentaje($ordinarias, $total),
+            'pct_ordinarias' => $this->porcentaje((float) $horas['ordinarias'], $total),
             'pct_nocturnas' => $this->porcentaje((float) $horas['nocturnas'], $total),
             'pct_extra' => $this->porcentaje($extraTotal, $total),
             'pct_dominicales' => $this->porcentaje((float) $horas['dominicales_festivas'], $total),
-            'relacion_ordinarias_recargo' => $relacion,
+            'pct_con_recargo' => $this->porcentaje($conRecargo, $total),
         );
-    }
-
-    public function comparar(array $actual, array $anterior)
-    {
-        $deltas = array();
-        foreach (array('ordinarias', 'nocturnas', 'extra_diurnas', 'extra_nocturnas', 'dominicales_festivas', 'total') as $clave) {
-            $deltas[$clave] = $this->variacion(
-                (float) $actual['horas'][$clave],
-                (float) $anterior['horas'][$clave]
-            );
-        }
-        $deltas['extra_total'] = $this->variacion((float) $actual['extra_total'], (float) $anterior['extra_total']);
-        $deltas['con_recargo'] = $this->variacion((float) $actual['con_recargo'], (float) $anterior['con_recargo']);
-
-        return $deltas;
     }
 
     public function minutosAHoras($minutos)
@@ -108,14 +84,5 @@ class LaborHoursStats
         }
 
         return round(($parte / $total) * 100, 1);
-    }
-
-    private function variacion($actual, $anterior)
-    {
-        if ($anterior == 0.0) {
-            return null;
-        }
-
-        return round((($actual - $anterior) / $anterior) * 100, 1);
     }
 }

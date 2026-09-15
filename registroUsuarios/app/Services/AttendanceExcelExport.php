@@ -148,21 +148,21 @@ class AttendanceExcelExport
 
     private function filasConsolidado(array $resumen)
     {
-        $totales = (new LaborHoursStats())->totalsFromSummary($resumen);
+        $horas = (new LaborHoursStats())->totalsFromSummary($resumen);
 
         return array(
             array('Concepto', 'Horas'),
-            array('Total de horas ordinarias', $totales['ordinarias']),
-            array('Total de horas nocturnas', $totales['nocturnas']),
-            array('Total de horas extra diurnas', $totales['extra_diurnas']),
-            array('Total de horas extra nocturnas', $totales['extra_nocturnas']),
-            array('Total de horas dominicales/festivas', $totales['dominicales_festivas']),
-            array('Total general de horas pagadas', $totales['total']),
+            array('Total de horas ordinarias', $horas['ordinarias']),
+            array('Total de horas nocturnas', $horas['nocturnas']),
+            array('Total de horas extra diurnas', $horas['extra_diurnas']),
+            array('Total de horas extra nocturnas', $horas['extra_nocturnas']),
+            array('Total de horas dominicales/festivas', $horas['dominicales_festivas']),
+            array('Total general de horas pagadas', $horas['total']),
         );
     }
 
     private function minutosAHoras($minutos)
     {
-        return (new LaborHoursStats())->minutosAHoras($minutos);
+        return round(((int) $minutos) / 60, 2);
     }
 }

@@ -11,75 +11,6 @@ use Huella\Repositories\BiometricRepository;
 use Huella\Services\AttendanceExcelExport;
 use Huella\Services\LaborHoursStats;
 
-function consultar_ingresos_periodo($con, $fechaDesde, $fechaHasta, $sede, $busqueda)
-{
-    $where = array(
-        "s.seg_fechaingreso >= '" . addslashes($fechaDesde) . "'",
-        "s.seg_fechaingreso <= '" . addslashes($fechaHasta) . "'",
-    );
-
-    if ($busqueda !== '') {
-        $busquedaSql = addslashes($busqueda);
-        $where[] = "(s.seg_iduser LIKE '%{$busquedaSql}%' OR u.usu_nombre LIKE '%{$busquedaSql}%')";
-    }
-
-    if ($sede !== '') {
-        $sedeSql = addslashes($sede);
-        $where[] = "u.usu_idsede = '{$sedeSql}'";
-    }
-
-    $where[] = "(
-        s.seg_horaingreso > '00:00:00'
-        OR s.seg_ingresoAlmuerzo > '00:00:00'
-        OR s.seg_salioAlmuerzo > '00:00:00'
-        OR IFNULL(s.seg_ingresoBreak, '00:00:00') > '00:00:00'
-        OR IFNULL(s.seg_salioBreak, '00:00:00') > '00:00:00'
-        OR s.seg_horaSalida > '00:00:00'
-    )";
-
-    $sql = "
-        SELECT
-            s.seg_iduser AS documento,
-            COALESCE(u.usu_nombre, 'Sin nombre') AS nombre,
-            s.seg_fechaingreso,
-            s.seg_horaingreso,
-            s.seg_ingresoAlmuerzo,
-            s.seg_salioAlmuerzo,
-            s.seg_ingresoBreak,
-            s.seg_salioBreak,
-            s.seg_horaSalida
-        FROM seguimientousers s
-        LEFT JOIN usuarios u ON u.usu_identificacion = s.seg_iduser
-        WHERE " . implode(' AND ', $where) . "
-        ORDER BY s.seg_fechaingreso DESC, s.seg_horaingreso DESC
-    ";
-
-    return $con->findAll($sql);
-}
-
-function periodo_anterior_igual($fechaDesde, $fechaHasta)
-{
-    $desdeTs = strtotime($fechaDesde);
-    $hastaTs = strtotime($fechaHasta);
-    if ($desdeTs === false || $hastaTs === false || $hastaTs < $desdeTs) {
-        return null;
-    }
-
-    $esMesCompleto = date('Y-m-d', $desdeTs) === date('Y-m-01', $desdeTs)
-        && date('Y-m-d', $hastaTs) === date('Y-m-t', $desdeTs);
-    if ($esMesCompleto) {
-        $prevRef = strtotime(date('Y-m-01', $desdeTs) . ' -1 month');
-
-        return array(date('Y-m-01', $prevRef), date('Y-m-t', $prevRef));
-    }
-
-    $dias = (int) floor(($hastaTs - $desdeTs) / 86400) + 1;
-    $prevHasta = date('Y-m-d', strtotime($fechaDesde . ' -1 day'));
-    $prevDesde = date('Y-m-d', strtotime($prevHasta . ' -' . ($dias - 1) . ' days'));
-
-    return array($prevDesde, $prevHasta);
-}
-
 $con = new bd();
 list($token, $sede) = requerir_token_sesion();
 $biometricRepository = new BiometricRepository(new Database());
@@ -90,12 +21,52 @@ $ultimoDiaMes = date('Y-m-t');
 $fechaDesde = isset($_GET['fecha_desde']) && $_GET['fecha_desde'] !== '' ? $_GET['fecha_desde'] : $primerDiaMes;
 $fechaHasta = isset($_GET['fecha_hasta']) && $_GET['fecha_hasta'] !== '' ? $_GET['fecha_hasta'] : $ultimoDiaMes;
 $busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
-$verEstadisticas = isset($_GET['ver']) && $_GET['ver'] === 'estadisticas';
 
 $biometricRepository->ensureBreakColumns();
 $biometricRepository->ensureTodayAttendanceRowsForActiveUsers(date('Y-m-d'));
 
-$rows = consultar_ingresos_periodo($con, $fechaDesde, $fechaHasta, $sede, $busqueda);
+$where = array(
+    "s.seg_fechaingreso >= '" . addslashes($fechaDesde) . "'",
+    "s.seg_fechaingreso <= '" . addslashes($fechaHasta) . "'",
+);
+
+if ($busqueda !== '') {
+    $busquedaSql = addslashes($busqueda);
+    $where[] = "(s.seg_iduser LIKE '%{$busquedaSql}%' OR u.usu_nombre LIKE '%{$busquedaSql}%')";
+}
+
+if ($sede !== '') {
+    $sedeSql = addslashes($sede);
+    $where[] = "u.usu_idsede = '{$sedeSql}'";
+}
+
+$where[] = "(
+    s.seg_horaingreso > '00:00:00'
+    OR s.seg_ingresoAlmuerzo > '00:00:00'
+    OR s.seg_salioAlmuerzo > '00:00:00'
+    OR IFNULL(s.seg_ingresoBreak, '00:00:00') > '00:00:00'
+    OR IFNULL(s.seg_salioBreak, '00:00:00') > '00:00:00'
+    OR s.seg_horaSalida > '00:00:00'
+)";
+
+$sql = "
+    SELECT
+        s.seg_iduser AS documento,
+        COALESCE(u.usu_nombre, 'Sin nombre') AS nombre,
+        s.seg_fechaingreso,
+        s.seg_horaingreso,
+        s.seg_ingresoAlmuerzo,
+        s.seg_salioAlmuerzo,
+        s.seg_ingresoBreak,
+        s.seg_salioBreak,
+        s.seg_horaSalida
+    FROM seguimientousers s
+    LEFT JOIN usuarios u ON u.usu_identificacion = s.seg_iduser
+    WHERE " . implode(' AND ', $where) . "
+    ORDER BY s.seg_fechaingreso DESC, s.seg_horaingreso DESC
+";
+
+$rows = $con->findAll($sql);
 $total = count($rows);
 
 if (isset($_GET['export']) && $_GET['export'] === 'xlsx') {
@@ -106,41 +77,25 @@ if (isset($_GET['export']) && $_GET['export'] === 'xlsx') {
     exit;
 }
 
-$estadisticas = null;
-$comparacion = null;
-$variaciones = null;
-$fechaPrevDesde = '';
-$fechaPrevHasta = '';
-
-if ($verEstadisticas) {
-    $configJornada = require __DIR__ . '/config/jornada_laboral.php';
-    $calculadora = new LaborHoursStats();
-    $estadisticas = $calculadora->buildFromRows($biometricRepository, $configJornada, $rows);
-    $periodoPrev = periodo_anterior_igual($fechaDesde, $fechaHasta);
-    if ($periodoPrev) {
-        $fechaPrevDesde = $periodoPrev[0];
-        $fechaPrevHasta = $periodoPrev[1];
-        $rowsPrev = consultar_ingresos_periodo($con, $fechaPrevDesde, $fechaPrevHasta, $sede, $busqueda);
-        if (!empty($rowsPrev)) {
-            $comparacion = $calculadora->buildFromRows($biometricRepository, $configJornada, $rowsPrev);
-            $variaciones = $calculadora->comparar($estadisticas, $comparacion);
-        }
-    }
-}
-
-$queryBase = $_GET;
-unset($queryBase['export']);
-$queryExport = $queryBase;
-$queryExport['export'] = 'xlsx';
+$queryExport = $_GET;
 unset($queryExport['ver']);
+$queryExport['export'] = 'xlsx';
 $urlExportExcel = 'ingresos_huella.php?' . http_build_query($queryExport);
 
-$queryStats = $queryBase;
-$queryStats['ver'] = 'estadisticas';
-$urlEstadisticas = 'ingresos_huella.php?' . http_build_query($queryStats);
+$verEstadisticas = isset($_GET['ver']) && $_GET['ver'] === 'estadisticas';
+$estadisticas = null;
+if ($verEstadisticas) {
+    $configJornada = require __DIR__ . '/config/jornada_laboral.php';
+    $estadisticas = (new LaborHoursStats())->buildFromRows($biometricRepository, $configJornada, $rows);
+}
 
-$queryHistorial = $queryBase;
-unset($queryHistorial['ver']);
+$queryEstadisticas = $_GET;
+unset($queryEstadisticas['export']);
+$queryEstadisticas['ver'] = 'estadisticas';
+$urlEstadisticas = 'ingresos_huella.php?' . http_build_query($queryEstadisticas) . '#estadisticasHoras';
+
+$queryHistorial = $_GET;
+unset($queryHistorial['ver'], $queryHistorial['export']);
 $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
 ?>
 <!DOCTYPE html>
@@ -148,13 +103,11 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?php echo $verEstadisticas ? 'Estadísticas de horas' : 'Historial de ingresos'; ?> | Monteblanco</title>
+    <title>Historial de ingresos | Monteblanco</title>
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <?php if (!$verEstadisticas) { ?>
-        <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
-    <?php } ?>
+    <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
     <link href="Css/estilo.css?v=20260915a" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
@@ -167,7 +120,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                     <div class="col-lg-7">
                         <?php marca_product_badge('Ingreso Usuarios'); ?>
                         <span class="eyebrow">Reporte biometrico</span>
-                        <h1 class="page-title"><?php echo $verEstadisticas ? 'Estadísticas de horas' : 'Historial de ingresos'; ?></h1>
+                        <h1 class="page-title">Historial de ingresos</h1>
                         <p class="section-copy mb-0">
                             <?php echo $nombreSedeActual !== '' ? ('Sede: ' . htmlspecialchars($nombreSedeActual)) : 'Todas las sedes'; ?>
                         </p>
@@ -215,40 +168,40 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                 </form>
             </div>
 
+            <?php if ($verEstadisticas && $estadisticas !== null) { ?>
+            <div class="glass-card section-card mb-4" id="estadisticasHoras">
+                <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+                    <div>
+                        <h2 class="section-title">Estadísticas de horas</h2>
+                        <p class="section-copy">Resumen del período consultado (<?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>). Totales generales, sin desglose por trabajador.</p>
+                    </div>
+                    <a class="btn btn-outline-secondary rounded-4 px-4 align-self-start" href="<?php echo htmlspecialchars($urlHistorial); ?>">Ocultar estadísticas</a>
+                </div>
+                <?php require __DIR__ . '/inc/vista_estadisticas_horas.php'; ?>
+            </div>
+            <?php } ?>
+
             <div class="glass-card section-card">
                 <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
                     <div>
-                        <h2 class="section-title"><?php echo $verEstadisticas ? 'Resumen del período' : 'Resultados'; ?></h2>
-                        <p class="section-copy">
-                            <?php if ($verEstadisticas) { ?>
-                                Totales generales de <?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>. Sin desglose por trabajador.
-                            <?php } else { ?>
-                                Mostrando <?php echo $total; ?> registros (<?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>). La descarga incluye todo ese rango.
-                            <?php } ?>
-                        </p>
-                        <?php if (!$verEstadisticas) { ?>
-                            <div class="tiempo-leyenda mt-2">
-                                <span class="tiempo-leyenda-item">
-                                    <span></span>
-                                    Rojo: almuerzo &gt; <?php echo (int) MINUTOS_ALMUERZO; ?> min o break &gt; <?php echo (int) MINUTOS_BREAK; ?> min
-                                </span>
-                            </div>
-                        <?php } ?>
+                        <h2 class="section-title">Resultados</h2>
+                        <p class="section-copy">Mostrando <?php echo $total; ?> registros (<?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>). La descarga incluye todo ese rango.</p>
+                        <div class="tiempo-leyenda mt-2">
+                            <span class="tiempo-leyenda-item">
+                                <span></span>
+                                Rojo: almuerzo &gt; <?php echo (int) MINUTOS_ALMUERZO; ?> min o break &gt; <?php echo (int) MINUTOS_BREAK; ?> min
+                            </span>
+                        </div>
                     </div>
                     <div class="d-flex flex-wrap gap-2 align-items-center">
                         <div class="status-pill"><?php echo $fechaDesde; ?> a <?php echo $fechaHasta; ?></div>
-                        <?php if ($verEstadisticas) { ?>
-                            <a class="btn btn-outline-secondary rounded-4 px-4" href="<?php echo htmlspecialchars($urlHistorial); ?>">Volver al historial</a>
-                        <?php } else { ?>
-                            <a class="btn btn-outline-primary rounded-4 px-4" id="btnVerEstadisticas" href="<?php echo htmlspecialchars($urlEstadisticas); ?>">Ver estadísticas</a>
+                        <?php if (!$verEstadisticas) { ?>
+                            <a class="btn btn-primary rounded-4 px-4" id="btnVerEstadisticas" href="<?php echo htmlspecialchars($urlEstadisticas); ?>">Ver estadísticas</a>
                         <?php } ?>
                         <a class="btn btn-success rounded-4 px-4" id="btnExportarExcel" href="<?php echo htmlspecialchars($urlExportExcel); ?>">Descargar Excel</a>
                     </div>
                 </div>
 
-                <?php if ($verEstadisticas) {
-                    require __DIR__ . '/inc/vista_estadisticas_horas.php';
-                } else { ?>
                 <div class="report-table-wrap">
                     <table class="report-table" id="tablaIngresosHuella">
                         <thead>
@@ -295,47 +248,10 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                         </tbody>
                     </table>
                 </div>
-                <?php } ?>
             </div>
             <?php marca_footer(); ?>
         </div>
     </div>
-    <?php if ($verEstadisticas) { ?>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-        <script>
-            (function () {
-                var datos = window.datosGraficaHoras;
-                var canvas = document.getElementById('graficaHorasCategoria');
-                if (!datos || !canvas || typeof Chart === 'undefined') {
-                    return;
-                }
-                new Chart(canvas, {
-                    type: 'doughnut',
-                    data: {
-                        labels: datos.labels,
-                        datasets: [{
-                            data: datos.values,
-                            backgroundColor: ['#5D8F8A', '#2B2F33', '#C4B8A5', '#8FB3AF', '#6B7C85'],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    usePointStyle: true,
-                                    padding: 16,
-                                    font: { family: 'Mulish, Segoe UI, sans-serif' }
-                                }
-                            }
-                        }
-                    }
-                });
-            })();
-        </script>
-    <?php } else { ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
@@ -364,7 +280,6 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
             });
         });
     </script>
-    <?php } ?>
 </body>
 </html>
 <?php
