@@ -107,8 +107,8 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260915c" rel="stylesheet" type="text/css" />
+    <?php marca_datatable_head(); ?>
+    <link href="Css/estilo.css?v=20260915d" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -202,8 +202,8 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                     </div>
                 </div>
 
-                <div class="report-table-wrap">
-                    <table class="report-table" id="tablaIngresosHuella">
+                <div class="report-table-shell">
+                    <table class="report-table js-datatable" id="tablaIngresosHuella" data-page-length="25" data-order='[[2,"desc"],[3,"desc"]]' data-paging="full">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -218,13 +218,6 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if ($total === 0) { ?>
-                                <tr>
-                                    <td colspan="9">
-                                        <div class="empty-placeholder">No hay ingresos por huella para los filtros seleccionados.</div>
-                                    </td>
-                                </tr>
-                            <?php } ?>
                             <?php foreach ($rows as $row) {
                                 $saleAlmuerzo = isset($row['seg_ingresoAlmuerzo']) ? $row['seg_ingresoAlmuerzo'] : '';
                                 $regresaAlmuerzo = isset($row['seg_salioAlmuerzo']) ? $row['seg_salioAlmuerzo'] : '';
@@ -252,34 +245,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
             <?php marca_footer(); ?>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
-    <script>
-        $(function () {
-            var tabla = new DataTable('#tablaIngresosHuella', {
-                pageLength: 30,
-                lengthMenu: [[30, 50, 100, -1], [30, 50, 100, 'Todos']],
-                order: [[2, 'desc'], [3, 'desc']],
-                deferRender: true,
-                language: {
-                    search: 'Buscar en tabla:',
-                    lengthMenu: 'Mostrar _MENU_ registros',
-                    info: 'Mostrando _START_ a _END_ de _TOTAL_ registros',
-                    infoEmpty: 'Mostrando 0 a 0 de 0 registros',
-                    infoFiltered: '(filtrados de _MAX_ registros)',
-                    zeroRecords: 'No se encontraron registros',
-                    emptyTable: 'No hay datos disponibles',
-                    paginate: {
-                        first: '<span aria-hidden="true">&laquo;</span>',
-                        last: '<span aria-hidden="true">&raquo;</span>',
-                        next: '<span aria-hidden="true">&rsaquo;</span>',
-                        previous: '<span aria-hidden="true">&lsaquo;</span>'
-                    }
-                }
-            });
-        });
-    </script>
+    <?php marca_datatable_scripts(); ?>
 </body>
 </html>
 <?php

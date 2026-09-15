@@ -595,22 +595,29 @@ body.biometric-body {
     padding: 0 28px 28px;
 }
 
+.report-table-shell,
 .report-table-wrap {
-    overflow-x: auto;
     border-radius: 22px;
     border: 1px solid rgba(43, 47, 51, 0.1);
-    background: rgba(255, 255, 255, 0.72);
+    background: #fff;
+    padding: 16px 16px 12px;
+}
+
+.dt-container .dt-layout-table {
+    width: 100%;
+    overflow-x: auto;
 }
 
 .report-table {
     width: 100%;
-    border-collapse: collapse;
-    min-width: 1180px;
+    min-width: 960px;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .report-table th,
 .report-table td {
-    padding: 16px 18px;
+    padding: 14px 16px;
     border-bottom: 1px solid rgba(43, 47, 51, 0.08);
     text-align: left;
     vertical-align: middle;
@@ -622,22 +629,198 @@ body.biometric-body {
     overflow-wrap: normal;
 }
 
-.report-table th {
-    font-size: 0.8rem;
+.report-table thead th {
+    font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--muted);
-    background: rgba(244, 248, 252, 0.88);
+    background: #f6f7f6;
+    font-weight: 700;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.report-table thead th:first-child {
+    border-radius: 12px 0 0 0;
+}
+
+.report-table thead th:last-child {
+    border-radius: 0 12px 0 0;
 }
 
 .report-table tbody tr:hover {
-    background: rgba(220, 238, 255, 0.22);
+    background: rgba(93, 143, 138, 0.08);
+}
+
+.report-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 .report-table td.tiempo-excedido {
     background: #fdeeee;
     color: #b42318;
     font-weight: 700;
+}
+
+.dt-container {
+    width: 100%;
+}
+
+.dt-container .dt-layout-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 16px;
+    margin: 0;
+}
+
+.dt-container .dt-layout-row:first-child {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(43, 47, 51, 0.08);
+}
+
+.dt-container .dt-layout-row:last-child {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(43, 47, 51, 0.08);
+}
+
+.dt-container .dt-layout-cell {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.dt-container .dt-length,
+.dt-container .dt-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.dt-container .dt-length::before {
+    content: "Mostrar";
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.dt-container .dt-length::after {
+    content: "filas";
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.dt-container .dt-search input,
+.dt-container .dt-length select,
+.dt-container .dt-input {
+    min-height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(43, 47, 51, 0.12);
+    background: #fafafa;
+    padding: 0.45rem 0.9rem;
+    color: var(--carbon);
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.dt-container .dt-search input {
+    min-width: min(100%, 260px);
+    padding-left: 2.4rem;
+    background: #fafafa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%239AA1A6' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3-3'/%3E%3C/svg%3E") 12px center no-repeat;
+}
+
+.dt-container .dt-search input:focus,
+.dt-container .dt-length select:focus {
+    outline: none;
+    border-color: rgba(93, 143, 138, 0.55);
+    background-color: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(93, 143, 138, 0.14);
+}
+
+.dt-container .dt-info {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0;
+}
+
+.dt-container .dt-paging {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dt-container .dt-paging nav,
+.dt-container .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 4px;
+    background: #f4f5f4;
+    border-radius: 14px;
+}
+
+.dt-container .pagination .page-item {
+    margin: 0;
+}
+
+.dt-container .dt-paging .dt-paging-button,
+.dt-container .pagination .page-link {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    color: var(--carbon) !important;
+    font-weight: 700;
+    font-size: 0.92rem;
+    box-shadow: none !important;
+    margin: 0;
+}
+
+.dt-container .dt-paging .dt-paging-button.current,
+.dt-container .dt-paging .dt-paging-button:hover,
+.dt-container .pagination .page-item.active .page-link,
+.dt-container .pagination .page-link:hover {
+    background: #5D8F8A !important;
+    color: #fff !important;
+}
+
+.dt-container .dt-paging .dt-paging-button.disabled,
+.dt-container .dt-paging .dt-paging-button.disabled:hover,
+.dt-container .pagination .page-item.disabled .page-link,
+.dt-container .pagination .page-item.disabled .page-link:hover {
+    background: transparent !important;
+    color: #b5babd !important;
+    cursor: default;
+    opacity: 1;
+}
+
+.dt-container .dt-empty {
+    padding: 28px 16px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.dt-container .dt-scroll-body {
+    border-radius: 0;
+}
+
+.dt-container .table-responsive {
+    overflow: visible;
 }
 
 .tiempo-leyenda {
@@ -799,38 +982,6 @@ body.biometric-body {
     background: #edf4fb;
 }
 
-.dt-container .dt-length,
-.dt-container .dt-search {
-    margin-bottom: 14px;
-}
-
-.dt-container .dt-input,
-.dt-container .dt-length select {
-    border-radius: 12px;
-    border: 1px solid rgba(43, 47, 51, 0.14);
-    padding: 0.45rem 0.75rem;
-    background: #fff;
-}
-
-.dt-container .dt-paging .dt-paging-button {
-    min-width: 42px;
-    min-height: 42px;
-    padding: 0;
-    border-radius: 12px;
-    border: 1px solid rgba(43, 47, 51, 0.12);
-    background: #fff;
-    color: var(--carbon) !important;
-    font-weight: 600;
-    margin: 0 4px;
-}
-
-.dt-container .dt-paging .dt-paging-button.current,
-.dt-container .dt-paging .dt-paging-button:hover {
-    background: linear-gradient(135deg, #5D8F8A, #4f7c78) !important;
-    border-color: transparent !important;
-    color: #fff !important;
-}
-
 @media (max-width: 991.98px) {
     .topbar-card,
     .section-card {
@@ -906,6 +1057,24 @@ body.biometric-body {
     .stats-kpi-grid,
     .stats-extra-grid {
         grid-template-columns: 1fr;
+    }
+
+    .dt-container .dt-layout-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dt-container .dt-search input,
+    .dt-container .dt-length select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .dt-container .dt-paging,
+    .dt-container .dt-paging nav,
+    .dt-container .pagination {
+        width: 100%;
+        justify-content: center;
     }
 
     .btn-soft {

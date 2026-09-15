@@ -13,6 +13,23 @@ function marca_head_assets()
     <?php
 }
 
+function marca_datatable_head()
+{
+    ?>
+    <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
+    <?php
+}
+
+function marca_datatable_scripts()
+{
+    ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+    <script src="js/datatable-global.js?v=20260915d"></script>
+    <?php
+}
+
 /**
  * Solo isotipo + copy de marca (sin textos de producto arriba).
  */
