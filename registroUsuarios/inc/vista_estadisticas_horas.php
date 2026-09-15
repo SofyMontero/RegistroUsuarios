@@ -15,101 +15,120 @@ if (!function_exists('formato_porcentaje_estadistica')) {
 
 $horas = $estadisticas['horas'];
 $categorias = array(
-    array('Ordinarias', (float) $horas['ordinarias'], '#5D8F8A'),
-    array('Nocturnas', (float) $horas['nocturnas'], '#2B2F33'),
-    array('Extra diurnas', (float) $horas['extra_diurnas'], '#C5A572'),
-    array('Extra nocturnas', (float) $horas['extra_nocturnas'], '#6B7C8A'),
-    array('Dominicales/festivas', (float) $horas['dominicales_festivas'], '#8B6B4A'),
+    array('key' => 'ordinarias', 'label' => 'Ordinarias', 'valor' => (float) $horas['ordinarias'], 'color' => '#5D8F8A'),
+    array('key' => 'nocturnas', 'label' => 'Nocturnas', 'valor' => (float) $horas['nocturnas'], 'color' => '#2B2F33'),
+    array('key' => 'extra_diurnas', 'label' => 'Extra diurnas', 'valor' => (float) $horas['extra_diurnas'], 'color' => '#D4A574'),
+    array('key' => 'extra_nocturnas', 'label' => 'Extra nocturnas', 'valor' => (float) $horas['extra_nocturnas'], 'color' => '#7A8B99'),
+    array('key' => 'dominicales_festivas', 'label' => 'Dominicales/festivas', 'valor' => (float) $horas['dominicales_festivas'], 'color' => '#A67C52'),
 );
 $totalHoras = (float) $horas['total'];
-$conicStops = array();
-$acumulado = 0.0;
+$cx = 160;
+$cy = 160;
+$radio = 78;
+$circunferencia = 2 * M_PI * $radio;
+$separacion = 7;
+$offset = 0;
+$arcos = array();
+
 if ($totalHoras > 0) {
+    $visibles = array();
     foreach ($categorias as $categoria) {
-        $inicio = ($acumulado / $totalHoras) * 360;
-        $acumulado += $categoria[1];
-        $fin = ($acumulado / $totalHoras) * 360;
-        $conicStops[] = $categoria[2] . ' ' . $inicio . 'deg ' . $fin . 'deg';
+        if ($categoria['valor'] > 0) {
+            $visibles[] = $categoria;
+        }
+    }
+    $nVisibles = count($visibles);
+    foreach ($visibles as $categoria) {
+        $fraccion = $categoria['valor'] / $totalHoras;
+        $largo = $fraccion * $circunferencia;
+        $hueco = $nVisibles > 1 ? $separacion : 0;
+        $trazo = max($largo - $hueco, 0.8);
+        $porcentaje = round($fraccion * 100, 1);
+        $anguloMedio = -90 + (($offset + ($largo / 2)) / $circunferencia) * 360;
+        $rad = deg2rad($anguloMedio);
+        $arcos[] = array(
+            'color' => $categoria['color'],
+            'label' => $categoria['label'],
+            'dash' => round($trazo, 2),
+            'gap' => round($circunferencia - $trazo, 2),
+            'offset' => round(-$offset, 2),
+            'pct' => $porcentaje,
+            'lx' => round($cx + cos($rad) * 118, 1),
+            'ly' => round($cy + sin($rad) * 118, 1),
+            'mostrar_pct' => $porcentaje >= 7,
+        );
+        $offset += $largo;
     }
 }
-$conicCss = empty($conicStops) ? '#E7E6E2' : ('conic-gradient(' . implode(', ', $conicStops) . ')');
+
+$kpis = array(
+    array('Total de horas ordinarias', $horas['ordinarias'], '#5D8F8A', ''),
+    array('Total de horas nocturnas', $horas['nocturnas'], '#2B2F33', ''),
+    array('Total de horas extra diurnas', $horas['extra_diurnas'], '#D4A574', ''),
+    array('Total de horas extra nocturnas', $horas['extra_nocturnas'], '#7A8B99', ''),
+    array('Total de horas dominicales/festivas', $horas['dominicales_festivas'], '#A67C52', ''),
+    array('Total general de horas pagadas', $horas['total'], '#5D8F8A', 'stats-kpi-total'),
+);
 ?>
 <div class="stats-kpis metric-grid stats-kpi-grid mb-4">
-    <article class="metric-card stats-kpi">
-        <p class="metric-label">Total de horas ordinarias</p>
-        <p class="metric-value stats-kpi-value"><?php echo htmlspecialchars(formato_horas_estadistica($horas['ordinarias'])); ?></p>
-    </article>
-    <article class="metric-card stats-kpi">
-        <p class="metric-label">Total de horas nocturnas</p>
-        <p class="metric-value stats-kpi-value"><?php echo htmlspecialchars(formato_horas_estadistica($horas['nocturnas'])); ?></p>
-    </article>
-    <article class="metric-card stats-kpi">
-        <p class="metric-label">Total de horas extra diurnas</p>
-        <p class="metric-value stats-kpi-value"><?php echo htmlspecialchars(formato_horas_estadistica($horas['extra_diurnas'])); ?></p>
-    </article>
-    <article class="metric-card stats-kpi">
-        <p class="metric-label">Total de horas extra nocturnas</p>
-        <p class="metric-value stats-kpi-value"><?php echo htmlspecialchars(formato_horas_estadistica($horas['extra_nocturnas'])); ?></p>
-    </article>
-    <article class="metric-card stats-kpi">
-        <p class="metric-label">Total de horas dominicales/festivas</p>
-        <p class="metric-value stats-kpi-value"><?php echo htmlspecialchars(formato_horas_estadistica($horas['dominicales_festivas'])); ?></p>
-    </article>
-    <article class="metric-card stats-kpi stats-kpi-total">
-        <p class="metric-label">Total general de horas pagadas</p>
-        <p class="metric-value stats-kpi-value"><?php echo htmlspecialchars(formato_horas_estadistica($horas['total'])); ?></p>
-    </article>
+    <?php foreach ($kpis as $kpi) { ?>
+        <article class="metric-card stats-kpi <?php echo htmlspecialchars($kpi[3]); ?>" style="--kpi-color: <?php echo htmlspecialchars($kpi[2]); ?>;">
+            <p class="metric-label"><?php echo htmlspecialchars($kpi[0]); ?></p>
+            <p class="metric-value stats-kpi-value"><?php echo htmlspecialchars(formato_horas_estadistica($kpi[1])); ?></p>
+        </article>
+    <?php } ?>
 </div>
 
 <div class="row g-4 align-items-stretch">
-    <div class="col-lg-5">
+    <div class="col-lg-6">
         <div class="stats-chart-card">
             <h3 class="stats-subtitle">Distribución por categoría</h3>
             <?php if ($totalHoras > 0) { ?>
-                <div class="stats-chart-wrap">
-                    <div class="stats-pie" style="background: <?php echo htmlspecialchars($conicCss); ?>;" role="img" aria-label="Distribución de horas del período"></div>
-                    <ul class="stats-legend">
-                        <?php foreach ($categorias as $categoria) { ?>
-                            <li>
-                                <span class="stats-legend-dot" style="background: <?php echo htmlspecialchars($categoria[2]); ?>;"></span>
-                                <span><?php echo htmlspecialchars($categoria[0]); ?></span>
-                                <strong><?php echo htmlspecialchars(formato_horas_estadistica($categoria[1])); ?></strong>
-                            </li>
+                <div class="stats-donut-wrap">
+                    <svg class="stats-donut" viewBox="0 0 320 320" role="img" aria-label="Distribución porcentual de horas del período">
+                        <defs>
+                            <filter id="statsDonutGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#2B2F33" flood-opacity="0.12"/>
+                            </filter>
+                        </defs>
+                        <circle class="stats-donut-track" cx="<?php echo $cx; ?>" cy="<?php echo $cy; ?>" r="<?php echo $radio; ?>"></circle>
+                        <g filter="url(#statsDonutGlow)" transform="rotate(-90 <?php echo $cx; ?> <?php echo $cy; ?>)">
+                            <?php foreach ($arcos as $arco) { ?>
+                                <circle
+                                    class="stats-donut-slice"
+                                    cx="<?php echo $cx; ?>"
+                                    cy="<?php echo $cy; ?>"
+                                    r="<?php echo $radio; ?>"
+                                    stroke="<?php echo htmlspecialchars($arco['color']); ?>"
+                                    stroke-dasharray="<?php echo htmlspecialchars($arco['dash'] . ' ' . $arco['gap']); ?>"
+                                    stroke-dashoffset="<?php echo htmlspecialchars((string) $arco['offset']); ?>"
+                                ></circle>
+                            <?php } ?>
+                        </g>
+                        <circle class="stats-donut-hole" cx="<?php echo $cx; ?>" cy="<?php echo $cy; ?>" r="54"></circle>
+                        <?php foreach ($arcos as $arco) {
+                            if (!$arco['mostrar_pct']) {
+                                continue;
+                            }
+                            ?>
+                            <text class="stats-donut-pct" x="<?php echo htmlspecialchars((string) $arco['lx']); ?>" y="<?php echo htmlspecialchars((string) $arco['ly']); ?>"><?php echo htmlspecialchars(formato_porcentaje_estadistica($arco['pct'])); ?></text>
                         <?php } ?>
-                    </ul>
+                    </svg>
                 </div>
             <?php } else { ?>
                 <div class="empty-placeholder">No hay horas clasificadas en el período consultado.</div>
             <?php } ?>
         </div>
     </div>
-    <div class="col-lg-7">
+    <div class="col-lg-6">
         <div class="stats-extra-grid">
             <article class="metric-card">
                 <p class="metric-label">Total de horas extra</p>
                 <p class="metric-value"><?php echo htmlspecialchars(formato_horas_estadistica($estadisticas['extra_total'])); ?></p>
-                <p class="helper-text mt-2 mb-0">Diurnas + nocturnas</p>
             </article>
             <article class="metric-card">
                 <p class="metric-label">Total de horas con recargo</p>
                 <p class="metric-value"><?php echo htmlspecialchars(formato_horas_estadistica($estadisticas['con_recargo'])); ?></p>
-                <p class="helper-text mt-2 mb-0">Nocturnas + extras + dominicales/festivas</p>
-            </article>
-            <article class="metric-card">
-                <p class="metric-label">% horas ordinarias</p>
-                <p class="metric-value"><?php echo htmlspecialchars(formato_porcentaje_estadistica($estadisticas['pct_ordinarias'])); ?></p>
-            </article>
-            <article class="metric-card">
-                <p class="metric-label">% horas extra</p>
-                <p class="metric-value"><?php echo htmlspecialchars(formato_porcentaje_estadistica($estadisticas['pct_extra'])); ?></p>
-            </article>
-            <article class="metric-card">
-                <p class="metric-label">% horas nocturnas</p>
-                <p class="metric-value"><?php echo htmlspecialchars(formato_porcentaje_estadistica($estadisticas['pct_nocturnas'])); ?></p>
-            </article>
-            <article class="metric-card">
-                <p class="metric-label">% dominicales/festivas</p>
-                <p class="metric-value"><?php echo htmlspecialchars(formato_porcentaje_estadistica($estadisticas['pct_dominicales'])); ?></p>
             </article>
             <article class="metric-card stats-kpi-total stats-extra-wide">
                 <p class="metric-label">% horas con recargo sobre pagadas</p>
