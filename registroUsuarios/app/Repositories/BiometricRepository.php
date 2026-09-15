@@ -111,6 +111,40 @@ class BiometricRepository
         );
     }
 
+    public function updateAttendanceHours($documento, $fecha, array $horas)
+    {
+        $this->ensureBreakColumns();
+        $allowed = array(
+            'seg_horaingreso',
+            'seg_ingresoAlmuerzo',
+            'seg_salioAlmuerzo',
+            'seg_ingresoBreak',
+            'seg_salioBreak',
+            'seg_horaSalida',
+        );
+        $sets = array();
+        $params = array(
+            'documento' => $documento,
+            'fecha' => $fecha,
+        );
+        foreach ($allowed as $campo) {
+            if (!array_key_exists($campo, $horas)) {
+                continue;
+            }
+            $sets[] = $campo . ' = :' . $campo;
+            $params[$campo] = $horas[$campo];
+        }
+        if (!$sets) {
+            return 0;
+        }
+
+        return $this->db->execute(
+            'UPDATE seguimientousers SET ' . implode(', ', $sets)
+            . ' WHERE seg_iduser = :documento AND seg_fechaingreso = :fecha',
+            $params
+        );
+    }
+
     public function isDocumentAllowedForManualRegister($cedula)
     {
         return $this->db->fetchOne(
@@ -475,5 +509,64 @@ class BiometricRepository
         }
 
         return $mapa;
+    }
+
+    public function listWorkersForSchedule($sede = '', $busqueda = '')
+    {
+        $this->ensureJornadaColumns();
+
+        $sql = 'SELECT usu_identificacion, usu_nombre, usu_idsede, usu_hora_inicio, usu_hora_fin,
+                       usu_jornada_diaria_minutos, usu_jornada_semanal_minutos, usu_dia_descanso
+                FROM usuarios
+                WHERE usu_identificacion IS NOT NULL
+                  AND usu_identificacion <> \'\'';
+        $params = array();
+
+        if ($sede !== '') {
+            $sql .= ' AND usu_idsede = :sede';
+            $params['sede'] = $sede;
+        }
+
+        if ($busqueda !== '') {
+            $sql .= ' AND (usu_identificacion LIKE :busquedaDoc OR usu_nombre LIKE :busquedaNom)';
+            $params['busquedaDoc'] = '%' . $busqueda . '%';
+            $params['busquedaNom'] = '%' . $busqueda . '%';
+        }
+
+        $sql .= ' ORDER BY usu_nombre ASC, usu_identificacion ASC';
+
+        try {
+            return $this->db->fetchAll($sql, $params);
+        } catch (\Throwable $e) {
+            return array();
+        }
+    }
+
+    public function updateWorkerSchedule($documento, $horaInicio, $horaFin, $diariaMinutos, $semanalMinutos, $diaDescanso)
+    {
+        $documento = trim((string) $documento);
+        if ($documento === '') {
+            return 0;
+        }
+
+        $this->ensureJornadaColumns();
+
+        return $this->db->execute(
+            'UPDATE usuarios
+             SET usu_hora_inicio = :inicio,
+                 usu_hora_fin = :fin,
+                 usu_jornada_diaria_minutos = :diaria,
+                 usu_jornada_semanal_minutos = :semanal,
+                 usu_dia_descanso = :descanso
+             WHERE usu_identificacion = :documento',
+            array(
+                'inicio' => $horaInicio,
+                'fin' => $horaFin,
+                'diaria' => (int) $diariaMinutos,
+                'semanal' => (int) $semanalMinutos,
+                'descanso' => (int) $diaDescanso,
+                'documento' => $documento,
+            )
+        );
     }
 }

@@ -78,3 +78,43 @@ function formatear_fecha_asistencia($fecha)
 
     return date('Y-m-d', $ts);
 }
+
+function hora_para_input($hora)
+{
+    if (hora_asistencia_vacia($hora)) {
+        return '';
+    }
+
+    $hora = trim((string) $hora);
+    if (preg_match('/^(\d{2}):(\d{2})(?::(\d{2}))?/', $hora, $partes)) {
+        return $partes[1] . ':' . $partes[2];
+    }
+
+    $ts = strtotime($hora);
+    if ($ts === false) {
+        return '';
+    }
+
+    return date('H:i', $ts);
+}
+
+function normalizar_hora_asistencia($hora)
+{
+    $hora = trim((string) $hora);
+    if ($hora === '') {
+        return HORA_CERO_ASISTENCIA;
+    }
+
+    if (!preg_match('/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/', $hora, $partes)) {
+        return null;
+    }
+
+    $horas = (int) $partes[1];
+    $minutos = (int) $partes[2];
+    $segundos = isset($partes[3]) ? (int) $partes[3] : 0;
+    if ($horas > 23 || $minutos > 59 || $segundos > 59) {
+        return null;
+    }
+
+    return sprintf('%02d:%02d:%02d', $horas, $minutos, $segundos);
+}
