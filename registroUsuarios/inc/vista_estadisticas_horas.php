@@ -24,9 +24,9 @@ $categorias = array(
 $totalHoras = (float) $horas['total'];
 $cx = 160;
 $cy = 160;
-$radio = 78;
+$radio = 70;
 $circunferencia = 2 * M_PI * $radio;
-$separacion = 7;
+$separacion = 10;
 $offset = 0;
 $arcos = array();
 
@@ -43,19 +43,11 @@ if ($totalHoras > 0) {
         $largo = $fraccion * $circunferencia;
         $hueco = $nVisibles > 1 ? $separacion : 0;
         $trazo = max($largo - $hueco, 0.8);
-        $porcentaje = round($fraccion * 100, 1);
-        $anguloMedio = -90 + (($offset + ($largo / 2)) / $circunferencia) * 360;
-        $rad = deg2rad($anguloMedio);
         $arcos[] = array(
             'color' => $categoria['color'],
-            'label' => $categoria['label'],
             'dash' => round($trazo, 2),
             'gap' => round($circunferencia - $trazo, 2),
             'offset' => round(-$offset, 2),
-            'pct' => $porcentaje,
-            'lx' => round($cx + cos($rad) * 118, 1),
-            'ly' => round($cy + sin($rad) * 118, 1),
-            'mostrar_pct' => $porcentaje >= 7,
         );
         $offset += $largo;
     }
@@ -85,7 +77,7 @@ $kpis = array(
             <h3 class="stats-subtitle">Distribución por categoría</h3>
             <?php if ($totalHoras > 0) { ?>
                 <div class="stats-donut-wrap">
-                    <svg class="stats-donut" viewBox="0 0 320 320" role="img" aria-label="Distribución porcentual de horas del período">
+                    <svg class="stats-donut" viewBox="0 0 320 320" role="img" aria-label="Distribución de horas del período">
                         <defs>
                             <filter id="statsDonutGlow" x="-20%" y="-20%" width="140%" height="140%">
                                 <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#2B2F33" flood-opacity="0.12"/>
@@ -105,15 +97,16 @@ $kpis = array(
                                 ></circle>
                             <?php } ?>
                         </g>
-                        <circle class="stats-donut-hole" cx="<?php echo $cx; ?>" cy="<?php echo $cy; ?>" r="54"></circle>
-                        <?php foreach ($arcos as $arco) {
-                            if (!$arco['mostrar_pct']) {
-                                continue;
-                            }
-                            ?>
-                            <text class="stats-donut-pct" x="<?php echo htmlspecialchars((string) $arco['lx']); ?>" y="<?php echo htmlspecialchars((string) $arco['ly']); ?>"><?php echo htmlspecialchars(formato_porcentaje_estadistica($arco['pct'])); ?></text>
-                        <?php } ?>
+                        <circle class="stats-donut-hole" cx="<?php echo $cx; ?>" cy="<?php echo $cy; ?>" r="36"></circle>
                     </svg>
+                    <ul class="stats-legend">
+                        <?php foreach ($categorias as $categoria) { ?>
+                            <li>
+                                <span class="stats-legend-dot" style="background: <?php echo htmlspecialchars($categoria['color']); ?>;"></span>
+                                <span><?php echo htmlspecialchars($categoria['label']); ?></span>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 </div>
             <?php } else { ?>
                 <div class="empty-placeholder">No hay horas clasificadas en el período consultado.</div>

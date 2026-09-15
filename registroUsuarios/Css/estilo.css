@@ -716,7 +716,7 @@ body.biometric-body {
 }
 
 .stats-donut-wrap {
-    width: min(100%, 340px);
+    width: min(100%, 320px);
     margin: 0 auto;
 }
 
@@ -729,18 +729,17 @@ body.biometric-body {
 .stats-donut-track {
     fill: none;
     stroke: rgba(43, 47, 51, 0.08);
-    stroke-width: 28;
+    stroke-width: 56;
 }
 
 .stats-donut-slice {
     fill: none;
-    stroke-width: 28;
+    stroke-width: 56;
     stroke-linecap: round;
-    transition: stroke-width 0.2s ease, filter 0.2s ease;
+    transition: filter 0.2s ease;
 }
 
 .stats-donut-slice:hover {
-    stroke-width: 32;
     filter: brightness(1.08);
 }
 
@@ -748,13 +747,30 @@ body.biometric-body {
     fill: #FFFFFF;
 }
 
-.stats-donut-pct {
-    fill: var(--carbon);
-    font-size: 12px;
-    font-weight: 700;
-    text-anchor: middle;
-    dominant-baseline: middle;
-    pointer-events: none;
+.stats-legend {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 14px;
+}
+
+.stats-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.stats-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    flex: 0 0 12px;
 }
 
 .stats-extra-grid {
