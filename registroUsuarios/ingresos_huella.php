@@ -111,7 +111,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <?php marca_datatable_head(); ?>
-    <link href="Css/estilo.css?v=20260915g" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915h" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
 </head>
@@ -193,7 +193,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                 <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
                     <div>
                         <h2 class="section-title">Resultados</h2>
-                        <p class="section-copy">Mostrando <?php echo $total; ?> registros (<?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>). Use el lápiz para corregir una hora en casos de borde. La descarga incluye todo ese rango.</p>
+                        <p class="section-copy">Mostrando <?php echo $total; ?> registros (<?php echo htmlspecialchars($fechaDesde); ?> a <?php echo htmlspecialchars($fechaHasta); ?>). Use el icono de editar para corregir las horas en casos de borde. La descarga incluye todo ese rango.</p>
                         <div class="tiempo-leyenda mt-2">
                             <span class="tiempo-leyenda-item">
                                 <span></span>
@@ -223,6 +223,7 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                                 <th>Sale break</th>
                                 <th>Regresa break</th>
                                 <th>Salida</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -239,12 +240,17 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                                     <td><strong><?php echo htmlspecialchars($row['nombre']); ?></strong></td>
                                     <td class="celda-fija"><?php echo htmlspecialchars($row['documento']); ?></td>
                                     <td class="celda-fija" data-order="<?php echo htmlspecialchars($fechaIso); ?>"><?php echo htmlspecialchars($fechaIso); ?></td>
-                                    <?php echo html_celda_hora($row['seg_horaingreso'], 'seg_horaingreso', 'Ingreso'); ?>
-                                    <?php echo html_celda_hora($saleAlmuerzo, 'seg_ingresoAlmuerzo', 'Sale almuerzo'); ?>
-                                    <?php echo html_celda_hora($regresaAlmuerzo, 'seg_salioAlmuerzo', 'Regresa almuerzo', 'js-celda-almuerzo ' . $claseAlmuerzo); ?>
-                                    <?php echo html_celda_hora($saleBreak, 'seg_ingresoBreak', 'Sale break'); ?>
-                                    <?php echo html_celda_hora($regresaBreak, 'seg_salioBreak', 'Regresa break', 'js-celda-break ' . $claseBreak); ?>
-                                    <?php echo html_celda_hora($row['seg_horaSalida'], 'seg_horaSalida', 'Salida'); ?>
+                                    <?php echo html_celda_hora($row['seg_horaingreso'], 'seg_horaingreso'); ?>
+                                    <?php echo html_celda_hora($saleAlmuerzo, 'seg_ingresoAlmuerzo'); ?>
+                                    <?php echo html_celda_hora($regresaAlmuerzo, 'seg_salioAlmuerzo', 'js-celda-almuerzo ' . $claseAlmuerzo); ?>
+                                    <?php echo html_celda_hora($saleBreak, 'seg_ingresoBreak'); ?>
+                                    <?php echo html_celda_hora($regresaBreak, 'seg_salioBreak', 'js-celda-break ' . $claseBreak); ?>
+                                    <?php echo html_celda_hora($row['seg_horaSalida'], 'seg_horaSalida'); ?>
+                                    <td class="celda-fija celda-editar">
+                                        <button class="hora-edit-btn js-editar-horas" type="button" aria-label="Editar horas">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                                        </button>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -259,14 +265,36 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
         <div class="hora-modal-backdrop" data-close-hora-modal></div>
         <div class="hora-modal-dialog glass-card" role="dialog" aria-modal="true" aria-labelledby="horaModalTitulo">
             <span class="eyebrow">Corrección</span>
-            <h2 class="section-title mt-2" id="horaModalTitulo">Editar hora</h2>
+            <h2 class="section-title mt-2" id="horaModalTitulo">Editar horas</h2>
             <p class="section-copy" id="horaModalContexto"></p>
             <form class="form-panel" id="horaModalForm" onsubmit="return false;">
-                <div>
-                    <label class="field-label" for="horaModalInput">Hora</label>
-                    <input class="form-control biometric-input hora-modal-time" id="horaModalInput" name="hora" type="text" inputmode="numeric" maxlength="8" placeholder="00:00:00" autocomplete="off" />
-                    <p class="helper-text mt-2">Use el formato 00:00:00. Ese mismo valor deja la marcación vacía.</p>
+                <div class="hora-modal-grid">
+                    <div>
+                        <label class="field-label" for="hora_seg_horaingreso">Ingreso</label>
+                        <input class="form-control biometric-input hora-modal-time" id="hora_seg_horaingreso" name="seg_horaingreso" type="text" inputmode="numeric" maxlength="8" placeholder="00:00:00" autocomplete="off" />
+                    </div>
+                    <div>
+                        <label class="field-label" for="hora_seg_horaSalida">Salida</label>
+                        <input class="form-control biometric-input hora-modal-time" id="hora_seg_horaSalida" name="seg_horaSalida" type="text" inputmode="numeric" maxlength="8" placeholder="00:00:00" autocomplete="off" />
+                    </div>
+                    <div>
+                        <label class="field-label" for="hora_seg_ingresoAlmuerzo">Sale almuerzo</label>
+                        <input class="form-control biometric-input hora-modal-time" id="hora_seg_ingresoAlmuerzo" name="seg_ingresoAlmuerzo" type="text" inputmode="numeric" maxlength="8" placeholder="00:00:00" autocomplete="off" />
+                    </div>
+                    <div>
+                        <label class="field-label" for="hora_seg_salioAlmuerzo">Regresa almuerzo</label>
+                        <input class="form-control biometric-input hora-modal-time" id="hora_seg_salioAlmuerzo" name="seg_salioAlmuerzo" type="text" inputmode="numeric" maxlength="8" placeholder="00:00:00" autocomplete="off" />
+                    </div>
+                    <div>
+                        <label class="field-label" for="hora_seg_ingresoBreak">Sale break</label>
+                        <input class="form-control biometric-input hora-modal-time" id="hora_seg_ingresoBreak" name="seg_ingresoBreak" type="text" inputmode="numeric" maxlength="8" placeholder="00:00:00" autocomplete="off" />
+                    </div>
+                    <div>
+                        <label class="field-label" for="hora_seg_salioBreak">Regresa break</label>
+                        <input class="form-control biometric-input hora-modal-time" id="hora_seg_salioBreak" name="seg_salioBreak" type="text" inputmode="numeric" maxlength="8" placeholder="00:00:00" autocomplete="off" />
+                    </div>
                 </div>
+                <p class="helper-text mb-0">Use el formato 00:00:00. Ese mismo valor deja la marcación vacía.</p>
                 <div class="d-flex flex-column flex-sm-row gap-3 pt-1">
                     <button class="btn-soft btn-soft-secondary flex-fill" type="button" data-close-hora-modal>Cancelar</button>
                     <button class="btn btn-primary btn-lg rounded-4 flex-fill" id="horaModalGuardar" type="submit">Guardar</button>
@@ -278,6 +306,14 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
     <script>
         var MINUTOS_ALMUERZO = <?php echo (int) MINUTOS_ALMUERZO; ?>;
         var MINUTOS_BREAK = <?php echo (int) MINUTOS_BREAK; ?>;
+        var CAMPOS_HORA = [
+            "seg_horaingreso",
+            "seg_ingresoAlmuerzo",
+            "seg_salioAlmuerzo",
+            "seg_ingresoBreak",
+            "seg_salioBreak",
+            "seg_horaSalida"
+        ];
         var horaEdicion = null;
 
         function showMessageBox(mensaje, type) {
@@ -323,23 +359,18 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
         }
 
         function abrirModalHora($boton) {
-            var $celda = $boton.closest("td");
             var $fila = $boton.closest("tr");
-            horaEdicion = {
-                $celda: $celda,
-                $fila: $fila,
-                campo: $boton.data("campo"),
-                label: $boton.data("label")
-            };
-            $("#horaModalTitulo").text("Editar " + (horaEdicion.label || "hora"));
+            horaEdicion = { $fila: $fila };
             $("#horaModalContexto").text(
                 ($fila.data("nombre") || "") + " · " + $fila.data("documento") + " · " + $fila.data("fecha")
             );
-            $("#horaModalInput").val($celda.attr("data-hora") || "00:00:00");
+            CAMPOS_HORA.forEach(function (campo) {
+                $("#hora_" + campo).val($fila.find('[data-campo="' + campo + '"]').attr("data-hora") || "00:00:00");
+            });
             $("#horaModal").addClass("is-open").attr("aria-hidden", "false");
             $("body").addClass("hora-modal-open");
             setTimeout(function () {
-                $("#horaModalInput").trigger("focus").trigger("select");
+                $("#hora_seg_horaingreso").trigger("focus").trigger("select");
             }, 40);
         }
 
@@ -354,30 +385,35 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
                 return;
             }
             var boton = $("#horaModalGuardar");
+            var payload = {
+                documento: horaEdicion.$fila.data("documento"),
+                fecha: horaEdicion.$fila.data("fecha")
+            };
+            CAMPOS_HORA.forEach(function (campo) {
+                payload[campo] = $("#hora_" + campo).val();
+            });
             boton.prop("disabled", true);
             $.ajax({
                 type: "POST",
                 url: "Model/ActualizarIngreso.php",
                 dataType: "json",
-                data: {
-                    documento: horaEdicion.$fila.data("documento"),
-                    fecha: horaEdicion.$fila.data("fecha"),
-                    campo: horaEdicion.campo,
-                    hora: $("#horaModalInput").val()
-                },
+                data: payload,
                 success: function (data) {
                     if (data.success) {
-                        horaEdicion.$celda.attr("data-hora", data.hora);
-                        horaEdicion.$celda.find(".hora-celda-valor").text(data.hora_texto);
+                        CAMPOS_HORA.forEach(function (campo) {
+                            var $celda = horaEdicion.$fila.find('[data-campo="' + campo + '"]');
+                            $celda.attr("data-hora", data.horas[campo]);
+                            $celda.find(".hora-celda-valor").text(data.horas_texto[campo]);
+                        });
                         marcarExcedidos(horaEdicion.$fila);
                         cerrarModalHora();
-                        showMessageBox(data.message || "Hora actualizada", "success");
+                        showMessageBox(data.message || "Horas actualizadas", "success");
                     } else {
-                        showMessageBox(data.message || "No fue posible guardar la hora", "warning");
+                        showMessageBox(data.message || "No fue posible guardar las horas", "warning");
                     }
                 },
                 error: function (xhr) {
-                    var mensaje = "No fue posible guardar la hora";
+                    var mensaje = "No fue posible guardar las horas";
                     try {
                         var respuesta = JSON.parse(xhr.responseText);
                         if (respuesta.message) {
@@ -393,10 +429,12 @@ $urlHistorial = 'ingresos_huella.php?' . http_build_query($queryHistorial);
         }
 
         if (window.MonteblancoTable) {
-            MonteblancoTable.init("#tablaIngresosHuella");
+            MonteblancoTable.init("#tablaIngresosHuella", {
+                columnDefs: [{ orderable: false, targets: [9] }]
+            });
         }
 
-        $(document).on("click", ".js-editar-hora", function (event) {
+        $(document).on("click", ".js-editar-horas", function (event) {
             event.preventDefault();
             event.stopPropagation();
             abrirModalHora($(this));

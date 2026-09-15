@@ -28,8 +28,6 @@ $campos = array(
 
 $documento = isset($_POST['documento']) ? trim((string) $_POST['documento']) : '';
 $fecha = isset($_POST['fecha']) ? trim((string) $_POST['fecha']) : '';
-$campo = isset($_POST['campo']) ? trim((string) $_POST['campo']) : '';
-$hora = normalizar_hora_asistencia(isset($_POST['hora']) ? $_POST['hora'] : '');
 
 if ($documento === '' || $fecha === '') {
     echo json_encode(array('success' => false, 'message' => 'Documento y fecha son obligatorios'));
@@ -41,14 +39,19 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha)) {
     exit;
 }
 
-if (!isset($campos[$campo])) {
-    echo json_encode(array('success' => false, 'message' => 'El campo de hora no es válido'));
-    exit;
-}
-
-if ($hora === null) {
-    echo json_encode(array('success' => false, 'message' => 'Use el formato 00:00:00'));
-    exit;
+$horas = array();
+$horasTexto = array();
+foreach ($campos as $campo => $etiqueta) {
+    $normalizada = normalizar_hora_asistencia(isset($_POST[$campo]) ? $_POST[$campo] : '');
+    if ($normalizada === null) {
+        echo json_encode(array(
+            'success' => false,
+            'message' => 'La hora de ' . $etiqueta . ' debe ir en formato 00:00:00',
+        ));
+        exit;
+    }
+    $horas[$campo] = $normalizada;
+    $horasTexto[$campo] = formatear_hora_asistencia($normalizada);
 }
 
 $repository = new BiometricRepository(new Database());
@@ -58,20 +61,19 @@ if (!$repository->getAttendanceRow($documento, $fecha)) {
 }
 
 try {
-    $filas = $repository->updateAttendanceField($documento, $fecha, $campo, $hora);
+    $filas = $repository->updateAttendanceHours($documento, $fecha, $horas);
 } catch (\Throwable $exception) {
     http_response_code(500);
     echo json_encode(array(
         'success' => false,
-        'message' => 'No fue posible guardar la hora',
+        'message' => 'No fue posible guardar las horas',
     ));
     exit;
 }
 
 echo json_encode(array(
     'success' => $filas >= 0,
-    'message' => 'Hora actualizada',
-    'campo' => $campo,
-    'hora' => $hora,
-    'hora_texto' => formatear_hora_asistencia($hora),
+    'message' => 'Horas actualizadas',
+    'horas' => $horas,
+    'horas_texto' => $horasTexto,
 ));

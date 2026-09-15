@@ -664,13 +664,6 @@ body.biometric-body {
     font-weight: 700;
 }
 
-.hora-celda {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    max-width: 100%;
-}
-
 .hora-celda-valor {
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.01em;
@@ -678,11 +671,11 @@ body.biometric-body {
 
 .hora-edit-btn {
     flex: 0 0 auto;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     padding: 0;
     border: 1px solid rgba(43, 47, 51, 0.12);
-    border-radius: 9px;
+    border-radius: 12px;
     background: #fff;
     color: var(--teal);
     display: inline-flex;
@@ -701,6 +694,11 @@ body.biometric-body {
 .hora-edit-btn:focus-visible {
     outline: 2px solid rgba(93, 143, 138, 0.45);
     outline-offset: 2px;
+}
+
+.report-table td.celda-editar {
+    width: 52px;
+    text-align: center;
 }
 
 .hora-modal {
@@ -731,16 +729,30 @@ body.hora-modal-open {
 .hora-modal-dialog {
     position: relative;
     z-index: 1;
-    width: min(100%, 420px);
+    width: min(100%, 640px);
+    max-height: calc(100vh - 48px);
+    overflow: auto;
     padding: 28px;
 }
 
+.hora-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 18px;
+}
+
 .hora-modal-time {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-align: center;
     font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+    .hora-modal-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .dt-container {
