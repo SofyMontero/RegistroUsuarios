@@ -289,6 +289,7 @@ function auth_render_nav($paginaActiva, $token, $sede = '', $extras = array())
         'ingresos' => array('href' => 'ingresos_huella.php?' . $q, 'label' => 'Ver ingresos'),
         'asociar' => array('href' => 'asociar_huellas.php?' . $q, 'label' => 'Asociar huella'),
         'colaboradores' => array('href' => 'colaboradores.php?' . $q, 'label' => 'Colaboradores'),
+        'sedes' => array('href' => 'sedes.php?' . $q, 'label' => 'Sedes'),
     );
 
     echo '<div class="action-stack">';
