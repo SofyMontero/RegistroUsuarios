@@ -42,3 +42,30 @@ if (!function_exists('foto_usuario_o_default')) {
         return $ext !== '' ? $ext : FOTO_USUARIO_DEFAULT;
     }
 }
+
+if (!function_exists('directorio_imagenes_usuario')) {
+    function directorio_imagenes_usuario()
+    {
+        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'imagenes' . DIRECTORY_SEPARATOR;
+    }
+}
+
+if (!function_exists('contenido_foto_usuario')) {
+    function contenido_foto_usuario($archivo)
+    {
+        $archivo = basename(trim((string) $archivo));
+        if ($archivo === '') {
+            $archivo = FOTO_USUARIO_DEFAULT;
+        }
+
+        $ruta = directorio_imagenes_usuario() . $archivo;
+        if (is_file($ruta) && is_readable($ruta)) {
+            $contenido = file_get_contents($ruta);
+            if ($contenido !== false) {
+                return $contenido;
+            }
+        }
+
+        return '';
+    }
+}

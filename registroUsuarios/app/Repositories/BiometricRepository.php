@@ -233,6 +233,11 @@ class BiometricRepository
 
     public function createFingerprintUser($documento, $nombre, $fotoBinaria, $imagen)
     {
+        $imagen = function_exists('foto_usuario_o_default') ? foto_usuario_o_default($imagen) : trim((string) $imagen);
+        if ($fotoBinaria === null || $fotoBinaria === false) {
+            $fotoBinaria = function_exists('contenido_foto_usuario') ? contenido_foto_usuario($imagen) : '';
+        }
+
         return $this->db->execute(
             "INSERT INTO usuarios_huella (documento, nombre_completo, fecha_crecion, foto, ext)
              VALUES (:documento, :nombre, NOW(), :foto, :ext)",

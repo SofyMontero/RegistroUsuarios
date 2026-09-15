@@ -45,10 +45,11 @@ class UserEnrollmentService
         }
 
         $imagen = foto_por_genero($genero);
+        $fotoBinaria = contenido_foto_usuario($imagen);
 
         $this->repository->ensureCollaborator($documento, $nombre, $telefono, $sede, $genero);
         $this->repository->markUserHasFingerprint($documento);
-        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, null, $imagen);
+        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, $fotoBinaria, $imagen);
         if ($usuarioCreado < 1) {
             return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
         }
@@ -87,10 +88,11 @@ class UserEnrollmentService
         }
 
         $imagen = foto_por_genero($genero);
+        $fotoBinaria = contenido_foto_usuario($imagen);
 
         $this->repository->ensureCollaborator($documento, $nombre, '', $sede, $genero);
         $this->repository->markUserHasFingerprint($documento);
-        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, null, $imagen);
+        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, $fotoBinaria, $imagen);
         if ($usuarioCreado < 1) {
             return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
         }
