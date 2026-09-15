@@ -48,6 +48,7 @@ class UserEnrollmentService
         $fotoBinaria = contenido_foto_usuario($imagen);
 
         $this->repository->ensureCollaborator($documento, $nombre, $telefono, $sede, $genero);
+        $this->guardarHorarioDesdePost($post, $documento);
         $this->repository->markUserHasFingerprint($documento);
         $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, $fotoBinaria, $imagen);
         if ($usuarioCreado < 1) {
@@ -91,6 +92,7 @@ class UserEnrollmentService
         $fotoBinaria = contenido_foto_usuario($imagen);
 
         $this->repository->ensureCollaborator($documento, $nombre, '', $sede, $genero);
+        $this->guardarHorarioDesdePost($data, $documento);
         $this->repository->markUserHasFingerprint($documento);
         $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, $fotoBinaria, $imagen);
         if ($usuarioCreado < 1) {
@@ -110,5 +112,66 @@ class UserEnrollmentService
             'filas' => $row,
             'message' => 'Usuario registrado via WebSDK',
         );
+    }
+
+    private function guardarHorarioDesdePost(array $post, $documento)
+    {
+        $config = require dirname(__DIR__, 2) . '/config/jornada_laboral.php';
+        $horaInicio = $this->normalizarHoraHorario(
+            isset($post['hora_inicio']) ? $post['hora_inicio'] : '',
+            $config['hora_inicio']
+        );
+        $horaFin = $this->normalizarHoraHorario(
+            isset($post['hora_fin']) ? $post['hora_fin'] : '',
+            $config['hora_fin']
+        );
+        if ($horaInicio === null || $horaFin === null) {
+            return;
+        }
+
+        $diariaHoras = isset($post['jornada_diaria']) ? (float) str_replace(',', '.', (string) $post['jornada_diaria']) : (float) $config['jornada_diaria_horas'];
+        $semanalHoras = isset($post['jornada_semanal']) ? (float) str_replace(',', '.', (string) $post['jornada_semanal']) : (float) $config['jornada_semanal_horas'];
+        $diaDescanso = isset($post['dia_descanso']) ? (int) $post['dia_descanso'] : (int) $config['dia_descanso'];
+
+        if ($diariaHoras < 1 || $diariaHoras > 24) {
+            $diariaHoras = (float) $config['jornada_diaria_horas'];
+        }
+        if ($semanalHoras < 1 || $semanalHoras > 72) {
+            $semanalHoras = (float) $config['jornada_semanal_horas'];
+        }
+        if ($diaDescanso < 0 || $diaDescanso > 6) {
+            $diaDescanso = (int) $config['dia_descanso'];
+        }
+
+        try {
+            $this->repository->updateWorkerSchedule(
+                $documento,
+                $horaInicio,
+                $horaFin,
+                (int) round($diariaHoras * 60),
+                (int) round($semanalHoras * 60),
+                $diaDescanso
+            );
+        } catch (\Throwable $e) {
+            // Columnas de jornada opcionales segun esquema.
+        }
+    }
+
+    private function normalizarHoraHorario($valor, $fallback)
+    {
+        $valor = trim((string) $valor);
+        if ($valor === '') {
+            $valor = (string) $fallback;
+        }
+        if (preg_match('/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/', $valor, $partes)) {
+            $hora = (int) $partes[1];
+            $minuto = (int) $partes[2];
+            $segundo = isset($partes[3]) ? (int) $partes[3] : 0;
+            if ($hora <= 23 && $minuto <= 59 && $segundo <= 59) {
+                return sprintf('%02d:%02d:%02d', $hora, $minuto, $segundo);
+            }
+        }
+
+        return null;
     }
 }

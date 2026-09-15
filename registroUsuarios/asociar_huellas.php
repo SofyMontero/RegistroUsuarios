@@ -11,6 +11,18 @@ requerir_admin();
 list($token, $sede) = requerir_token_sesion();
 $biometricRepository = new BiometricRepository(new Database());
 $listaSedes = $biometricRepository->getHeadquartersList();
+$configJornada = require __DIR__ . '/config/jornada_laboral.php';
+$diasDescanso = array(
+    0 => 'Domingo',
+    1 => 'Lunes',
+    2 => 'Martes',
+    3 => 'Miércoles',
+    4 => 'Jueves',
+    5 => 'Viernes',
+    6 => 'Sábado',
+);
+$horaInicioDefault = substr($configJornada['hora_inicio'], 0, 5);
+$horaFinDefault = substr($configJornada['hora_fin'], 0, 5);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -95,6 +107,32 @@ $listaSedes = $biometricRepository->getHeadquartersList();
                                     <option value="Masculino">Masculino</option>
                                 </select>
                             </div>
+                            <div class="col-md-6">
+                                <label class="field-label" for="horaInicio">Ingreso</label>
+                                <input class="form-control biometric-input" id="horaInicio" type="time" value="<?php echo htmlspecialchars($horaInicioDefault); ?>" data-default="<?php echo htmlspecialchars($horaInicioDefault); ?>" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="field-label" for="horaFin">Salida</label>
+                                <input class="form-control biometric-input" id="horaFin" type="time" value="<?php echo htmlspecialchars($horaFinDefault); ?>" data-default="<?php echo htmlspecialchars($horaFinDefault); ?>" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="field-label" for="jornadaDiaria">Jornada diaria (h)</label>
+                                <input class="form-control biometric-input" id="jornadaDiaria" type="number" min="1" max="24" step="0.5" value="<?php echo htmlspecialchars((string) $configJornada['jornada_diaria_horas']); ?>" data-default="<?php echo htmlspecialchars((string) $configJornada['jornada_diaria_horas']); ?>" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="field-label" for="jornadaSemanal">Jornada semanal (h)</label>
+                                <input class="form-control biometric-input" id="jornadaSemanal" type="number" min="1" max="72" step="0.5" value="<?php echo htmlspecialchars((string) $configJornada['jornada_semanal_horas']); ?>" data-default="<?php echo htmlspecialchars((string) $configJornada['jornada_semanal_horas']); ?>" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="field-label" for="diaDescanso">Día de descanso</label>
+                                <select class="form-control biometric-input" id="diaDescanso" data-default="<?php echo (int) $configJornada['dia_descanso']; ?>">
+                                    <?php foreach ($diasDescanso as $valorDia => $nombreDia) { ?>
+                                        <option value="<?php echo (int) $valorDia; ?>" <?php echo (int) $configJornada['dia_descanso'] === (int) $valorDia ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($nombreDia); ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="d-flex flex-column flex-md-row gap-3 pt-2">
@@ -139,7 +177,7 @@ $listaSedes = $biometricRepository->getHeadquartersList();
                     <div class="metric-grid">
                         <div class="metric-card">
                             <p class="metric-label">Paso 1</p>
-                            <p class="metric-value">Diligencia documento, nombre, sede y género.</p>
+                            <p class="metric-value">Diligencia documento, nombre, sede, género y horario.</p>
                         </div>
                         <div class="metric-card">
                             <p class="metric-label">Paso 2</p>
@@ -161,7 +199,7 @@ $listaSedes = $biometricRepository->getHeadquartersList();
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/funciones.js?v=20260915j" type="text/javascript"></script>
+    <script src="js/funciones.js?v=20260915o" type="text/javascript"></script>
     <script src="js/plugin-ws.js" type="text/javascript"></script>
     <script>
         (function () {

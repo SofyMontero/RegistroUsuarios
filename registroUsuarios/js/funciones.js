@@ -91,7 +91,12 @@ function leerDatosEnrolamiento() {
         documento: $("#documento").val(),
         nombre: $("#nombre").val(),
         telefono: $("#telefono").length ? $("#telefono").val() : "",
-        genero: $("#genero").length ? $("#genero").val() : ""
+        genero: $("#genero").length ? $("#genero").val() : "",
+        horaInicio: $("#horaInicio").length ? $("#horaInicio").val() : "",
+        horaFin: $("#horaFin").length ? $("#horaFin").val() : "",
+        jornadaDiaria: $("#jornadaDiaria").length ? $("#jornadaDiaria").val() : "",
+        jornadaSemanal: $("#jornadaSemanal").length ? $("#jornadaSemanal").val() : "",
+        diaDescanso: $("#diaDescanso").length ? $("#diaDescanso").val() : ""
     };
 }
 
@@ -106,6 +111,21 @@ function restaurarDatosEnrolamiento(datos) {
     }
     if ($("#genero").length) {
         $("#genero").val(datos.genero);
+    }
+    if ($("#horaInicio").length) {
+        $("#horaInicio").val(datos.horaInicio);
+    }
+    if ($("#horaFin").length) {
+        $("#horaFin").val(datos.horaFin);
+    }
+    if ($("#jornadaDiaria").length) {
+        $("#jornadaDiaria").val(datos.jornadaDiaria);
+    }
+    if ($("#jornadaSemanal").length) {
+        $("#jornadaSemanal").val(datos.jornadaSemanal);
+    }
+    if ($("#diaDescanso").length) {
+        $("#diaDescanso").val(datos.diaDescanso);
     }
 }
 
@@ -154,6 +174,13 @@ function addUser(srn) {
     }
     data.append("sede", sedeValor);
     data.append("telefono", $("#telefono").length ? $("#telefono").val() : ($("#tel").val() || ""));
+    if ($("#horaInicio").length) {
+        data.append("hora_inicio", $("#horaInicio").val());
+        data.append("hora_fin", $("#horaFin").val());
+        data.append("jornada_diaria", $("#jornadaDiaria").val());
+        data.append("jornada_semanal", $("#jornadaSemanal").val());
+        data.append("dia_descanso", $("#diaDescanso").val());
+    }
     $.ajax({
         async: true,
         type: "POST",
@@ -175,6 +202,21 @@ function addUser(srn) {
                 $("#nombre").val("");
                 $("#telefono").val("");
                 $("#genero").val("");
+                if ($("#horaInicio").length && $("#horaInicio").data("default")) {
+                    $("#horaInicio").val($("#horaInicio").data("default"));
+                }
+                if ($("#horaFin").length && $("#horaFin").data("default")) {
+                    $("#horaFin").val($("#horaFin").data("default"));
+                }
+                if ($("#jornadaDiaria").length && $("#jornadaDiaria").data("default") !== undefined) {
+                    $("#jornadaDiaria").val($("#jornadaDiaria").data("default"));
+                }
+                if ($("#jornadaSemanal").length && $("#jornadaSemanal").data("default") !== undefined) {
+                    $("#jornadaSemanal").val($("#jornadaSemanal").data("default"));
+                }
+                if ($("#diaDescanso").length && $("#diaDescanso").data("default") !== undefined) {
+                    $("#diaDescanso").val($("#diaDescanso").data("default"));
+                }
                 showMessageBox(json["message"] || "Usuario y huella guardados", "success");
             } else {
                 showMessageBox(json["message"] || "No fue posible guardar el usuario", "warning");
