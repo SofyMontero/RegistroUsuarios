@@ -82,6 +82,33 @@ function uriImagenHuella(base64) {
     return "data:image/" + mime + ";base64," + base64;
 }
 
+function leerDatosEnrolamiento() {
+    if (!$("#documento").is("input, textarea, select")) {
+        return null;
+    }
+
+    return {
+        documento: $("#documento").val(),
+        nombre: $("#nombre").val(),
+        telefono: $("#telefono").length ? $("#telefono").val() : "",
+        genero: $("#genero").length ? $("#genero").val() : ""
+    };
+}
+
+function restaurarDatosEnrolamiento(datos) {
+    if (!datos) {
+        return;
+    }
+    $("#documento").val(datos.documento);
+    $("#nombre").val(datos.nombre);
+    if ($("#telefono").length) {
+        $("#telefono").val(datos.telefono);
+    }
+    if ($("#genero").length) {
+        $("#genero").val(datos.genero);
+    }
+}
+
 function actualizarVistaCaptura(json) {
     var id = json.id || obtenerTokenSesion();
     var imageHuella = json.imgHuella;
@@ -273,14 +300,9 @@ var token = obtenerTokenSesion();
                 console.error("httpush1:", json.error);
             } else {
                 timestamp = json.timestamp;
+                var datosFormulario = leerDatosEnrolamiento();
                 actualizarVistaCaptura(json);
-                if (json.tipo === "leer") {
-                    $("#documento").val(json.documento);
-                    $("#nombre").val(json.nombre);
-                    $("#imageUser").attr("src", "imagenes/" + (json.foto_usu || "usuario.png"));
-                    borrartemp(token);
-                    timestamp = 0;
-                }
+                restaurarDatosEnrolamiento(datosFormulario);
             }
             if (enrollPollingEnabled) {
                 enrollPollingTimer = setTimeout(function () {
@@ -320,20 +342,24 @@ function conectarPluginWebSocket() {
             return;
         }
         if (evento.tipo === "captura_progreso" && evento.datos) {
+            var datosFormulario = leerDatosEnrolamiento();
             actualizarVistaCaptura({
                 id: obtenerTokenSesion(),
                 imgHuella: evento.datos.imagenHuella,
                 statusPlantilla: evento.datos.estadoPlantilla,
                 texto: evento.datos.mensaje
             });
+            restaurarDatosEnrolamiento(datosFormulario);
         }
         if (evento.tipo === "captura_completada" && evento.datos) {
+            var datosFormulario = leerDatosEnrolamiento();
             actualizarVistaCaptura({
                 id: obtenerTokenSesion(),
                 imgHuella: evento.datos.imagenHuella,
                 statusPlantilla: evento.datos.estadoPlantilla,
                 texto: evento.datos.mensaje
             });
+            restaurarDatosEnrolamiento(datosFormulario);
         }
     });
 }

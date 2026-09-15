@@ -18,7 +18,6 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content="600" />
     <title>Asociar huellas | Monteblanco</title>
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
@@ -72,7 +71,7 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
                         </div>
                     </div>
 
-                    <form class="form-panel" onsubmit="return false;">
+                    <form class="form-panel" autocomplete="off" onsubmit="return false;">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="field-label" for="documento">Documento</label>
@@ -88,7 +87,7 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
                             </div>
                             <div class="col-md-6">
                                 <label class="field-label" for="sedeSelect">Sede</label>
-                                <select class="form-control biometric-input" id="sedeSelect" onchange="cambiarSedeSesion(this.value)">
+                                <select class="form-control biometric-input" id="sedeSelect">
                                     <option value="">Sin sede</option>
                                     <?php foreach ($listaSedes as $item) { ?>
                                         <option value="<?php echo htmlspecialchars($item['id']); ?>" <?php echo (string) $sede === (string) $item['id'] ? 'selected' : ''; ?>>
@@ -110,7 +109,7 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
                         </div>
 
                         <div class="d-flex flex-column flex-md-row gap-3 pt-2">
-                            <button class="btn btn-lg btn-primary flex-fill rounded-4" id="activeSensorLocal" onclick="activarSensor('<?php echo $token; ?>')" type="button">
+                            <button class="btn btn-lg btn-primary flex-fill rounded-4" id="activeSensorLocal" onclick="activarSensor('<?php echo $token; ?>'); return false;" type="button">
                                 Capturar huella
                             </button>
                             <button class="btn btn-lg btn-outline-primary flex-fill rounded-4" id="saveChanges" onclick="addUser('<?php echo $token; ?>')" type="button">
@@ -202,7 +201,7 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/funciones.js?v=20260915i" type="text/javascript"></script>
+    <script src="js/funciones.js?v=20260915j" type="text/javascript"></script>
     <script src="js/plugin-ws.js" type="text/javascript"></script>
     <script>
         (function () {
@@ -303,6 +302,30 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
 
         $("#sedeSelect").data("selected", $("#sedeSelect").val());
         cargarSedes();
+
+        $(document).on("change", "#sedeSelect", function () {
+            var nuevaSede = $(this).val() || "";
+            $("#sedeSelect").data("selected", nuevaSede);
+            if (typeof guardarSedeSesion === "function") {
+                guardarSedeSesion(nuevaSede);
+            }
+            if (typeof history === "undefined" || !history.replaceState) {
+                return;
+            }
+            var params = new URLSearchParams(location.search);
+            var token = params.get("token") || (typeof obtenerTokenSesion === "function" ? obtenerTokenSesion() : "");
+            if (token) {
+                params.set("token", token);
+            }
+            if (nuevaSede) {
+                params.set("sede", nuevaSede);
+            } else {
+                params.delete("sede");
+            }
+            var query = params.toString();
+            var pagina = location.pathname.split("/").pop() || "asociar_huellas.php";
+            history.replaceState(null, "", pagina + (query ? "?" + query : "") + location.hash);
+        });
     </script>
 </body>
 </html>
