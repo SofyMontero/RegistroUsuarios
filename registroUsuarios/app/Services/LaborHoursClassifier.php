@@ -71,12 +71,13 @@ class LaborHoursClassifier
             'ordinaria_nocturna' => 0,
             'extra_diurna' => 0,
             'extra_nocturna' => 0,
+            'extra_diurna_laboral' => 0,
+            'extra_nocturna_laboral' => 0,
             'dominical_descanso' => 0,
             'festiva' => 0,
             'nocturna_extra_dominical_festivo' => 0,
             'total_trabajadas' => 0,
             'total_extra' => 0,
-            'total_nocturna' => 0,
             '_inicio_min' => $this->horaAMinutos($inicio),
             '_fin_min' => $this->horaAMinutos($fin),
             '_diaria_min' => $diariaMin,
@@ -125,9 +126,6 @@ class LaborHoursClassifier
                 $esExtra = !$enHorario || !$quedaDiaria || !$quedaSemanal;
 
                 $resumen['total_trabajadas']++;
-                if ($esNoche) {
-                    $resumen['total_nocturna']++;
-                }
 
                 if ($esFestivo) {
                     $resumen['festiva']++;
@@ -153,8 +151,14 @@ class LaborHoursClassifier
                     $resumen['total_extra']++;
                     if ($esNoche) {
                         $resumen['extra_nocturna']++;
+                        if (!$esFestivo && !$esDescanso) {
+                            $resumen['extra_nocturna_laboral']++;
+                        }
                     } else {
                         $resumen['extra_diurna']++;
+                        if (!$esFestivo && !$esDescanso) {
+                            $resumen['extra_diurna_laboral']++;
+                        }
                     }
                 }
 
