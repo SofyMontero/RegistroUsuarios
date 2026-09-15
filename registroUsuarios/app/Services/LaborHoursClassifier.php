@@ -76,6 +76,7 @@ class LaborHoursClassifier
             'nocturna_extra_dominical_festivo' => 0,
             'total_trabajadas' => 0,
             'total_extra' => 0,
+            'total_nocturna' => 0,
             '_inicio_min' => $this->horaAMinutos($inicio),
             '_fin_min' => $this->horaAMinutos($fin),
             '_diaria_min' => $diariaMin,
@@ -124,6 +125,9 @@ class LaborHoursClassifier
                 $esExtra = !$enHorario || !$quedaDiaria || !$quedaSemanal;
 
                 $resumen['total_trabajadas']++;
+                if ($esNoche) {
+                    $resumen['total_nocturna']++;
+                }
 
                 if ($esFestivo) {
                     $resumen['festiva']++;

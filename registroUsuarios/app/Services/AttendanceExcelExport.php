@@ -35,6 +35,10 @@ class AttendanceExcelExport
                 'nombre' => 'Clasificacion horas',
                 'filas' => $this->filasClasificacion($resumen, $fechaDesde, $fechaHasta),
             ),
+            array(
+                'nombre' => 'Consolidado horas',
+                'filas' => $this->filasConsolidado($resumen, $fechaDesde, $fechaHasta),
+            ),
         );
 
         $nombre = 'Ingresos_Huella_' . date('Y-m', strtotime($fechaDesde)) . '.xlsx';
@@ -140,6 +144,124 @@ class AttendanceExcelExport
         );
 
         return $out;
+    }
+
+    private function filasConsolidado(array $resumen, $fechaDesde, $fechaHasta)
+    {
+        $totales = $this->totalesPagadas($resumen);
+        $encabezados = array(
+            'Nombre',
+            'Documento',
+            'Horas ordinarias',
+            'Horas nocturnas',
+            'Horas extra diurnas',
+            'Horas extra nocturnas',
+            'Horas dominicales/festivas',
+            'Total horas pagadas',
+        );
+
+        $out = array(
+            array('Consolidado general de horas pagadas'),
+            array('Periodo: ' . $fechaDesde . ' a ' . $fechaHasta),
+            array('Trabajadores: ' . count($resumen)),
+            array(),
+            array('Totales del período'),
+            $encabezados,
+            $this->filaPagadas('TODOS LOS TRABAJADORES', '', $totales),
+            array(),
+            array('Consolidado por trabajador (ordenado por extra, nocturnas y dominicales/festivas)'),
+            $encabezados,
+        );
+
+        $porTrabajador = $resumen;
+        usort($porTrabajador, function ($a, $b) {
+            $cmp = $this->minutosExtra($b) - $this->minutosExtra($a);
+            if ($cmp !== 0) {
+                return $cmp > 0 ? 1 : -1;
+            }
+            $cmp = ((int) $b['total_nocturna']) - ((int) $a['total_nocturna']);
+            if ($cmp !== 0) {
+                return $cmp > 0 ? 1 : -1;
+            }
+            $cmp = $this->minutosDominicalFestivo($b) - $this->minutosDominicalFestivo($a);
+            if ($cmp !== 0) {
+                return $cmp > 0 ? 1 : -1;
+            }
+
+            return strcmp($a['nombre'], $b['nombre']);
+        });
+
+        foreach ($porTrabajador as $fila) {
+            $out[] = $this->filaPagadas(
+                isset($fila['nombre']) ? $fila['nombre'] : '',
+                isset($fila['documento']) ? $fila['documento'] : '',
+                $fila
+            );
+        }
+
+        $out[] = $this->filaPagadas('TOTAL', '', $totales);
+        $out[] = array();
+        $out[] = array(
+            'Horas ordinarias: diurnas y nocturnas dentro del horario y la jornada pactados. Horas nocturnas: todo el tiempo entre 7:00 p.m. y 6:00 a.m., sea ordinario o extra.',
+        );
+        $out[] = array(
+            'Horas extra: fuera del horario pactado o por encima de la jornada configurada. Dominicales/festivas: trabajo en día de descanso obligatorio o festivo. El total de horas pagadas no suma las demás columnas porque un mismo minuto puede tener recargo nocturno, extra o dominical.',
+        );
+
+        return $out;
+    }
+
+    private function totalesPagadas(array $resumen)
+    {
+        $totales = array(
+            'ordinaria_diurna' => 0,
+            'ordinaria_nocturna' => 0,
+            'total_nocturna' => 0,
+            'extra_diurna' => 0,
+            'extra_nocturna' => 0,
+            'dominical_descanso' => 0,
+            'festiva' => 0,
+            'total_trabajadas' => 0,
+            'total_extra' => 0,
+        );
+
+        foreach ($resumen as $fila) {
+            foreach ($totales as $clave => $valor) {
+                $totales[$clave] += isset($fila[$clave]) ? (int) $fila[$clave] : 0;
+            }
+        }
+
+        return $totales;
+    }
+
+    private function filaPagadas($nombre, $documento, array $fila)
+    {
+        return array(
+            $nombre,
+            $documento,
+            $this->minutosAHoras((isset($fila['ordinaria_diurna']) ? $fila['ordinaria_diurna'] : 0) + (isset($fila['ordinaria_nocturna']) ? $fila['ordinaria_nocturna'] : 0)),
+            $this->minutosAHoras(isset($fila['total_nocturna']) ? $fila['total_nocturna'] : 0),
+            $this->minutosAHoras(isset($fila['extra_diurna']) ? $fila['extra_diurna'] : 0),
+            $this->minutosAHoras(isset($fila['extra_nocturna']) ? $fila['extra_nocturna'] : 0),
+            $this->minutosAHoras($this->minutosDominicalFestivo($fila)),
+            $this->minutosAHoras(isset($fila['total_trabajadas']) ? $fila['total_trabajadas'] : 0),
+        );
+    }
+
+    private function minutosExtra(array $fila)
+    {
+        if (isset($fila['total_extra'])) {
+            return (int) $fila['total_extra'];
+        }
+
+        return (int) (isset($fila['extra_diurna']) ? $fila['extra_diurna'] : 0)
+            + (int) (isset($fila['extra_nocturna']) ? $fila['extra_nocturna'] : 0);
+    }
+
+    private function minutosDominicalFestivo(array $fila)
+    {
+        return (int) (isset($fila['dominical_descanso']) ? $fila['dominical_descanso'] : 0)
+            + (int) (isset($fila['festiva']) ? $fila['festiva'] : 0);
     }
 
     private function minutosAHoras($minutos)
