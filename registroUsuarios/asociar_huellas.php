@@ -11,7 +11,6 @@ requerir_admin();
 list($token, $sede) = requerir_token_sesion();
 $biometricRepository = new BiometricRepository(new Database());
 $listaSedes = $biometricRepository->getHeadquartersList();
-$nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -95,7 +94,6 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
                                         </option>
                                     <?php } ?>
                                 </select>
-                                <p class="helper-text mt-2">El usuario y la huella quedaran asociados a esta sede<?php echo $nombreSedeActual !== '' ? (': ' . htmlspecialchars($nombreSedeActual)) : ''; ?>.</p>
                             </div>
                             <div class="col-md-6">
                                 <label class="field-label" for="genero">Género</label>
@@ -104,7 +102,6 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
                                     <option value="Femenino">Femenino</option>
                                     <option value="Masculino">Masculino</option>
                                 </select>
-                                <p class="helper-text mt-2">La foto del perfil se asigna según el género: mujer.png o hombre.jpg.</p>
                             </div>
                         </div>
 
