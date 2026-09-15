@@ -213,6 +213,7 @@ function instalarRedireccionLogin401() {
         "asociar_huellas.php",
         "registro_usuarios.php",
         "horarios_trabajadores.php",
+        "colaboradores.php",
         "sedes.php"
     ];
     jQuery(document).ajaxError(function (event, xhr) {

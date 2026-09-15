@@ -57,4 +57,33 @@ class Database
         $statement->execute($params);
         return $statement->rowCount();
     }
+
+    public function beginTransaction()
+    {
+        return $this->pdo->beginTransaction();
+    }
+
+    public function commit()
+    {
+        return $this->pdo->commit();
+    }
+
+    public function rollBack()
+    {
+        if ($this->pdo->inTransaction()) {
+            return $this->pdo->rollBack();
+        }
+
+        return false;
+    }
+
+    public function inTransaction()
+    {
+        return $this->pdo->inTransaction();
+    }
+
+    public function execRaw($sql)
+    {
+        return $this->pdo->exec($sql);
+    }
 }

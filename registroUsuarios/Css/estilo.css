@@ -741,10 +741,8 @@ body.hora-modal-open {
     padding: 28px;
 }
 
-.hora-modal-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px 18px;
+.hora-modal-grid-full {
+    grid-column: 1 / -1;
 }
 
 .hora-modal-time {

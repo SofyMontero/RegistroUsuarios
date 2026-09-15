@@ -147,10 +147,20 @@ class BiometricRepository
 
     public function isDocumentAllowedForManualRegister($cedula)
     {
-        return $this->db->fetchOne(
-            "SELECT ing_cedula FROM ingreso_con_ced WHERE ing_cedula = :cedula",
-            array('cedula' => $cedula)
-        );
+        try {
+            $row = $this->db->fetchOne(
+                "SELECT * FROM ingreso_con_ced WHERE ing_cedula = :cedula LIMIT 1",
+                array('cedula' => $cedula)
+            );
+        } catch (\Throwable $e) {
+            return false;
+        }
+
+        if (!$row) {
+            return false;
+        }
+
+        return $this->ingresoCedulaEstaActivo($row);
     }
 
     public function getUserNameByDocument($cedula)
@@ -606,6 +616,246 @@ class BiometricRepository
                 'descanso' => (int) $diaDescanso,
                 'documento' => $documento,
             )
+        );
+    }
+
+    public function listCollaborators($sede = '', $busqueda = '')
+    {
+        $trabajadores = $this->listWorkersForSchedule($sede, $busqueda);
+        $documentos = array();
+        foreach ($trabajadores as $fila) {
+            if (!empty($fila['usu_identificacion'])) {
+                $documentos[] = (string) $fila['usu_identificacion'];
+            }
+        }
+
+        $acceso = $this->mapaAccesoPorCedula($documentos);
+        foreach ($trabajadores as $indice => $fila) {
+            $documento = (string) $fila['usu_identificacion'];
+            $trabajadores[$indice]['ingresa_cedula'] = !empty($acceso[$documento]);
+        }
+
+        return $trabajadores;
+    }
+
+    public function updateCollaborator(array $datos)
+    {
+        $documentoActual = isset($datos['documento_actual']) ? trim((string) $datos['documento_actual']) : '';
+        $documentoNuevo = isset($datos['documento']) ? trim((string) $datos['documento']) : '';
+        $nombre = isset($datos['nombre']) ? trim((string) $datos['nombre']) : '';
+        $sedeId = isset($datos['sede']) ? trim((string) $datos['sede']) : '';
+        $horaInicio = isset($datos['hora_inicio']) ? $datos['hora_inicio'] : '';
+        $horaFin = isset($datos['hora_fin']) ? $datos['hora_fin'] : '';
+        $diariaMinutos = isset($datos['jornada_diaria_minutos']) ? (int) $datos['jornada_diaria_minutos'] : 0;
+        $semanalMinutos = isset($datos['jornada_semanal_minutos']) ? (int) $datos['jornada_semanal_minutos'] : 0;
+        $diaDescanso = isset($datos['dia_descanso']) ? (int) $datos['dia_descanso'] : 0;
+        $ingresaCedula = !empty($datos['ingresa_cedula']);
+
+        if ($documentoActual === '' || $documentoNuevo === '' || $nombre === '') {
+            throw new \InvalidArgumentException('Nombre y cédula son obligatorios');
+        }
+
+        if (!$this->getUserRowByIdentification($documentoActual)) {
+            throw new \RuntimeException('No existe un colaborador con esa cédula');
+        }
+
+        if ($documentoNuevo !== $documentoActual) {
+            $otro = $this->getUserRowByIdentification($documentoNuevo);
+            if ($otro) {
+                throw new \RuntimeException('Ya existe un colaborador con la cédula nueva');
+            }
+        }
+
+        $this->ensureJornadaColumns();
+        $this->db->beginTransaction();
+        try {
+            $this->db->execRaw('SET FOREIGN_KEY_CHECKS = 0');
+
+            $this->db->execute(
+                'UPDATE usuarios
+                 SET usu_identificacion = :nuevo,
+                     usu_nombre = :nombre,
+                     usu_idsede = :sede,
+                     usu_hora_inicio = :inicio,
+                     usu_hora_fin = :fin,
+                     usu_jornada_diaria_minutos = :diaria,
+                     usu_jornada_semanal_minutos = :semanal,
+                     usu_dia_descanso = :descanso
+                 WHERE usu_identificacion = :actual',
+                array(
+                    'nuevo' => $documentoNuevo,
+                    'nombre' => $nombre,
+                    'sede' => $sedeId === '' ? null : $sedeId,
+                    'inicio' => $horaInicio,
+                    'fin' => $horaFin,
+                    'diaria' => $diariaMinutos,
+                    'semanal' => $semanalMinutos,
+                    'descanso' => $diaDescanso,
+                    'actual' => $documentoActual,
+                )
+            );
+
+            if ($documentoNuevo !== $documentoActual) {
+                $this->actualizarDocumentoRelacionado('usuarios_huella', 'documento', $documentoActual, $documentoNuevo);
+                $this->actualizarDocumentoRelacionado('huellas', 'documento', $documentoActual, $documentoNuevo);
+                $this->actualizarDocumentoRelacionado('ingreso_con_ced', 'ing_cedula', $documentoActual, $documentoNuevo);
+                $this->actualizarDocumentoRelacionado('seguimientousers', 'seg_iduser', $documentoActual, $documentoNuevo);
+            }
+
+            try {
+                $this->db->execute(
+                    'UPDATE usuarios_huella SET nombre_completo = :nombre WHERE documento = :documento',
+                    array('nombre' => $nombre, 'documento' => $documentoNuevo)
+                );
+            } catch (\Throwable $e) {
+                // usuarios_huella puede no existir para colaboradores sin huella.
+            }
+
+            $this->sincronizarAccesoPorCedula($documentoNuevo, $ingresaCedula);
+
+            $this->db->execRaw('SET FOREIGN_KEY_CHECKS = 1');
+            $this->db->commit();
+        } catch (\Throwable $e) {
+            $this->db->rollBack();
+            try {
+                $this->db->execRaw('SET FOREIGN_KEY_CHECKS = 1');
+            } catch (\Throwable $ignored) {
+            }
+            throw $e;
+        }
+
+        return true;
+    }
+
+    private function actualizarDocumentoRelacionado($tabla, $columna, $actual, $nuevo)
+    {
+        try {
+            $this->db->execute(
+                'UPDATE ' . $tabla . ' SET ' . $columna . ' = :nuevo WHERE ' . $columna . ' = :actual',
+                array('nuevo' => $nuevo, 'actual' => $actual)
+            );
+        } catch (\Throwable $e) {
+            // Tabla o columna opcional según esquema.
+        }
+    }
+
+    private function columnasIngresoConCed()
+    {
+        static $columnas = null;
+        if ($columnas !== null) {
+            return $columnas;
+        }
+
+        $columnas = array();
+        try {
+            $filas = $this->db->fetchAll('SHOW COLUMNS FROM ingreso_con_ced');
+            foreach ($filas as $fila) {
+                if (!empty($fila['Field'])) {
+                    $columnas[strtolower((string) $fila['Field'])] = $fila;
+                }
+            }
+        } catch (\Throwable $e) {
+            $columnas = array();
+        }
+
+        return $columnas;
+    }
+
+    private function ingresoCedulaEstaActivo(array $fila)
+    {
+        $columnas = $this->columnasIngresoConCed();
+        if (!isset($columnas['ing_estado'])) {
+            return true;
+        }
+
+        return (int) $fila['ing_estado'] === 1;
+    }
+
+    private function valorEstadoCedula($activo)
+    {
+        return $activo ? 1 : 0;
+    }
+
+    private function mapaAccesoPorCedula(array $documentos)
+    {
+        $documentos = array_values(array_filter(array_unique($documentos)));
+        $mapa = array();
+        if (empty($documentos) || empty($this->columnasIngresoConCed())) {
+            return $mapa;
+        }
+
+        $placeholders = array();
+        $params = array();
+        foreach ($documentos as $i => $documento) {
+            $clave = 'c' . $i;
+            $placeholders[] = ':' . $clave;
+            $params[$clave] = $documento;
+        }
+
+        try {
+            $filas = $this->db->fetchAll(
+                'SELECT * FROM ingreso_con_ced WHERE ing_cedula IN (' . implode(',', $placeholders) . ')',
+                $params
+            );
+        } catch (\Throwable $e) {
+            return $mapa;
+        }
+
+        foreach ($filas as $fila) {
+            if (empty($fila['ing_cedula'])) {
+                continue;
+            }
+            $mapa[(string) $fila['ing_cedula']] = $this->ingresoCedulaEstaActivo($fila);
+        }
+
+        return $mapa;
+    }
+
+    private function sincronizarAccesoPorCedula($documento, $habilitado)
+    {
+        $columnas = $this->columnasIngresoConCed();
+        if (empty($columnas) || !isset($columnas['ing_cedula'])) {
+            return;
+        }
+
+        $row = null;
+        try {
+            $row = $this->db->fetchOne(
+                'SELECT * FROM ingreso_con_ced WHERE ing_cedula = :cedula LIMIT 1',
+                array('cedula' => $documento)
+            );
+        } catch (\Throwable $e) {
+            return;
+        }
+
+        $tieneEstado = isset($columnas['ing_estado']);
+        $estado = $this->valorEstadoCedula($habilitado);
+
+        if ($row) {
+            if ($tieneEstado) {
+                $this->db->execute(
+                    'UPDATE ingreso_con_ced SET ing_estado = :estado WHERE ing_cedula = :cedula',
+                    array('estado' => $estado, 'cedula' => $documento)
+                );
+            }
+            return;
+        }
+
+        if (!$habilitado) {
+            return;
+        }
+
+        if ($tieneEstado) {
+            $this->db->execute(
+                'INSERT INTO ingreso_con_ced (ing_cedula, ing_estado) VALUES (:cedula, :estado)',
+                array('cedula' => $documento, 'estado' => 1)
+            );
+            return;
+        }
+
+        $this->db->execute(
+            'INSERT INTO ingreso_con_ced (ing_cedula) VALUES (:cedula)',
+            array('cedula' => $documento)
         );
     }
 }
