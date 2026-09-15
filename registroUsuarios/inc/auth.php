@@ -2,8 +2,8 @@
 
 /**
  * Autenticación de administradores (sesión PHP).
- * El ingreso biométrico permanece público; estas funciones cubren
- * Ver ingresos, Asociar huella y sus APIs.
+ * Usa usuarios.usu_usuario / usuarios.usu_pass y roles.idroles = 1 (admin).
+ * El ingreso biométrico permanece público.
  */
 
 if (!class_exists('Huella\\Core\\Database')) {
@@ -185,96 +185,80 @@ function requerir_admin_api()
     exit;
 }
 
+function auth_rol_admin_id()
+{
+    return 1;
+}
+
 function auth_db()
 {
-    $db = new \Huella\Core\Database();
-    try {
-        $db->fetchOne('SELECT id FROM admin_usuarios LIMIT 1');
-    } catch (\Throwable $exception) {
-        $db->execute(
-            'CREATE TABLE IF NOT EXISTS admin_usuarios (
-                id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                usuario VARCHAR(80) NOT NULL,
-                password_hash VARCHAR(255) NOT NULL,
-                nombre VARCHAR(120) NOT NULL DEFAULT \'Administrador\',
-                creado_en DATETIME NOT NULL,
-                PRIMARY KEY (id),
-                UNIQUE KEY usuario_unico (usuario)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8'
-        );
-    }
-    return $db;
+    return new \Huella\Core\Database();
 }
 
-function auth_hay_administradores()
+function auth_clave_coincide($ingresada, $almacenada)
 {
-    $row = auth_db()->fetchOne('SELECT COUNT(*) AS total FROM admin_usuarios');
-    return $row && (int) $row['total'] > 0;
-}
-
-function auth_normalizar_usuario($usuario)
-{
-    return strtolower(trim((string) $usuario));
-}
-
-function auth_crear_administrador($usuario, $clave, $nombre)
-{
-    $usuario = auth_normalizar_usuario($usuario);
-    $nombre = trim((string) $nombre);
-    if ($nombre === '') {
-        $nombre = 'Administrador';
+    $ingresada = (string) $ingresada;
+    $almacenada = (string) $almacenada;
+    if ($almacenada === '') {
+        return false;
     }
 
-    return auth_db()->execute(
-        'INSERT INTO admin_usuarios (usuario, password_hash, nombre, creado_en)
-         VALUES (:usuario, :password_hash, :nombre, NOW())',
-        array(
-            'usuario' => $usuario,
-            'password_hash' => password_hash($clave, PASSWORD_DEFAULT),
-            'nombre' => $nombre,
-        )
-    );
+    if (strpos($almacenada, '$2') === 0 || strpos($almacenada, '$argon2') === 0) {
+        return password_verify($ingresada, $almacenada);
+    }
+
+    $longitud = strlen($almacenada);
+    if ($longitud === 32 && ctype_xdigit($almacenada)) {
+        return hash_equals(strtolower($almacenada), md5($ingresada));
+    }
+    if ($longitud === 40 && ctype_xdigit($almacenada)) {
+        return hash_equals(strtolower($almacenada), sha1($ingresada));
+    }
+    if ($longitud === 64 && ctype_xdigit($almacenada)) {
+        return hash_equals(strtolower($almacenada), hash('sha256', $ingresada));
+    }
+
+    return hash_equals($almacenada, $ingresada);
 }
 
 function auth_intentar_login($usuario, $clave)
 {
-    $usuario = auth_normalizar_usuario($usuario);
+    $usuario = trim((string) $usuario);
+    $clave = (string) $clave;
     if ($usuario === '' || $clave === '') {
         return false;
     }
 
     $row = auth_db()->fetchOne(
-        'SELECT id, usuario, password_hash, nombre FROM admin_usuarios WHERE usuario = :usuario LIMIT 1',
-        array('usuario' => $usuario)
+        'SELECT
+            u.idusuarios,
+            u.usu_usuario,
+            u.usu_nombre,
+            u.usu_pass,
+            u.roles_idroles,
+            r.rol_nombre
+         FROM usuarios u
+         INNER JOIN roles r ON r.idroles = u.roles_idroles
+         WHERE u.usu_usuario = :usuario
+           AND (r.idroles = :rol_admin OR LOWER(r.rol_nombre) = :rol_nombre)
+         LIMIT 1',
+        array(
+            'usuario' => $usuario,
+            'rol_admin' => auth_rol_admin_id(),
+            'rol_nombre' => 'admin',
+        )
     );
-    if (!$row || !password_verify($clave, $row['password_hash'])) {
+
+    if (!$row || !auth_clave_coincide($clave, isset($row['usu_pass']) ? $row['usu_pass'] : '')) {
         return false;
     }
 
     auth_iniciar_sesion();
     session_regenerate_id(true);
-    $_SESSION['admin_id'] = (int) $row['id'];
-    $_SESSION['admin_usuario'] = (string) $row['usuario'];
-    $_SESSION['admin_nombre'] = (string) $row['nombre'];
-    $_SESSION['admin_csrf'] = bin2hex(random_bytes(16));
-    return true;
-}
-
-function auth_establecer_sesion_creada($usuario, $nombre)
-{
-    $row = auth_db()->fetchOne(
-        'SELECT id, usuario, nombre FROM admin_usuarios WHERE usuario = :usuario LIMIT 1',
-        array('usuario' => auth_normalizar_usuario($usuario))
-    );
-    if (!$row) {
-        return false;
-    }
-
-    auth_iniciar_sesion();
-    session_regenerate_id(true);
-    $_SESSION['admin_id'] = (int) $row['id'];
-    $_SESSION['admin_usuario'] = (string) $row['usuario'];
-    $_SESSION['admin_nombre'] = $nombre !== '' ? $nombre : (string) $row['nombre'];
+    $_SESSION['admin_id'] = (int) $row['idusuarios'];
+    $_SESSION['admin_usuario'] = (string) $row['usu_usuario'];
+    $_SESSION['admin_nombre'] = (string) $row['usu_nombre'];
+    $_SESSION['admin_rol'] = (int) $row['roles_idroles'];
     $_SESSION['admin_csrf'] = bin2hex(random_bytes(16));
     return true;
 }

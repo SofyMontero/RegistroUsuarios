@@ -5,67 +5,39 @@ require_once __DIR__ . '/inc/auth.php';
 $next = isset($_GET['next']) ? $_GET['next'] : (isset($_POST['next']) ? $_POST['next'] : 'ingresos_huella.php');
 $destino = auth_destino_seguro($next);
 $error = '';
-$esAltaInicial = false;
 
-try {
-    $esAltaInicial = !auth_hay_administradores();
-} catch (\Throwable $exception) {
-    $error = 'No fue posible conectar con la base de datos para autenticar.';
-}
-
-if (auth_esta_autenticado() && $error === '') {
+if (auth_esta_autenticado()) {
     header('Location: ' . $destino, true, 302);
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $error === '') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!auth_csrf_ok(isset($_POST['csrf']) ? $_POST['csrf'] : '')) {
         $error = 'La sesión del formulario expiró. Inténtelo de nuevo.';
-    } elseif ($esAltaInicial) {
-        $usuario = isset($_POST['usuario']) ? trim((string) $_POST['usuario']) : '';
-        $nombre = isset($_POST['nombre']) ? trim((string) $_POST['nombre']) : '';
-        $clave = isset($_POST['clave']) ? (string) $_POST['clave'] : '';
-        $clave2 = isset($_POST['clave2']) ? (string) $_POST['clave2'] : '';
-
-        if (!preg_match('/^[a-zA-Z0-9._-]{3,80}$/', $usuario)) {
-            $error = 'El usuario debe tener entre 3 y 80 caracteres (letras, números, punto, guion o guion bajo).';
-        } elseif (strlen($clave) < 8) {
-            $error = 'La contraseña debe tener al menos 8 caracteres.';
-        } elseif ($clave !== $clave2) {
-            $error = 'Las contraseñas no coinciden.';
-        } else {
-            try {
-                auth_crear_administrador($usuario, $clave, $nombre);
-                if (auth_establecer_sesion_creada($usuario, $nombre)) {
-                    header('Location: ' . $destino, true, 302);
-                    exit;
-                }
-                $error = 'El administrador se creó, pero no fue posible abrir la sesión.';
-            } catch (\Throwable $exception) {
-                $error = 'No fue posible crear el administrador inicial.';
-            }
-        }
     } else {
         $usuario = isset($_POST['usuario']) ? trim((string) $_POST['usuario']) : '';
         $clave = isset($_POST['clave']) ? (string) $_POST['clave'] : '';
-        if (!auth_intentar_login($usuario, $clave)) {
-            $error = 'Usuario o contraseña incorrectos.';
-        } else {
-            header('Location: ' . $destino, true, 302);
-            exit;
+        try {
+            if (!auth_intentar_login($usuario, $clave)) {
+                $error = 'Usuario o contraseña incorrectos, o el usuario no tiene rol de administrador.';
+            } else {
+                header('Location: ' . $destino, true, 302);
+                exit;
+            }
+        } catch (\Throwable $exception) {
+            $error = 'No fue posible validar el acceso. Revise la conexión a la base de datos.';
         }
     }
 }
 
 $csrf = auth_csrf_token();
-$titulo = $esAltaInicial ? 'Crear administrador' : 'Administración';
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?php echo htmlspecialchars($titulo); ?> | Monteblanco</title>
+    <title>Administración | Monteblanco</title>
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -78,14 +50,10 @@ $titulo = $esAltaInicial ? 'Crear administrador' : 'Administración';
                 <div class="col-12 col-md-8 col-lg-5">
                     <div class="glass-card section-card login-card p-4 p-md-5">
                         <?php marca_product_badge('Ingreso Usuarios'); ?>
-                        <span class="eyebrow"><?php echo $esAltaInicial ? 'Configuración inicial' : 'Acceso restringido'; ?></span>
-                        <h1 class="page-title mt-3"><?php echo $esAltaInicial ? 'Crear primer administrador' : 'Iniciar sesión'; ?></h1>
+                        <span class="eyebrow">Acceso restringido</span>
+                        <h1 class="page-title mt-3">Iniciar sesión</h1>
                         <p class="page-subtitle mb-4">
-                            <?php if ($esAltaInicial) { ?>
-                                Aún no hay usuarios administrativos. Cree la cuenta que usará para Ver ingresos y Asociar huella.
-                            <?php } else { ?>
-                                Esta sección protege Ver ingresos y Asociar huella. El ingreso de asistencia sigue siendo público.
-                            <?php } ?>
+                            Use el usuario y la contraseña de un registro con rol administrador. El ingreso de asistencia sigue siendo público.
                         </p>
 
                         <?php if ($error !== '') { ?>
@@ -98,31 +66,15 @@ $titulo = $esAltaInicial ? 'Crear administrador' : 'Administración';
 
                             <div>
                                 <label class="field-label" for="usuario">Usuario</label>
-                                <input class="form-control biometric-input" id="usuario" name="usuario" type="text" required maxlength="80" autocomplete="username" />
+                                <input class="form-control biometric-input" id="usuario" name="usuario" type="text" required maxlength="100" autocomplete="username" />
                             </div>
-
-                            <?php if ($esAltaInicial) { ?>
-                                <div>
-                                    <label class="field-label" for="nombre">Nombre</label>
-                                    <input class="form-control biometric-input" id="nombre" name="nombre" type="text" maxlength="120" autocomplete="name" placeholder="Administrador" />
-                                </div>
-                            <?php } ?>
 
                             <div>
                                 <label class="field-label" for="clave">Contraseña</label>
-                                <input class="form-control biometric-input" id="clave" name="clave" type="password" required minlength="<?php echo $esAltaInicial ? '8' : '1'; ?>" autocomplete="<?php echo $esAltaInicial ? 'new-password' : 'current-password'; ?>" />
+                                <input class="form-control biometric-input" id="clave" name="clave" type="password" required autocomplete="current-password" />
                             </div>
 
-                            <?php if ($esAltaInicial) { ?>
-                                <div>
-                                    <label class="field-label" for="clave2">Confirmar contraseña</label>
-                                    <input class="form-control biometric-input" id="clave2" name="clave2" type="password" required minlength="8" autocomplete="new-password" />
-                                </div>
-                            <?php } ?>
-
-                            <button class="btn btn-primary btn-lg rounded-4 w-100" type="submit">
-                                <?php echo $esAltaInicial ? 'Crear e ingresar' : 'Entrar'; ?>
-                            </button>
+                            <button class="btn btn-primary btn-lg rounded-4 w-100" type="submit">Entrar</button>
                         </form>
 
                         <div class="d-flex justify-content-center mt-4">
