@@ -1,6 +1,7 @@
 <?php
 
 include_once './bd.php';
+require_once dirname(__DIR__) . '/inc/foto_usuario.php';
 $con = new bd();
 $ext = "jpg";
 if (isset($_GET['documento']) && !empty($_GET['documento'])) {
@@ -15,13 +16,13 @@ $row = $con->findAll($rs);
         $dat = file_get_contents($img);
         echo $dat;
     } else {
-        $img = "../imagenes/mujer.png";
+        $img = "../imagenes/" . FOTO_USUARIO_DEFAULT;
         $dat = file_get_contents($img);
         echo $dat;
     }
 } else {
     header("Content-type: image/" . $ext);
-    $img = "../imagenes/mujer.png";
+    $img = "../imagenes/" . FOTO_USUARIO_DEFAULT;
     $dat = file_get_contents($img);
     echo $dat;
 }

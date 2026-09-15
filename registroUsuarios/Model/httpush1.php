@@ -9,6 +9,7 @@ set_time_limit(0);
 date_default_timezone_set('America/Bogota');
 
 include_once './bd.php';
+require_once dirname(__DIR__) . '/inc/foto_usuario.php';
 
 $token = isset($_POST['token']) ? trim($_POST['token']) : '';
 if ($token === '' && isset($_GET['token'])) {
@@ -54,14 +55,14 @@ if (count($rows) === 0) {
         'documento' => '',
         'imgHuella' => null,
         'tipo' => '',
-        'foto_usu' => 'mujer.png',
+        'foto_usu' => FOTO_USUARIO_DEFAULT,
     ));
     $con->desconectar();
     exit;
 }
 
 $row = $rows[0];
-$foto = 'mujer.png';
+$foto = FOTO_USUARIO_DEFAULT;
 
 if (!empty($row['documento'])) {
     $fotoRows = $con->findAll(

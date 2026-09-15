@@ -86,7 +86,7 @@ class BiometricController
                 'message' => 'No se envio una cedula valida',
                 'documento' => '',
                 'nombre' => '',
-                'foto_usu' => 'mujer.png',
+                'foto_usu' => FOTO_USUARIO_DEFAULT,
             ));
             return;
         }
@@ -98,7 +98,7 @@ class BiometricController
                 'message' => 'No se encontro esta cedula, revisa el numero',
                 'documento' => '',
                 'nombre' => '',
-                'foto_usu' => 'mujer.png',
+                'foto_usu' => FOTO_USUARIO_DEFAULT,
             ));
             return;
         }
@@ -112,7 +112,7 @@ class BiometricController
                     : 'El usuario no pertenece a esta sede',
                 'documento' => '',
                 'nombre' => '',
-                'foto_usu' => 'mujer.png',
+                'foto_usu' => FOTO_USUARIO_DEFAULT,
             ));
             return;
         }
@@ -132,7 +132,7 @@ class BiometricController
             'message' => $mensaje,
             'documento' => $cedula,
             'nombre' => $nombre,
-            'foto_usu' => $imagenUsuario && !empty($imagenUsuario['ext']) ? $imagenUsuario['ext'] : 'mujer.png',
+            'foto_usu' => foto_usuario_o_default($imagenUsuario && !empty($imagenUsuario['ext']) ? $imagenUsuario['ext'] : ''),
             'evento' => $marcacion['evento'],
             'excedido' => $excedido,
             'minutos' => $marcacion['minutos'],

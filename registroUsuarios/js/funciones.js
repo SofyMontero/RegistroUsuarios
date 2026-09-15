@@ -107,15 +107,17 @@ function actualizarVistaCaptura(json) {
 
 
 function addUser(srn) {
-    var data = new FormData();
-    var inputFile = document.getElementById("foto");
-    var file = inputFile.files[0];
-    if (file !== undefined) {
-        data.append("foto", file);
+    var genero = $("#genero").length ? $.trim($("#genero").val()) : "";
+    if (!genero) {
+        showMessageBox("Seleccione el género del colaborador", "warning");
+        return;
     }
+
+    var data = new FormData();
     data.append("token", srn);
     data.append("documento", $("#documento").val());
     data.append("nombre", $("#nombre").val());
+    data.append("genero", genero);
     var sedeValor = $("#sedeSelect").length ? $("#sedeSelect").val() : "";
     if (!sedeValor && typeof obtenerSedeSesion === "function") {
         sedeValor = obtenerSedeSesion();
@@ -145,7 +147,7 @@ function addUser(srn) {
                 $("#documento").val("");
                 $("#nombre").val("");
                 $("#telefono").val("");
-                $("#foto").val("");
+                $("#genero").val("");
                 showMessageBox(json["message"] || "Usuario y huella guardados", "success");
             } else {
                 showMessageBox(json["message"] || "No fue posible guardar el usuario", "warning");
@@ -202,7 +204,7 @@ var token = obtenerTokenSesion();
                 if (tipo === "leer") {
                     $("#documento").text(json["documento"]);
                     $("#nombre").text(json["nombre"]);
-                    $("#imageUser").attr("src", "imagenes/"+json["foto_usu"]);
+                    $("#imageUser").attr("src", "imagenes/" + (json["foto_usu"] || "usuario.png"));
                     
                     // Verificar si usuario fue encontrado
                     var usuarioEncontrado = json["nombre"] && json["nombre"] !== "------" && json["documento"];
@@ -275,7 +277,7 @@ var token = obtenerTokenSesion();
                 if (json.tipo === "leer") {
                     $("#documento").val(json.documento);
                     $("#nombre").val(json.nombre);
-                    $("#imageUser").attr("src", "imagenes/" + json.foto_usu);
+                    $("#imageUser").attr("src", "imagenes/" + (json.foto_usu || "usuario.png"));
                     borrartemp(token);
                     timestamp = 0;
                 }

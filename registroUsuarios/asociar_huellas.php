@@ -23,7 +23,7 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260915e" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915i" rel="stylesheet" type="text/css" />
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesion();</script>
@@ -99,9 +99,13 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
                                 <p class="helper-text mt-2">El usuario y la huella quedaran asociados a esta sede<?php echo $nombreSedeActual !== '' ? (': ' . htmlspecialchars($nombreSedeActual)) : ''; ?>.</p>
                             </div>
                             <div class="col-md-6">
-                                <label class="field-label" for="foto">Fotografia</label>
-                                <input class="form-control biometric-input biometric-file" id="foto" type="file" accept="image/png,image/jpeg" />
-                                <p class="helper-text mt-2">Carga una foto limpia para mostrarla cuando el usuario sea reconocido por huella.</p>
+                                <label class="field-label" for="genero">Género</label>
+                                <select class="form-control biometric-input" id="genero" required>
+                                    <option value="">Seleccione el género</option>
+                                    <option value="Femenino">Femenino</option>
+                                    <option value="Masculino">Masculino</option>
+                                </select>
+                                <p class="helper-text mt-2">La foto del perfil se asigna según el género: mujer.png o hombre.jpg.</p>
                             </div>
                         </div>
 
@@ -147,7 +151,7 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
                     <div class="metric-grid">
                         <div class="metric-card">
                             <p class="metric-label">Paso 1</p>
-                            <p class="metric-value">Diligencia documento, nombre, sede y foto.</p>
+                            <p class="metric-value">Diligencia documento, nombre, sede y género.</p>
                         </div>
                         <div class="metric-card">
                             <p class="metric-label">Paso 2</p>
@@ -198,7 +202,7 @@ $nombreSedeActual = $biometricRepository->getSedeNombreById($sede);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/funciones.js?v=20260915h" type="text/javascript"></script>
+    <script src="js/funciones.js?v=20260915i" type="text/javascript"></script>
     <script src="js/plugin-ws.js" type="text/javascript"></script>
     <script>
         (function () {

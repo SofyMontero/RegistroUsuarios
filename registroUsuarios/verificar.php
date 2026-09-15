@@ -29,7 +29,7 @@ $con->exec(
     <link rel="shortcut icon" href="imagenes/marca/isotipo.svg" />
     <?php require_once __DIR__ . '/inc/marca.php'; marca_head_assets(); ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/estilo.css?v=20260915e" rel="stylesheet" type="text/css" />
+    <link href="Css/estilo.css?v=20260915i" rel="stylesheet" type="text/css" />
     <script src="js/Utils.js?v=20260915e" type="text/javascript"></script>
     <script type="text/javascript">asegurarTokenSesionIngreso();</script>
     <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
@@ -72,7 +72,7 @@ $con->exec(
                 if (res.success) {
                     $('#documento').text(res.documento);
                     $('#nombre').text(res.nombre);
-                    $('#imageUser').attr('src', 'imagenes/' + res.foto_usu);
+                    $('#imageUser').attr('src', 'imagenes/' + (res.foto_usu || 'usuario.png'));
                     showMessageBox(res.message + (res.nombre && res.message.indexOf(res.nombre) < 0 ? ' ' + res.nombre : ''), res.excedido ? 'danger' : 'success');
 
                     if (!res.excedido) {
@@ -85,7 +85,7 @@ $con->exec(
                 } else {
                     $('#documento').text('');
                     $('#nombre').text('');
-                    $('#imageUser').attr('src', 'imagenes/mujer.png');
+                    $('#imageUser').attr('src', 'imagenes/usuario.png');
                     showMessageBox(res.message, 'warning');
                 }
 
@@ -162,7 +162,7 @@ $con->exec(
                             <span class="eyebrow">Lectura actual</span>
                         </div>
                         <div class="user-photo-frame">
-                            <img id="imageUser" src="imagenes/mujer.png" alt="Foto del usuario" />
+                            <img id="imageUser" src="imagenes/usuario.png" alt="Foto del usuario" onerror="if (this.src.indexOf('usuario.png') === -1) { this.src = 'imagenes/usuario.png'; }" />
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@ $con->exec(
         <div id="resultado" style="display:none;"></div>
     </div>
 
-    <script src="js/funciones.js" type="text/javascript"></script>
+    <script src="js/funciones.js?v=20260915i" type="text/javascript"></script>
     <script>
         cargar_push("");
 

@@ -20,9 +20,14 @@ class UserEnrollmentService
         $token = isset($post['token']) ? trim($post['token']) : '';
         $sede = isset($post['sede']) ? trim((string) $post['sede']) : '';
         $telefono = isset($post['telefono']) ? trim((string) $post['telefono']) : '';
+        $genero = isset($post['genero']) ? trim((string) $post['genero']) : '';
 
         if ($documento === '' || $nombre === '' || $token === '') {
             return array('filas' => 0, 'message' => 'Faltan datos obligatorios');
+        }
+
+        if (normalizar_genero_usuario($genero) === '') {
+            return array('filas' => 0, 'message' => 'Seleccione el género del colaborador');
         }
 
         if ($this->repository->getFingerprintUserByDocument($documento)) {
@@ -39,25 +44,11 @@ class UserEnrollmentService
             return array('filas' => 0, 'message' => 'No se puede guardar porque no hay una huella valida capturada. Detalle: ' . $detalle);
         }
 
-        $fotoBinaria = null;
-        $imagen = null;
-        if (isset($files['foto']) && is_uploaded_file($files['foto']['tmp_name'])) {
-            $tipo = $files['foto']['type'];
-            if ($tipo === 'image/png' || $tipo === 'image/jpeg') {
-                $fotoBinaria = file_get_contents($files['foto']['tmp_name']);
-                $imagen = basename($files['foto']['name']);
-                $destino = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'imagenes' . DIRECTORY_SEPARATOR . $imagen;
-                if (!move_uploaded_file($files['foto']['tmp_name'], $destino)) {
-                    return array('filas' => 0, 'message' => 'No fue posible guardar la fotografia del usuario');
-                }
-            } else {
-                return array('filas' => 0, 'message' => 'La fotografia debe estar en formato PNG o JPG');
-            }
-        }
+        $imagen = foto_por_genero($genero);
 
-        $this->repository->ensureCollaborator($documento, $nombre, $telefono, $sede);
+        $this->repository->ensureCollaborator($documento, $nombre, $telefono, $sede, $genero);
         $this->repository->markUserHasFingerprint($documento);
-        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, $fotoBinaria, $imagen);
+        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, null, $imagen);
         if ($usuarioCreado < 1) {
             return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
         }
@@ -85,6 +76,7 @@ class UserEnrollmentService
         $huella = isset($data['huella']) ? trim($data['huella']) : '';
         $imgHuella = isset($data['imgHuella']) ? trim($data['imgHuella']) : '';
         $sede = isset($data['sede']) ? trim((string) $data['sede']) : '';
+        $genero = isset($data['genero']) ? trim((string) $data['genero']) : '';
 
         if ($documento === '' || $nombre === '' || $huella === '') {
             return array('filas' => 0, 'message' => 'Faltan datos obligatorios (documento, nombre, huella)');
@@ -94,9 +86,11 @@ class UserEnrollmentService
             return array('filas' => 0, 'message' => 'El usuario ya tiene huella registrada');
         }
 
-        $this->repository->ensureCollaborator($documento, $nombre, '', $sede);
+        $imagen = foto_por_genero($genero);
+
+        $this->repository->ensureCollaborator($documento, $nombre, '', $sede, $genero);
         $this->repository->markUserHasFingerprint($documento);
-        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, null, null);
+        $usuarioCreado = $this->repository->createFingerprintUser($documento, $nombre, null, $imagen);
         if ($usuarioCreado < 1) {
             return array('filas' => 0, 'message' => 'No fue posible crear el registro base del usuario con huella');
         }

@@ -363,8 +363,21 @@ class BiometricRepository
     /**
      * Alta de colaborador en usuarios sin plantilla biometrica (con_huella = no).
      */
-    public function createAdministrativeUser($documento, $nombre)
+    public function createAdministrativeUser($documento, $nombre, $genero = '')
     {
+        $genero = function_exists('normalizar_genero_usuario') ? normalizar_genero_usuario($genero) : trim((string) $genero);
+        if ($genero !== '') {
+            try {
+                return $this->db->execute(
+                    "INSERT INTO usuarios (usu_identificacion, usu_nombre, usu_estado, con_huella, fecha_creacion, usu_genero)
+                     VALUES (:documento, :nombre, '1', 'no', NOW(), :genero)",
+                    array('documento' => $documento, 'nombre' => $nombre, 'genero' => $genero)
+                );
+            } catch (\Throwable $exception) {
+                // usu_genero puede no existir o ser incompatible en algunos esquemas.
+            }
+        }
+
         return $this->db->execute(
             "INSERT INTO usuarios (usu_identificacion, usu_nombre, usu_estado, con_huella, fecha_creacion)
              VALUES (:documento, :nombre, '1', 'no', NOW())",
@@ -375,23 +388,23 @@ class BiometricRepository
     /**
      * Crea el colaborador en usuarios si no existe y actualiza telefono/sede.
      */
-    public function ensureCollaborator($documento, $nombre, $telefono = '', $sedeId = '')
+    public function ensureCollaborator($documento, $nombre, $telefono = '', $sedeId = '', $genero = '')
     {
         if (!$this->getUserRowByIdentification($documento)) {
-            $this->createAdministrativeUser($documento, $nombre);
+            $this->createAdministrativeUser($documento, $nombre, $genero);
         }
 
         try {
-            $this->updateAdministrativeUserExtras($documento, $telefono, $sedeId);
+            $this->updateAdministrativeUserExtras($documento, $telefono, $sedeId, $genero);
         } catch (\Throwable $exception) {
-            // Telefono o sede: columnas opcionales segun esquema.
+            // Telefono, sede o genero: columnas opcionales segun esquema.
         }
     }
 
     /**
      * Actualiza telefono y/o sede si las columnas existen en la BD (fallos se ignoran en el llamador).
      */
-    public function updateAdministrativeUserExtras($documento, $telefono, $sedeId)
+    public function updateAdministrativeUserExtras($documento, $telefono, $sedeId, $genero = '')
     {
         $sets = array();
         $params = array('documento' => $documento);
@@ -402,6 +415,11 @@ class BiometricRepository
         if ($sedeId !== '' && $sedeId !== null) {
             $sets[] = 'usu_idsede = :sede';
             $params['sede'] = $sedeId;
+        }
+        $genero = function_exists('normalizar_genero_usuario') ? normalizar_genero_usuario($genero) : trim((string) $genero);
+        if ($genero !== '') {
+            $sets[] = 'usu_genero = :genero';
+            $params['genero'] = $genero;
         }
         if (empty($sets)) {
             return 0;
